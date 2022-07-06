@@ -4,13 +4,14 @@ import { components } from "../slices";
 
 import Head from "next/head";
 
-export default function Homepage({ slices }: any) {
+export default function Homepage({ title, slices }: any) {
    return (
       <>
          <Head>
             <title>Eroonjumeista.fi Etusivu</title>
             <meta name="description" content="Eroonjumeista.fi Etusivu" />
          </Head>
+         <h1>{title}</h1>
          <SliceZone slices={slices} components={components} />
       </>
    );
@@ -23,6 +24,7 @@ export async function getStaticProps({ previewData }: any) {
 
    return {
       props: {
+         title: document.data.title,
          slices: document.data.slices,
       },
    };

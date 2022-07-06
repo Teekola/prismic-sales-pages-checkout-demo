@@ -1,31 +1,58 @@
 {
   "slices": {
     "components": {
-      "content_section": {
+      "text_paragraph": {
         "library": "slices",
-        "id": "content_section",
-        "name": "ContentSection",
-        "description": "ContentSection",
+        "id": "text_paragraph",
+        "name": "TextParagraph",
+        "description": "TextParagraph",
         "model": {
-          "id": "content_section",
+          "id": "text_paragraph",
           "type": "SharedSlice",
-          "name": "ContentSection",
-          "description": "ContentSection",
+          "name": "TextParagraph",
+          "description": "TextParagraph",
           "variations": [
             {
               "id": "default",
               "name": "Default",
               "docURL": "...",
               "version": "sktwi1xtmkfgx8626",
-              "description": "ContentSection",
+              "description": "TextParagraph",
               "primary": {
-                "content": {
+                "paragraph": {
                   "type": "StructuredText",
                   "config": {
-                    "label": "Content",
-                    "placeholder": "Write content here",
+                    "label": "Paragraph",
+                    "placeholder": "",
                     "allowTargetBlank": true,
-                    "multi": "paragraph,preformatted,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+                    "multi": "paragraph,strong,em,hyperlink"
+                  }
+                }
+              },
+              "items": {},
+              "imageUrl": "https://images.prismic.io/slice-machine/621a5ec4-0387-4bc5-9860-2dd46cbc07cd_default_ss.png?auto=compress,format"
+            },
+            {
+              "id": "withTitle",
+              "name": "With Title",
+              "docURL": "...",
+              "version": "sktwi1xtmkfgx8626",
+              "description": "TextParagraph",
+              "primary": {
+                "title": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Title",
+                    "placeholder": ""
+                  }
+                },
+                "paragraph": {
+                  "type": "StructuredText",
+                  "config": {
+                    "label": "Paragraph",
+                    "placeholder": "",
+                    "allowTargetBlank": true,
+                    "multi": "paragraph,strong,em,hyperlink"
                   }
                 }
               },
@@ -38,18 +65,29 @@
           "default": {
             "variation": "default",
             "name": "Default",
-            "slice_type": "content_section",
+            "slice_type": "text_paragraph",
             "items": [],
             "primary": {
-              "content": [
-                {
-                  "type": "heading2",
-                  "text": "Generate transparent infrastructures",
-                  "spans": []
-                },
+              "paragraph": [
                 {
                   "type": "paragraph",
-                  "text": "Non adipisicing ut anim do sint enim qui consectetur duis amet pariatur enim cupidatat deserunt aliquip. Excepteur ad reprehenderit exercitation nisi aliquip occaecat ea fugiat do qui laboris veniam in tempor ipsum.",
+                  "text": "Do id proident elit eu mollit ad duis sunt elit pariatur irure ipsum dolore mollit. Irure in aliquip commodo irure adipisicing ipsum proident nisi officia mollit anim velit irure. Ea sunt ea eu.",
+                  "spans": []
+                }
+              ]
+            }
+          },
+          "textParagraphWithTitle": {
+            "variation": "textParagraphWithTitle",
+            "name": "TextParagraph – With Title",
+            "slice_type": "text_paragraph",
+            "items": [],
+            "primary": {
+              "title": "unleash bleeding-edge blockchains",
+              "paragraph": [
+                {
+                  "type": "paragraph",
+                  "text": "Ut laborum elit aute officia in in ea.",
                   "spans": []
                 }
               ]
@@ -62,9 +100,9 @@
         },
         "screenshotPaths": {
           "default": {
-            "path": "E:\\Ohjelmointi\\eroonjumeista\\.slicemachine\\assets\\slices\\ContentSection\\default\\preview.png",
+            "path": "E:\\Ohjelmointi\\eroonjumeista\\.slicemachine\\assets\\slices\\TextParagraph\\default\\preview.png",
             "width": 800,
-            "height": 122
+            "height": 54
           }
         }
       }

@@ -4,12 +4,23 @@
     "home-page": {}
   },
   "slices": {
-    "ContentSection": {
+    "TextParagraph": {
       "default": {
         "primary": {
-          "content": {
+          "paragraph": {
             "config": {
-              "patternType": "STORY",
+              "patternType": "PARAGRAPH",
+              "blocks": 1
+            }
+          }
+        },
+        "items": {}
+      },
+      "textParagraphWithTitle": {
+        "primary": {
+          "paragraph": {
+            "config": {
+              "patternType": "PARAGRAPH",
               "blocks": 1
             }
           }

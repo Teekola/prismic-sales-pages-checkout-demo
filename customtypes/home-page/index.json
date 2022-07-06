@@ -24,7 +24,7 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
-            "content_section": {
+            "text_paragraph": {
               "type": "SharedSlice"
             }
           }
