@@ -1,0 +1,73 @@
+{
+  "slices": {
+    "components": {
+      "content_section": {
+        "library": "slices",
+        "id": "content_section",
+        "name": "ContentSection",
+        "description": "ContentSection",
+        "model": {
+          "id": "content_section",
+          "type": "SharedSlice",
+          "name": "ContentSection",
+          "description": "ContentSection",
+          "variations": [
+            {
+              "id": "default",
+              "name": "Default",
+              "docURL": "...",
+              "version": "sktwi1xtmkfgx8626",
+              "description": "ContentSection",
+              "primary": {
+                "content": {
+                  "type": "StructuredText",
+                  "config": {
+                    "label": "Content",
+                    "placeholder": "Write content here",
+                    "allowTargetBlank": true,
+                    "multi": "paragraph,preformatted,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+                  }
+                }
+              },
+              "items": {},
+              "imageUrl": "https://images.prismic.io/slice-machine/621a5ec4-0387-4bc5-9860-2dd46cbc07cd_default_ss.png?auto=compress,format"
+            }
+          ]
+        },
+        "mocks": {
+          "default": {
+            "variation": "default",
+            "name": "Default",
+            "slice_type": "content_section",
+            "items": [],
+            "primary": {
+              "content": [
+                {
+                  "type": "heading2",
+                  "text": "Generate transparent infrastructures",
+                  "spans": []
+                },
+                {
+                  "type": "paragraph",
+                  "text": "Non adipisicing ut anim do sint enim qui consectetur duis amet pariatur enim cupidatat deserunt aliquip. Excepteur ad reprehenderit exercitation nisi aliquip occaecat ea fugiat do qui laboris veniam in tempor ipsum.",
+                  "spans": []
+                }
+              ]
+            }
+          }
+        },
+        "meta": {
+          "fileName": "index",
+          "extension": "js"
+        },
+        "screenshotPaths": {
+          "default": {
+            "path": "E:\\Ohjelmointi\\eroonjumeista\\.slicemachine\\assets\\slices\\ContentSection\\default\\preview.png",
+            "width": 800,
+            "height": 122
+          }
+        }
+      }
+    }
+  }
+}

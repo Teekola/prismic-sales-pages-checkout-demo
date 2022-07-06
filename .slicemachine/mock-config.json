@@ -1,0 +1,20 @@
+{
+  "_cts": {
+    "etusivu": {},
+    "home-page": {}
+  },
+  "slices": {
+    "ContentSection": {
+      "default": {
+        "primary": {
+          "content": {
+            "config": {
+              "patternType": "STORY",
+              "blocks": 1
+            }
+          }
+        }
+      }
+    }
+  }
+}
