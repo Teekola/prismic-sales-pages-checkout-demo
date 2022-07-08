@@ -15,7 +15,7 @@ export default async function handler(
    const prismicProducts: any = [];
    products.forEach((product) => {
       let pp: any = {};
-      pp.id = product.id;
+      pp.id = "" + product.id;
       pp.title = product.name;
       pp.description = product.type;
       pp.image_url = product.image_url;
@@ -23,6 +23,10 @@ export default async function handler(
       pp.blob = product;
       prismicProducts.push(pp);
    });
+
+   prismicProducts.sort((a: any, b: any) =>
+      a.last_update < b.last_update ? 1 : -1
+   );
 
    const data = {
       results_size: products.length,
