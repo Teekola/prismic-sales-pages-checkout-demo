@@ -39,7 +39,8 @@
       "start": "next start",
       "lint": "next lint",
       "test": "start npm run dev && start npx cypress run",
-      "slicemachine": "start-slicemachine"
+      "slicemachine": "start-slicemachine",
+      "postinstall": "npx prisma generate"
    },
    "repository": {
       "type": "git",
