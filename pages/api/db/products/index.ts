@@ -11,9 +11,22 @@ export default async function handler(
    res: NextApiResponse<any>
 ) {
    const products = await getProducts();
+
+   const prismicProducts: any = [];
+   products.forEach((product) => {
+      let pp: any = {};
+      pp.id = product.id;
+      pp.title = product.name;
+      pp.description = product.type;
+      pp.image_url = product.image_url;
+      pp.last_update = Number(product.createdAt);
+      pp.blob = product;
+      prismicProducts.push(pp);
+   });
+
    const data = {
       results_size: products.length,
-      results: products,
+      results: prismicProducts,
    };
    res.status(200).json(data);
 }
