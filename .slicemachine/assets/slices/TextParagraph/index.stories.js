@@ -5,8 +5,8 @@ export default {
 }
 
 
-export const _Default = () => <MyComponent slice={{"variation":"default","name":"Default","slice_type":"text_paragraph","items":[],"primary":{"paragraph":[{"type":"paragraph","text":"Do id proident elit eu mollit ad duis sunt elit pariatur irure ipsum dolore mollit. Irure in aliquip commodo irure adipisicing ipsum proident nisi officia mollit anim velit irure. Ea sunt ea eu.","spans":[]}]},"id":"_Default"}} />
+export const _Default = () => <MyComponent slice={{"variation":"default","name":"Default","slice_type":"text_paragraph","items":[],"primary":{"paragraph":[{"type":"paragraph","text":"Cillum dolor anim officia excepteur ipsum ex anim laboris minim quis. Velit non in cupidatat laboris veniam fugiat. Officia deserunt Lorem ea labore labore ullamco proident id laboris dolore qui aliquip.","spans":[]}],"alignment":"Center"},"id":"_Default"}} />
 _Default.storyName = 'Default'
 
-export const _TextParagraphWithTitle = () => <MyComponent slice={{"variation":"textParagraphWithTitle","name":"TextParagraph – With Title","slice_type":"text_paragraph","items":[],"primary":{"title":"unleash bleeding-edge blockchains","paragraph":[{"type":"paragraph","text":"Ut laborum elit aute officia in in ea.","spans":[]}]},"id":"_TextParagraphWithTitle"}} />
-_TextParagraphWithTitle.storyName = 'TextParagraph – With Title'
+export const _WithTitle = () => <MyComponent slice={{"variation":"withTitle","name":"With Title","slice_type":"text_paragraph","items":[],"primary":{"title":"synergize next-generation channels","paragraph":[{"type":"paragraph","text":"Est duis Lorem exercitation reprehenderit aliqua fugiat exercitation Lorem. Id veniam consectetur aute aute deserunt enim nulla ut proident cupidatat. Nulla laboris id et consectetur officia pariatur enim excepteur occaecat officia labore consectetur.","spans":[]}]},"id":"_WithTitle"}} />
+_WithTitle.storyName = 'With Title'

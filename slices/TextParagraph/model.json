@@ -1,55 +1,73 @@
 {
-   "id": "text_paragraph",
-   "type": "SharedSlice",
-   "name": "TextParagraph",
-   "description": "TextParagraph",
-   "variations": [
-      {
-         "id": "default",
-         "name": "Default",
-         "docURL": "...",
-         "version": "sktwi1xtmkfgx8626",
-         "description": "TextParagraph",
-         "primary": {
-            "paragraph": {
-               "type": "StructuredText",
-               "config": {
-                  "label": "Paragraph",
-                  "placeholder": "",
-                  "allowTargetBlank": true,
-                  "multi": "paragraph,strong,em,hyperlink"
-               }
-            }
-         },
-         "items": {},
-         "imageUrl": "https://images.prismic.io/slice-machine/621a5ec4-0387-4bc5-9860-2dd46cbc07cd_default_ss.png?auto=compress,format"
+  "id": "text_paragraph",
+  "type": "SharedSlice",
+  "name": "TextParagraph",
+  "description": "TextParagraph",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "sktwi1xtmkfgx8626",
+      "description": "TextParagraph",
+      "primary": {
+        "paragraph": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Paragraph",
+            "labels": [
+              "left",
+              "center",
+              "right"
+            ],
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em,hyperlink"
+          }
+        },
+        "alignment": {
+          "type": "Select",
+          "config": {
+            "label": "Alignment",
+            "placeholder": "",
+            "options": [
+              "Left",
+              "Center",
+              "Right"
+            ],
+            "default_value": "Left"
+          }
+        }
       },
-      {
-         "id": "withTitle",
-         "name": "With Title",
-         "docURL": "...",
-         "version": "sktwi1xtmkfgx8626",
-         "description": "TextParagraph",
-         "primary": {
-            "title": {
-               "type": "Text",
-               "config": {
-                  "label": "Title",
-                  "placeholder": ""
-               }
-            },
-            "paragraph": {
-               "type": "StructuredText",
-               "config": {
-                  "label": "Paragraph",
-                  "placeholder": "",
-                  "allowTargetBlank": true,
-                  "multi": "paragraph,strong,em,hyperlink"
-               }
-            }
-         },
-         "items": {},
-         "imageUrl": "https://images.prismic.io/slice-machine/621a5ec4-0387-4bc5-9860-2dd46cbc07cd_default_ss.png?auto=compress,format"
-      }
-   ]
+      "items": {},
+      "imageUrl": "https://images.prismic.io/slice-machine/621a5ec4-0387-4bc5-9860-2dd46cbc07cd_default_ss.png?auto=compress,format"
+    },
+    {
+      "id": "withTitle",
+      "name": "With Title",
+      "docURL": "...",
+      "version": "sktwi1xtmkfgx8626",
+      "description": "TextParagraph",
+      "primary": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title",
+            "placeholder": ""
+          }
+        },
+        "paragraph": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Paragraph",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em,hyperlink"
+          }
+        }
+      },
+      "items": {},
+      "imageUrl": "https://images.prismic.io/slice-machine/621a5ec4-0387-4bc5-9860-2dd46cbc07cd_default_ss.png?auto=compress,format"
+    }
+  ]
 }

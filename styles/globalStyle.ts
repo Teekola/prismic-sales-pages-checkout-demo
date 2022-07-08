@@ -1,6 +1,15 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
+	// Theme
+	:root {
+		--c-primary: ${({ theme }) => theme.colors.primary};
+		
+		--c-white: ${({ theme }) => theme.colors.white};
+		--c-black: ${({ theme }) => theme.colors.black};
+
+	}
+
 	*, *::before, *::after {
 		box-sizing: border-box;
 	}
@@ -22,7 +31,7 @@ const GlobalStyle = createGlobalStyle`
 	}
 	
 	img, picture, video, canvas, svg {
-	    display: block;
+	   display: block;
 		max-width: 100%;
 	}
 
@@ -37,6 +46,8 @@ const GlobalStyle = createGlobalStyle`
 
 	h1 {
 		font-weight: 900;
+		font-size: 4rem;
+		line-height: 1.1;
 	}
 
 	table {

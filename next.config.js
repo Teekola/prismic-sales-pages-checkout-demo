@@ -5,7 +5,7 @@ const nextConfig = {
     styledComponents: true
   },
   images: {
-    domains: ['images.prismic.io', 'wroomdev.s3.amazonaws.com']
+    domains: ['images.prismic.io']
   }
 }
 

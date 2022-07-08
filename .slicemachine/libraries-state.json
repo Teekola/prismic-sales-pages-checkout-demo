@@ -1,6 +1,259 @@
 {
   "slices": {
     "components": {
+      "hero": {
+        "library": "slices",
+        "id": "hero",
+        "name": "Hero",
+        "description": "Hero",
+        "model": {
+          "id": "hero",
+          "type": "SharedSlice",
+          "name": "Hero",
+          "description": "Hero",
+          "variations": [
+            {
+              "id": "default",
+              "name": "Default",
+              "docURL": "...",
+              "version": "sktwi1xtmkfgx8626",
+              "description": "Hero",
+              "primary": {
+                "title": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Title",
+                    "placeholder": ""
+                  }
+                },
+                "subtitle": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Subtitle",
+                    "placeholder": ""
+                  }
+                },
+                "description": {
+                  "type": "StructuredText",
+                  "config": {
+                    "label": "Description",
+                    "placeholder": "",
+                    "allowTargetBlank": false,
+                    "multi": "paragraph,strong,em"
+                  }
+                },
+                "image": {
+                  "type": "Image",
+                  "config": {
+                    "label": "Image",
+                    "constraint": {},
+                    "thumbnails": []
+                  }
+                },
+                "imagePosition": {
+                  "type": "Select",
+                  "config": {
+                    "label": "Image Position",
+                    "placeholder": "",
+                    "options": [
+                      "Right",
+                      "Left",
+                      "Behind"
+                    ],
+                    "default_value": "Right"
+                  }
+                }
+              },
+              "items": {},
+              "imageUrl": "https://images.prismic.io/slice-machine/621a5ec4-0387-4bc5-9860-2dd46cbc07cd_default_ss.png?auto=compress,format"
+            },
+            {
+              "id": "withButton",
+              "name": "withButton",
+              "docURL": "...",
+              "version": "sktwi1xtmkfgx8626",
+              "description": "Hero",
+              "primary": {
+                "title": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Title",
+                    "placeholder": ""
+                  }
+                }
+              },
+              "items": {
+                "subtitle": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Subtitle",
+                    "placeholder": ""
+                  }
+                },
+                "description": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Description",
+                    "placeholder": ""
+                  }
+                },
+                "buttonText": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Button Text",
+                    "placeholder": ""
+                  }
+                }
+              },
+              "imageUrl": "https://images.prismic.io/slice-machine/621a5ec4-0387-4bc5-9860-2dd46cbc07cd_default_ss.png?auto=compress,format"
+            },
+            {
+              "id": "withTwoButtons",
+              "name": "withTwoButtons",
+              "docURL": "...",
+              "version": "sktwi1xtmkfgx8626",
+              "description": "Hero",
+              "primary": {
+                "title": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Title",
+                    "placeholder": ""
+                  }
+                }
+              },
+              "items": {
+                "subtitle": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Subtitle",
+                    "placeholder": ""
+                  }
+                },
+                "description": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Description",
+                    "placeholder": ""
+                  }
+                },
+                "primaryButtonText": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Primary Button Text",
+                    "placeholder": ""
+                  }
+                },
+                "secondaryButtonText": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Secondary Button Text",
+                    "placeholder": ""
+                  }
+                }
+              },
+              "imageUrl": "https://images.prismic.io/slice-machine/621a5ec4-0387-4bc5-9860-2dd46cbc07cd_default_ss.png?auto=compress,format"
+            }
+          ]
+        },
+        "mocks": {
+          "default": {
+            "variation": "default",
+            "name": "Default",
+            "slice_type": "hero",
+            "items": [],
+            "primary": {
+              "title": "innovate sticky initiatives",
+              "subtitle": "orchestrate out-of-the-box models",
+              "description": [
+                {
+                  "type": "paragraph",
+                  "text": "Tempor magna incididunt proident consequat labore ipsum adipisicing ullamco reprehenderit ipsum est laboris commodo Lorem.",
+                  "spans": []
+                }
+              ],
+              "image": {
+                "dimensions": {
+                  "width": 900,
+                  "height": 500
+                },
+                "alt": "Placeholder image",
+                "copyright": null,
+                "url": "https://images.unsplash.com/photo-1589321578146-4c1ba445cc88?w=900&h=500&fit=crop"
+              },
+              "imagePosition": "Right"
+            }
+          },
+          "withButton": {
+            "variation": "withButton",
+            "name": "withButton",
+            "slice_type": "hero",
+            "items": [
+              {
+                "subtitle": "architect 24/365 ROI",
+                "description": "optimize end-to-end infrastructures",
+                "buttonText": "facilitate synergistic infomediaries"
+              },
+              {
+                "subtitle": "mesh distributed solutions",
+                "description": "harness B2C deliverables",
+                "buttonText": "e-enable rich technologies"
+              },
+              {
+                "subtitle": "productize turn-key architectures",
+                "description": "incubate dynamic communities",
+                "buttonText": "maximize turn-key convergence"
+              }
+            ],
+            "primary": {
+              "title": "syndicate out-of-the-box web services"
+            }
+          },
+          "withTwoButtons": {
+            "variation": "withTwoButtons",
+            "name": "withTwoButtons",
+            "slice_type": "hero",
+            "items": [
+              {
+                "subtitle": "transform world-class deliverables",
+                "description": "disintermediate sexy users",
+                "primaryButtonText": "revolutionize proactive synergies",
+                "secondaryButtonText": "integrate 24/7 content"
+              },
+              {
+                "subtitle": "transition visionary networks",
+                "description": "transform 24/365 partnerships",
+                "primaryButtonText": "innovate dot-com e-services",
+                "secondaryButtonText": "integrate killer paradigms"
+              }
+            ],
+            "primary": {
+              "title": "innovate mission-critical vortals"
+            }
+          }
+        },
+        "meta": {
+          "fileName": "index",
+          "extension": "js"
+        },
+        "screenshotPaths": {
+          "default": {
+            "path": "E:\\Ohjelmointi\\eroonjumeista\\.slicemachine\\assets\\slices\\Hero\\default\\preview.png",
+            "width": 800,
+            "height": 54
+          },
+          "withButton": {
+            "path": "E:\\Ohjelmointi\\eroonjumeista\\.slicemachine\\assets\\slices\\Hero\\withButton\\preview.png",
+            "width": 800,
+            "height": 27
+          },
+          "withTwoButtons": {
+            "path": "E:\\Ohjelmointi\\eroonjumeista\\.slicemachine\\assets\\slices\\Hero\\withTwoButtons\\preview.png",
+            "width": 800,
+            "height": 27
+          }
+        }
+      },
       "text_paragraph": {
         "library": "slices",
         "id": "text_paragraph",
@@ -23,9 +276,27 @@
                   "type": "StructuredText",
                   "config": {
                     "label": "Paragraph",
+                    "labels": [
+                      "left",
+                      "center",
+                      "right"
+                    ],
                     "placeholder": "",
                     "allowTargetBlank": true,
                     "multi": "paragraph,strong,em,hyperlink"
+                  }
+                },
+                "alignment": {
+                  "type": "Select",
+                  "config": {
+                    "label": "Alignment",
+                    "placeholder": "",
+                    "options": [
+                      "Left",
+                      "Center",
+                      "Right"
+                    ],
+                    "default_value": "Left"
                   }
                 }
               },
@@ -71,23 +342,24 @@
               "paragraph": [
                 {
                   "type": "paragraph",
-                  "text": "Do id proident elit eu mollit ad duis sunt elit pariatur irure ipsum dolore mollit. Irure in aliquip commodo irure adipisicing ipsum proident nisi officia mollit anim velit irure. Ea sunt ea eu.",
+                  "text": "Cillum dolor anim officia excepteur ipsum ex anim laboris minim quis. Velit non in cupidatat laboris veniam fugiat. Officia deserunt Lorem ea labore labore ullamco proident id laboris dolore qui aliquip.",
                   "spans": []
                 }
-              ]
+              ],
+              "alignment": "Center"
             }
           },
-          "textParagraphWithTitle": {
-            "variation": "textParagraphWithTitle",
-            "name": "TextParagraph – With Title",
+          "withTitle": {
+            "variation": "withTitle",
+            "name": "With Title",
             "slice_type": "text_paragraph",
             "items": [],
             "primary": {
-              "title": "unleash bleeding-edge blockchains",
+              "title": "synergize next-generation channels",
               "paragraph": [
                 {
                   "type": "paragraph",
-                  "text": "Ut laborum elit aute officia in in ea.",
+                  "text": "Est duis Lorem exercitation reprehenderit aliqua fugiat exercitation Lorem. Id veniam consectetur aute aute deserunt enim nulla ut proident cupidatat. Nulla laboris id et consectetur officia pariatur enim excepteur occaecat officia labore consectetur.",
                   "spans": []
                 }
               ]
@@ -103,6 +375,11 @@
             "path": "E:\\Ohjelmointi\\eroonjumeista\\.slicemachine\\assets\\slices\\TextParagraph\\default\\preview.png",
             "width": 800,
             "height": 54
+          },
+          "withTitle": {
+            "path": "E:\\Ohjelmointi\\eroonjumeista\\.slicemachine\\assets\\slices\\TextParagraph\\withTitle\\preview.png",
+            "width": 800,
+            "height": 122
           }
         }
       }

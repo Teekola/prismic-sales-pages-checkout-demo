@@ -11,8 +11,25 @@ declare module "styled-components" {
    export interface DefaultTheme {
       colors: {
          primary: string;
-         secondary: string;
-         accent: string;
+         primaryVariant1: string;
+         primaryVariant2: string;
+
+         white: string;
+         lightGray: string;
+         lightGray2: string;
+         primaryGray: string;
+         gray: string;
+         darkGray: string;
+         blueGray: string;
+         black: string;
+
+         accentRed: string;
+         accentRedVariant1: string;
+         accentGreen: string;
+         accentGreenVariant1: string;
+         accentGreenVariant2: string;
+         accentBlue: string;
+         accentBlueVariant1: string;
       };
    }
 }

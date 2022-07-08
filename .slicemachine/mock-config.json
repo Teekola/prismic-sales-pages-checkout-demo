@@ -1,7 +1,8 @@
 {
   "_cts": {
     "etusivu": {},
-    "home-page": {}
+    "home-page": {},
+    "product-page": {}
   },
   "slices": {
     "TextParagraph": {
@@ -25,6 +26,22 @@
             }
           }
         }
+      }
+    },
+    "Hero": {
+      "default": {
+        "primary": {
+          "description": {
+            "config": {
+              "patternType": "PARAGRAPH",
+              "blocks": 1
+            }
+          }
+        },
+        "items": {}
+      },
+      "withTwoButtons": {
+        "items": {}
       }
     }
   }
