@@ -1,5 +1,6 @@
 import type { AppProps } from "next/app";
 import GlobalStyle from "styles/globalStyle";
+import { ThemeProvider } from "next-themes";
 
 import Link from "next/link";
 import { PrismicProvider } from "@prismicio/react";
@@ -24,7 +25,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       >
          <PrismicPreview repositoryName={repositoryName}>
             <GlobalStyle />
-            <Component {...pageProps} />
+            <ThemeProvider defaultTheme="system" enableColorScheme>
+               <Component {...pageProps} />
+            </ThemeProvider>
          </PrismicPreview>
       </PrismicProvider>
    );

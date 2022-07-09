@@ -5,15 +5,15 @@ const GlobalStyle = createGlobalStyle`
 	:root {
 		--c-primary: #8e44ad;
 		--c-white: #fafafa;
-		--c-lightGray: #f9f7fa;
+		--c-background: #f9f7fa;
 		--c-black: #211029;
 	}
 
-	@media (prefers-color-scheme: dark) {
+	[data-theme="dark"] {
 		:root {
 			--c-primary: #8e44ad;
 			--c-white: #211029;
-			--c-lightGray: #111122;
+			--c-background: #111122;
 			--c-black: #fafafa;
 		}
 	}
@@ -36,7 +36,7 @@ const GlobalStyle = createGlobalStyle`
 		font-family: 'Lato', sans-serif;
 		line-height: 1.5;
 		-webkit-font-smoothing: antialiased;
-		background-color: var(--c-lightGray);
+		background-color: var(--c-background);
 	}
 	
 	img, picture, video, canvas, svg {

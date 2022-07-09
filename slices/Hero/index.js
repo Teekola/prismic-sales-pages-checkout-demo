@@ -2,6 +2,7 @@ import React from 'react';
 import { PrismicRichText } from '@prismicio/react';
 import Image from 'next/image';
 import styled from 'styled-components';
+import { useTheme } from 'next-themes';
 
 const StyledContainer = styled.section`
    margin-top: ${({ imagePosition }) => imagePosition === "Behind" ? "-1rem" : "5rem"};
@@ -17,10 +18,9 @@ const StyledContainer = styled.section`
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      color: ${({ imagePosition }) => imagePosition === "Behind" ? "var(--c-white)" : "var(--c-black)"};
+      color: ${({ imagePosition, theme }) => imagePosition === "Behind" && theme === "light" ? "var(--c-white)" : "var(--c-black)"};
       word-break: break-word;
    }
-
 
    .title {
       display: flex;
@@ -79,8 +79,9 @@ const StyledContainer = styled.section`
 `
 
 const Hero = ({ slice }) => {
+   const { theme } = useTheme();
    return (
-      <StyledContainer imagePosition={slice.primary.imagePosition}>
+      <StyledContainer imagePosition={slice.primary.imagePosition} theme={theme}>
          <div className="text-section">
             <h1 className="title">
                {slice.primary.title}
