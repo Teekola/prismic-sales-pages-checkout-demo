@@ -163,12 +163,12 @@
             "slice_type": "hero",
             "items": [],
             "primary": {
-              "title": "innovate sticky initiatives",
-              "subtitle": "orchestrate out-of-the-box models",
+              "title": "enable robust models",
+              "subtitle": "utilize global blockchains",
               "description": [
                 {
                   "type": "paragraph",
-                  "text": "Tempor magna incididunt proident consequat labore ipsum adipisicing ullamco reprehenderit ipsum est laboris commodo Lorem.",
+                  "text": "Duis esse sint est occaecat sunt pariatur aute nostrud esse veniam enim pariatur dolore. Eiusmod qui occaecat est in cillum commodo tempor consequat laborum nulla laboris. Labore eu aliqua minim magna dolor culpa tempor laborum dolor adipisicing id.",
                   "spans": []
                 }
               ],
@@ -179,7 +179,7 @@
                 },
                 "alt": "Placeholder image",
                 "copyright": null,
-                "url": "https://images.unsplash.com/photo-1589321578146-4c1ba445cc88?w=900&h=500&fit=crop"
+                "url": "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=900&h=500&fit=crop"
               },
               "imagePosition": "Right"
             }
@@ -190,23 +190,28 @@
             "slice_type": "hero",
             "items": [
               {
-                "subtitle": "architect 24/365 ROI",
-                "description": "optimize end-to-end infrastructures",
-                "buttonText": "facilitate synergistic infomediaries"
+                "subtitle": "engage strategic relationships",
+                "description": "strategize wireless action-items",
+                "buttonText": "whiteboard end-to-end mindshare"
               },
               {
-                "subtitle": "mesh distributed solutions",
-                "description": "harness B2C deliverables",
-                "buttonText": "e-enable rich technologies"
+                "subtitle": "synergize extensible networks",
+                "description": "transform virtual partnerships",
+                "buttonText": "expedite robust vortals"
               },
               {
-                "subtitle": "productize turn-key architectures",
-                "description": "incubate dynamic communities",
-                "buttonText": "maximize turn-key convergence"
+                "subtitle": "enhance revolutionary e-commerce",
+                "description": "matrix extensible paradigms",
+                "buttonText": "enhance e-business relationships"
+              },
+              {
+                "subtitle": "exploit seamless ROI",
+                "description": "implement B2C e-services",
+                "buttonText": "redefine strategic blockchains"
               }
             ],
             "primary": {
-              "title": "syndicate out-of-the-box web services"
+              "title": "productize global e-services"
             }
           },
           "withTwoButtons": {
@@ -215,20 +220,26 @@
             "slice_type": "hero",
             "items": [
               {
-                "subtitle": "transform world-class deliverables",
-                "description": "disintermediate sexy users",
-                "primaryButtonText": "revolutionize proactive synergies",
-                "secondaryButtonText": "integrate 24/7 content"
+                "subtitle": "aggregate next-generation metrics",
+                "description": "drive virtual niches",
+                "primaryButtonText": "target transparent solutions",
+                "secondaryButtonText": "deliver integrated convergence"
               },
               {
-                "subtitle": "transition visionary networks",
-                "description": "transform 24/365 partnerships",
-                "primaryButtonText": "innovate dot-com e-services",
-                "secondaryButtonText": "integrate killer paradigms"
+                "subtitle": "seize best-of-breed applications",
+                "description": "scale compelling portals",
+                "primaryButtonText": "reinvent scalable architectures",
+                "secondaryButtonText": "streamline mission-critical supply-chains"
+              },
+              {
+                "subtitle": "empower integrated bandwidth",
+                "description": "target sexy markets",
+                "primaryButtonText": "whiteboard impactful eyeballs",
+                "secondaryButtonText": "monetize out-of-the-box e-services"
               }
             ],
             "primary": {
-              "title": "innovate mission-critical vortals"
+              "title": "matrix best-of-breed action-items"
             }
           }
         },
@@ -236,23 +247,54 @@
           "fileName": "index",
           "extension": "js"
         },
-        "screenshotPaths": {
+        "screenshotPaths": {}
+      },
+      "product_data": {
+        "library": "slices",
+        "id": "product_data",
+        "name": "ProductData",
+        "description": "ProductData",
+        "model": {
+          "id": "product_data",
+          "type": "SharedSlice",
+          "name": "ProductData",
+          "description": "ProductData",
+          "variations": [
+            {
+              "id": "default",
+              "name": "Default",
+              "docURL": "...",
+              "version": "sktwi1xtmkfgx8626",
+              "description": "ProductData",
+              "primary": {
+                "integrationField": {
+                  "type": "IntegrationFields",
+                  "config": {
+                    "catalog": "eroonjumeista--products",
+                    "label": "Product",
+                    "placeholder": "Valitse tietokannan vastaava tuote"
+                  }
+                }
+              },
+              "items": {},
+              "imageUrl": "https://images.prismic.io/slice-machine/621a5ec4-0387-4bc5-9860-2dd46cbc07cd_default_ss.png?auto=compress,format"
+            }
+          ]
+        },
+        "mocks": {
           "default": {
-            "path": "E:\\Ohjelmointi\\eroonjumeista\\.slicemachine\\assets\\slices\\Hero\\default\\preview.png",
-            "width": 800,
-            "height": 54
-          },
-          "withButton": {
-            "path": "E:\\Ohjelmointi\\eroonjumeista\\.slicemachine\\assets\\slices\\Hero\\withButton\\preview.png",
-            "width": 800,
-            "height": 27
-          },
-          "withTwoButtons": {
-            "path": "E:\\Ohjelmointi\\eroonjumeista\\.slicemachine\\assets\\slices\\Hero\\withTwoButtons\\preview.png",
-            "width": 800,
-            "height": 27
+            "variation": "default",
+            "name": "Default",
+            "slice_type": "product_data",
+            "items": [],
+            "primary": {}
           }
-        }
+        },
+        "meta": {
+          "fileName": "index",
+          "extension": "js"
+        },
+        "screenshotPaths": {}
       },
       "text_paragraph": {
         "library": "slices",

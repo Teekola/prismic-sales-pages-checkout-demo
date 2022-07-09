@@ -43,6 +43,11 @@
       "withTwoButtons": {
         "items": {}
       }
+    },
+    "ProductData": {
+      "default": {
+        "primary": {}
+      }
     }
   }
 }

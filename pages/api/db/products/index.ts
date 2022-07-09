@@ -2,10 +2,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getProducts } from "../../../../prisma/product";
 
-type Data = {
-   results_size: Number;
-   results: Array<PrismicProduct>;
-};
+type Data =
+   | {
+        results_size: Number;
+        results: Array<PrismicProduct>;
+     }
+   | {
+        message: string;
+     };
 
 type PrismicProduct = {
    id: string;
@@ -20,6 +24,10 @@ export default async function handler(
    req: NextApiRequest,
    res: NextApiResponse<Data>
 ) {
+   console.log(req.headers);
+   if (req.headers.authorization !== process.env.DATABASE_ACCESS_TOKEN) {
+      return res.status(401).json({ message: "unauthorized" });
+   }
    const products = await getProducts();
 
    const prismicProducts: Array<PrismicProduct> = [];
