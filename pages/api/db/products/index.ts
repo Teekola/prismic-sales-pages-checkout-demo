@@ -24,12 +24,16 @@ export default async function handler(
    req: NextApiRequest,
    res: NextApiResponse<Data>
 ) {
+   const authorization: any =
+      req.headers["Authorization"] || req.headers.authorization;
+   if (!authorization) {
+      return res.status(401).json({ message: "unauthorized" });
+   }
+
    if (
-      req.headers.authorization &&
-      Buffer.from(
-         req.headers.authorization.split("Basic ")[1],
-         "base64"
-      ).toString("utf8") !== process.env.DATABASE_ACCESS_TOKEN
+      Buffer.from(authorization.split("Basic ")[1], "base64").toString(
+         "utf8"
+      ) !== process.env.DATABASE_ACCESS_TOKEN
    ) {
       return res.status(401).json({ message: "unauthorized" });
    }
