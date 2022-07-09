@@ -24,6 +24,7 @@ export default async function handler(
    req: NextApiRequest,
    res: NextApiResponse<Data>
 ) {
+   // Basic Authorize Request
    const authorization: any =
       req.headers["Authorization"] || req.headers.authorization;
 
@@ -31,6 +32,8 @@ export default async function handler(
       return res.status(401).json({ message: "unauthorized" });
    }
 
+   // Prismic has Basic Auth in which Access token replaces "username".
+   // The "password" is omitted, but there is a colon as the last character.
    if (
       Buffer.from(authorization.split("Basic ")[1], "base64").toString(
          "utf8"
