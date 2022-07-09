@@ -52,5 +52,5 @@ export default async function handler(
       results_size: products.length,
       results: prismicProducts,
    };
-   res.status(200).json(data);
+   return res.status(200).json(data);
 }
