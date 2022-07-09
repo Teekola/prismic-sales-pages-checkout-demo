@@ -13,7 +13,7 @@ export const StyledContainer = styled.section`
       transform: ${({ imagePosition }) => imagePosition === "Behind" ? "translateY(-70%)" : "translateY(0)"};
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 2rem;
       color: ${({ imagePosition, theme }) => imagePosition === "Behind" && theme === "light" ? "var(--c-light)" : "var(--c-dark)"};
       word-break: break-word;
    }

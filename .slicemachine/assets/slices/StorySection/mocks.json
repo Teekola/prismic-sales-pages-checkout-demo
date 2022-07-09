@@ -1,0 +1,140 @@
+[
+  {
+    "variation": "default",
+    "name": "Default",
+    "slice_type": "story_section",
+    "items": [
+      {
+        "title": [
+          {
+            "type": "paragraph",
+            "text": "Amet mollit exercitation sunt proident nulla commodo aliquip amet mollit sunt.",
+            "spans": []
+          }
+        ],
+        "paragraph": [
+          {
+            "type": "paragraph",
+            "text": "Ea occaecat anim cillum dolore nulla proident dolore.",
+            "spans": []
+          }
+        ],
+        "image": {
+          "dimensions": {
+            "width": 900,
+            "height": 500
+          },
+          "alt": "Placeholder image",
+          "copyright": null,
+          "url": "https://images.unsplash.com/photo-1607582278043-57198ac8da43?w=900&h=500&fit=crop"
+        },
+        "imagePosition": "above"
+      },
+      {
+        "title": [
+          {
+            "type": "paragraph",
+            "text": "Amet ut cupidatat cupidatat incididunt consequat in cupidatat ipsum. Ea laboris consectetur nulla eu cillum sunt. Qui velit irure duis cillum.",
+            "spans": []
+          }
+        ],
+        "paragraph": [
+          {
+            "type": "paragraph",
+            "text": "Magna reprehenderit magna est est ea consectetur veniam amet. Aliqua laborum aliqua aute ex elit occaecat commodo cupidatat in Lorem ipsum. Pariatur culpa magna eu ex reprehenderit commodo.",
+            "spans": []
+          }
+        ],
+        "image": {
+          "dimensions": {
+            "width": 900,
+            "height": 500
+          },
+          "alt": "Placeholder image",
+          "copyright": null,
+          "url": "https://images.unsplash.com/photo-1576662712957-9c79ae1280f8?w=900&h=500&fit=crop"
+        },
+        "imagePosition": "below"
+      },
+      {
+        "title": [
+          {
+            "type": "paragraph",
+            "text": "Laborum consequat ex ea ex adipisicing ipsum laborum culpa.",
+            "spans": []
+          }
+        ],
+        "paragraph": [
+          {
+            "type": "paragraph",
+            "text": "Pariatur irure ad ex tempor nostrud cillum ullamco aute magna excepteur quis. Tempor anim quis veniam nulla culpa cupidatat voluptate velit dolor deserunt qui quis in culpa.",
+            "spans": []
+          }
+        ],
+        "image": {
+          "dimensions": {
+            "width": 900,
+            "height": 500
+          },
+          "alt": "Placeholder image",
+          "copyright": null,
+          "url": "https://images.unsplash.com/photo-1596195689404-24d8a8d1c6ea?w=900&h=500&fit=crop"
+        },
+        "imagePosition": "left"
+      },
+      {
+        "title": [
+          {
+            "type": "paragraph",
+            "text": "Do occaecat occaecat elit ipsum pariatur et duis. Ullamco ullamco aliqua officia consectetur.",
+            "spans": []
+          }
+        ],
+        "paragraph": [
+          {
+            "type": "paragraph",
+            "text": "Minim excepteur culpa ipsum non eu esse laborum fugiat culpa enim pariatur cupidatat.",
+            "spans": []
+          }
+        ],
+        "image": {
+          "dimensions": {
+            "width": 900,
+            "height": 500
+          },
+          "alt": "Placeholder image",
+          "copyright": null,
+          "url": "https://images.unsplash.com/photo-1600861194802-a2b11076bc51?w=900&h=500&fit=crop"
+        },
+        "imagePosition": "left"
+      },
+      {
+        "title": [
+          {
+            "type": "paragraph",
+            "text": "Ut tempor reprehenderit elit enim ex labore proident magna aute eiusmod sunt sit occaecat labore ea. Lorem aliquip ad labore. Ea duis deserunt eu cupidatat eu aute ad ullamco culpa in fugiat consequat esse reprehenderit pariatur.",
+            "spans": []
+          }
+        ],
+        "paragraph": [
+          {
+            "type": "paragraph",
+            "text": "Magna est aliquip quis ad do sunt laborum elit sint qui aliquip. Voluptate pariatur aliquip proident quis exercitation dolore minim proident. Sit minim deserunt minim.",
+            "spans": []
+          }
+        ],
+        "image": {
+          "dimensions": {
+            "width": 900,
+            "height": 500
+          },
+          "alt": "Placeholder image",
+          "copyright": null,
+          "url": "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?w=900&h=500&fit=crop"
+        },
+        "imagePosition": "left"
+      }
+    ],
+    "primary": {}
+  }
+]

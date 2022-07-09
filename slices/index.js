@@ -2,16 +2,19 @@
 
 import Hero from './Hero';
 import ProductData from './ProductData';
+import StorySection from './StorySection';
 import TextParagraph from './TextParagraph';
 
 export {
 	Hero,
 	ProductData,
+	StorySection,
 	TextParagraph,
 };
 
 export const components = {
 	hero: Hero,
 	product_data: ProductData,
+	story_section: StorySection,
 	text_paragraph: TextParagraph,
 };

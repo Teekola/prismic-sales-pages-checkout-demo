@@ -22,6 +22,9 @@
             },
             "hero": {
               "type": "SharedSlice"
+            },
+            "story_section": {
+              "type": "SharedSlice"
             }
           }
         }

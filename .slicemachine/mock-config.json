@@ -48,6 +48,19 @@
       "default": {
         "primary": {}
       }
+    },
+    "StorySection": {
+      "default": {
+        "primary": {},
+        "items": {
+          "paragraph": {
+            "config": {
+              "patternType": "PARAGRAPH",
+              "blocks": 1
+            }
+          }
+        }
+      }
     }
   }
 }
