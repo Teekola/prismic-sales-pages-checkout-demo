@@ -2,7 +2,7 @@ import React from 'react'
 
 const ProductData = ({ slice }) => {
   console.log(slice);
-  return <></>
+  return <div></div>
 }
 
 export default ProductData
