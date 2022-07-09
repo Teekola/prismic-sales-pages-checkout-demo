@@ -24,6 +24,7 @@
       "@types/node": "^18.0.3",
       "@types/react": "^18.0.15",
       "@types/styled-components": "^5.1.25",
+      "@types/use-prefers-color-scheme": "^0.1.0",
       "cypress": "^10.3.0",
       "eslint": "^8.19.0",
       "eslint-config-next": "^12.2.0",

@@ -3,11 +3,19 @@ import { createGlobalStyle } from "styled-components";
 const GlobalStyle = createGlobalStyle`
 	// Theme
 	:root {
-		--c-primary: ${({ theme }) => theme.colors.primary};
-		
-		--c-white: ${({ theme }) => theme.colors.white};
-		--c-black: ${({ theme }) => theme.colors.black};
+		--c-primary: #8e44ad;
+		--c-white: #fafafa;
+		--c-lightGray: #f9f7fa;
+		--c-black: #211029;
+	}
 
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--c-primary: #8e44ad;
+			--c-white: #211029;
+			--c-lightGray: #111122;
+			--c-black: #fafafa;
+		}
 	}
 
 	*, *::before, *::after {
@@ -28,6 +36,7 @@ const GlobalStyle = createGlobalStyle`
 		font-family: 'Lato', sans-serif;
 		line-height: 1.5;
 		-webkit-font-smoothing: antialiased;
+		background-color: var(--c-lightGray);
 	}
 	
 	img, picture, video, canvas, svg {

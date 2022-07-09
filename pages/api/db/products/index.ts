@@ -24,8 +24,13 @@ export default async function handler(
    req: NextApiRequest,
    res: NextApiResponse<Data>
 ) {
-   console.log(req.headers);
-   if (req.headers.authorization !== process.env.DATABASE_ACCESS_TOKEN) {
+   if (
+      req.headers.authorization &&
+      Buffer.from(
+         req.headers.authorization.split("Basic ")[1],
+         "base64"
+      ).toString("utf8") !== process.env.DATABASE_ACCESS_TOKEN
+   ) {
       return res.status(401).json({ message: "unauthorized" });
    }
    const products = await getProducts();

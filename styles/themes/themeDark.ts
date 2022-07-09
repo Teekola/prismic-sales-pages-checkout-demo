@@ -1,19 +1,19 @@
 import { DefaultTheme } from "styled-components";
 
-const themeDefault: DefaultTheme = {
+const themeDark: DefaultTheme = {
    colors: {
       primary: "#8e44ad",
       primaryVariant1: "#683280",
       primaryVariant2: "#632881",
 
-      white: "#fafafa",
-      lightGray: "f1f1f1",
+      white: "#211029",
+      lightGray: "#111122",
       lightGray2: "eeeeef",
       primaryGray: "#998d9e",
       gray: "#797979",
-      darkGray: "#333333",
+      darkGray: "#f9f7fa",
       blueGray: "#272d34",
-      black: "#111111",
+      black: "#fafafa",
 
       accentRed: "#e74c3c",
       accentRedVariant1: "#ff0000",
@@ -25,4 +25,4 @@ const themeDefault: DefaultTheme = {
    },
 };
 
-export default themeDefault;
+export default themeDark;

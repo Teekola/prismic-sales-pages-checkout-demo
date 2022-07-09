@@ -22,9 +22,6 @@
             },
             "hero": {
               "type": "SharedSlice"
-            },
-            "product_data": {
-              "type": "SharedSlice"
             }
           }
         }
