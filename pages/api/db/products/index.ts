@@ -26,6 +26,8 @@ export default async function handler(
 ) {
    const authorization: any =
       req.headers["Authorization"] || req.headers.authorization;
+   console.log(authorization);
+
    if (!authorization) {
       return res.status(401).json({ message: "unauthorized" });
    }
@@ -33,8 +35,7 @@ export default async function handler(
    if (
       Buffer.from(authorization.split("Basic ")[1], "base64").toString(
          "utf8"
-      ) !==
-      "username:" + process.env.DATABASE_ACCESS_TOKEN
+      ) !== process.env.DATABASE_ACCESS_TOKEN
    ) {
       return res.status(401).json({ message: "unauthorized" });
    }
