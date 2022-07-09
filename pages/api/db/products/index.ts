@@ -3,28 +3,40 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { getProducts } from "../../../../prisma/product";
 
 type Data = {
-   name: string;
+   results_size: Number;
+   results: Array<PrismicProduct>;
+};
+
+type PrismicProduct = {
+   id: string;
+   title: string;
+   description: string;
+   image_url: string;
+   last_update: Number;
+   blob: object;
 };
 
 export default async function handler(
    req: NextApiRequest,
-   res: NextApiResponse<any>
+   res: NextApiResponse<Data>
 ) {
    const products = await getProducts();
 
-   const prismicProducts: any = [];
+   const prismicProducts: Array<PrismicProduct> = [];
    products.forEach((product) => {
-      let pp: any = {};
-      pp.id = "" + product.id;
-      pp.title = product.name;
-      pp.description = product.type;
-      pp.image_url = product.image_url;
-      pp.last_update = Number(product.createdAt);
-      pp.blob = product;
+      let pp: PrismicProduct = {
+         id: "" + product.id,
+         title: product.name,
+         description: product.type,
+         image_url: product.image_url,
+         last_update: Number(product.createdAt),
+         blob: product,
+      };
       prismicProducts.push(pp);
    });
 
-   prismicProducts.sort((a: any, b: any) =>
+   // Sort decending order based on last updated
+   prismicProducts.sort((a: PrismicProduct, b: PrismicProduct) =>
       a.last_update < b.last_update ? 1 : -1
    );
 
