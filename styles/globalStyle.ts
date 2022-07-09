@@ -3,18 +3,20 @@ import { createGlobalStyle } from "styled-components";
 const GlobalStyle = createGlobalStyle`
 	// Theme
 	:root {
-		--c-primary: #8e44ad;
 		--c-white: #fafafa;
+		--c-black: #111122;
+		--c-primary: #8e44ad;
+		--c-light: #fafafa;
 		--c-background: #f9f7fa;
-		--c-black: #211029;
+		--c-dark: #211029;
 	}
 
 	[data-theme="dark"] {
 		:root {
 			--c-primary: #8e44ad;
-			--c-white: #211029;
+			--c-light: #211029;
 			--c-background: #111122;
-			--c-black: #fafafa;
+			--c-dark: #fafafa;
 		}
 	}
 
@@ -66,6 +68,36 @@ const GlobalStyle = createGlobalStyle`
     
 	#root, #__next {
 		isolation: isolate;
+	}
+
+	.primary-cta {
+		background-color: var(--c-primary);
+		color: var(--c-white);
+		border-radius: 1rem;
+		padding: .5em 3em;
+		transition: filter .3s;
+	}
+
+	.primary-cta:hover {
+		cursor: pointer;
+		filter: brightness(90%) contrast(150%);
+		transition: filter .1s;
+	}
+
+	.secondary-cta {
+		padding: .5em .5em;
+		background: none;
+		color: var(--c-primary);
+		font-weight: 700;
+	}
+
+	.secondary-cta:hover {
+		cursor: pointer;
+		filter: brightness(90%) contrast(200%);
+	}
+
+	.secondary-cta::after {
+		content: ' 🛒'
 	}
 `;
 

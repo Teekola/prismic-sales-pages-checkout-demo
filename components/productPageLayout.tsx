@@ -8,6 +8,7 @@ const StyledContainer = styled.div`
    max-width: 1800px;
    margin: 0 auto;
    padding: 1rem;
+   min-height: 200vh;
 `;
 
 export default function Layout({ children }: PropsWithChildren<{}>) {
