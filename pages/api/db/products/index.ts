@@ -33,7 +33,8 @@ export default async function handler(
    if (
       Buffer.from(authorization.split("Basic ")[1], "base64").toString(
          "utf8"
-      ) !== process.env.DATABASE_ACCESS_TOKEN
+      ) !==
+      "username:" + process.env.DATABASE_ACCESS_TOKEN
    ) {
       return res.status(401).json({ message: "unauthorized" });
    }
