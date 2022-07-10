@@ -1,12 +1,16 @@
 import { createClient, linkResolver } from "../../prismicio";
-import { SliceZone } from "@prismicio/react";
+import { SliceLike, SliceZone, SliceZoneLike } from "@prismicio/react";
 import { components } from "../../slices";
 import * as prismicH from "@prismicio/helpers";
 
 import { GetStaticProps } from "next";
 import Layout from "components/Layouts/productPageLayout";
 
-export default function ProductPage({ slices }: any) {
+interface ProductPageProps {
+   slices: SliceZoneLike<SliceLike<string>> | undefined;
+}
+
+export default function ProductPage({ slices }: ProductPageProps) {
    return (
       <Layout>
          <SliceZone slices={slices} components={components} />

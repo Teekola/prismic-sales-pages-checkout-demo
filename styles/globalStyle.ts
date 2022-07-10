@@ -1,18 +1,26 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
-	// Theme
 	:root {
+		// Same in both themes
 		--c-white: #fafafa;
 		--c-black: #111122;
 		--c-primary: #8e44ad;
+		--c-primaryDark: #632881;
+		--c-accentRed: #e74c3c;
+		--c-accentGreen: #2ecc71;
+		--c-accentBlue: #0072EF;
+
+		// Light Theme
 		--c-light: #fafafa;
 		--c-background: #f9f7fa;
+		--c-gray: #998d9e;
 		--c-dark: #211029;
 	}
 
 	[data-theme="dark"] {
 		:root {
+			// Dark Theme
 			--c-primary: #8e44ad;
 			--c-light: #211029;
 			--c-background: #111122;
@@ -70,6 +78,7 @@ const GlobalStyle = createGlobalStyle`
 		isolation: isolate;
 	}
 
+	// Button Styles
 	.primary-cta {
 		background-color: var(--c-primary);
 		color: var(--c-white);
@@ -94,10 +103,6 @@ const GlobalStyle = createGlobalStyle`
 	.secondary-cta:hover {
 		cursor: pointer;
 		filter: brightness(90%) contrast(200%);
-	}
-
-	.secondary-cta::after {
-		content: ' 🛒'
 	}
 `;
 

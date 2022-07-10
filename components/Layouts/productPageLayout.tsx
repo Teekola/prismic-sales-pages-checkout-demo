@@ -10,6 +10,6 @@ const StyledContainer = styled.div`
    padding: 1rem;
 `;
 
-export default function Layout({ children }: PropsWithChildren<{}>) {
+export default function Layout({ children }: PropsWithChildren) {
    return <StyledContainer>{children}</StyledContainer>;
 }
