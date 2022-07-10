@@ -4,7 +4,7 @@ import { components } from "../../slices";
 import * as prismicH from "@prismicio/helpers";
 
 import { GetStaticProps } from "next";
-import Layout from "components/productPageLayout";
+import Layout from "components/Layouts/productPageLayout";
 
 export default function ProductPage({ slices }: any) {
    return (

@@ -5,10 +5,9 @@ const StyledContainer = styled.div`
    display: flex;
    flex-direction: column;
    gap: 1rem;
-   max-width: 1800px;
+   max-width: 1400px;
    margin: 0 auto;
    padding: 1rem;
-   min-height: 200vh;
 `;
 
 export default function Layout({ children }: PropsWithChildren<{}>) {

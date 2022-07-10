@@ -1,12 +1,12 @@
 import type { AppProps } from "next/app";
+import Link from "next/link";
 import GlobalStyle from "styles/globalStyle";
 import { ThemeProvider } from "next-themes";
-
-import Link from "next/link";
 import { PrismicProvider } from "@prismicio/react";
 import { PrismicPreview } from "@prismicio/next";
 import { linkResolver, repositoryName } from "../prismicio";
-import { H1, P, Italic } from "components/textComponents";
+import { H1, H2, P, Italic } from "components/textComponents";
+import { PropsWithChildren } from "react";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
    return (
@@ -18,9 +18,12 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             </Link>
          )}
          richTextComponents={{
-            heading1: ({ children }) => <H1>{children}</H1>,
-            paragraph: ({ children }) => <P>{children}</P>,
-            em: ({ children }) => <Italic>{children}</Italic>,
+            heading1: ({ children }: PropsWithChildren) => <H1>{children}</H1>,
+            heading2: ({ children }: PropsWithChildren) => <H2>{children}</H2>,
+            paragraph: ({ children }: PropsWithChildren) => <P>{children}</P>,
+            em: ({ children }: PropsWithChildren) => (
+               <Italic>{children}</Italic>
+            ),
          }}
       >
          <PrismicPreview repositoryName={repositoryName}>

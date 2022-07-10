@@ -1,18 +1,35 @@
 import { createClient } from "../prismicio";
-import { SliceZone } from "@prismicio/react";
+import { SliceLike, SliceZone, SliceZoneLike } from "@prismicio/react";
 import { components } from "../slices";
 
 import Head from "next/head";
+import { useRouter } from "next/router";
+import Layout from "components/Layouts/landingPageLayout";
+import { useEffect } from "react";
 
-export default function Homepage({ title, slices }: any) {
+interface HomepageProps {
+   title: string;
+   slices: SliceZoneLike<SliceLike<string>> | undefined;
+}
+
+export default function Homepage({ title, slices }: HomepageProps) {
+   const router = useRouter();
+
+   // Temporarily always redirect to NHE
+   useEffect(() => {
+      router.push("/tuotteet/nhe");
+   }, [router]);
+
    return (
       <>
          <Head>
             <title>Eroonjumeista.fi Etusivu</title>
             <meta name="description" content="Eroonjumeista.fi Etusivu" />
          </Head>
-         <h1>{title}</h1>
-         <SliceZone slices={slices} components={components} />
+         <Layout>
+            <h1>{title}</h1>
+            <SliceZone slices={slices} components={components} />
+         </Layout>
       </>
    );
 }
