@@ -4,6 +4,7 @@ const buttons = css`
    // Button Styles
    button {
       font-family: "Lato", sans-serif;
+      min-width: fit-content;
    }
    .primary-cta {
       font-weight: bold;
@@ -22,14 +23,19 @@ const buttons = css`
 
    .secondary-cta {
       font-weight: bold;
-      color: var(--c-primary);
-      padding: 0.5em 0.5em;
-      background: none;
+      color: var(--c-dark);
+      border: 2px solid var(--c-dark);
+      border-radius: 1rem;
+      padding: 0.5em 1em;
+      transition: all 0.3s;
    }
 
    .secondary-cta:hover {
       cursor: pointer;
-      filter: brightness(90%) contrast(150%);
+      filter: brightness(150%) contrast(150%);
+      color: var(--c-primary);
+      border-color: var(--c-primary);
+      transition: all 0.1s;
    }
 `;
 

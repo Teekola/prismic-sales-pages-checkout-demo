@@ -6,10 +6,10 @@ const colors = css`
       --c-white: #fafafa;
       --c-black: #111122;
       --c-primary: #8e44ad;
-      --c-primaryDark: #632881;
-      --c-accentRed: #e74c3c;
-      --c-accentGreen: #2ecc71;
-      --c-accentBlue: #0072ef;
+      --c-primary-dark: #632881;
+      --c-accent-red: #e74c3c;
+      --c-accent-green: #2ecc71;
+      --c-accent-blue: #0072ef;
 
       // Light Theme
       --c-light: #fafafa;

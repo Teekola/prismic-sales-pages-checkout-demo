@@ -6,7 +6,7 @@ type ContainerProps = {
 
 const StyledContainer = styled.section<ContainerProps>`
    margin-top: ${({ imagePosition }) =>
-      imagePosition === "Behind" ? "-1rem" : "5rem"};
+      imagePosition === "Behind" ? "-1rem" : "0rem"};
    display: flex;
    flex-direction: ${({ imagePosition }) =>
       imagePosition === "Left" ? "column-reverse" : "column-reverse"};
@@ -45,6 +45,7 @@ const StyledContainer = styled.section<ContainerProps>`
    .buttons-container {
       margin-top: 1rem;
       display: flex;
+      flex-flow: row wrap;
       gap: 2rem;
    }
 
@@ -52,6 +53,11 @@ const StyledContainer = styled.section<ContainerProps>`
       position: relative;
       width: 100%;
       height: min(500px, 40vh);
+   }
+
+   .image-container > span > img {
+      object-fit: contain;
+      object-position: left center;
    }
 
    .background-image-positioner {
@@ -85,13 +91,29 @@ const StyledContainer = styled.section<ContainerProps>`
             imagePosition === "Behind" ? "translateY(-100%)" : "translateY(0)"};
       }
 
-      .image-container {
+      .image-spacer {
          position: relative;
          width: 45%;
          height: 75vh;
-         overflow: hidden;
+         overflow: visible;
          margin: ${({ imagePosition }) =>
             imagePosition === "Right" ? "0 -1rem 0 0" : "0 0 0 -1rem"};
+      }
+
+      .image-container {
+         position: absolute;
+         width: 60vw;
+         height: 75vh;
+         overflow: visible;
+         top: -1rem;
+         left: ${({ imagePosition }) =>
+            imagePosition === "Right" ? 0 : "-100%"};
+      }
+
+      .image-container > span > img {
+         object-fit: cover;
+         object-position: ${({ imagePosition }) =>
+            imagePosition === "Right" ? "-150px center" : "150px center"};
       }
    }
 `;

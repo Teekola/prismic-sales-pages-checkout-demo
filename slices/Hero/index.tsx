@@ -26,7 +26,7 @@ const Hero = ({ slice }: SliceComponentProps<HeroSlice>) => {
    const handlePrimaryClick = () => {
       if (slice.primary.primaryButtonLink.toLowerCase() === "scroll") {
          window.scrollBy({
-            top: 300,
+            top: 600,
             left: 0,
             behavior: "smooth",
          });
@@ -79,14 +79,14 @@ const Hero = ({ slice }: SliceComponentProps<HeroSlice>) => {
          </div>
 
          {slice.primary.image.url && slice.primary.imagePosition !== "Behind" && (
-            <div className="image-container">
-               <Image
-                  src={slice.primary.image.url}
-                  alt={slice.primary.image.alt}
-                  layout="fill"
-                  objectFit="cover"
-                  objectPosition="center"
-               />
+            <div className="image-spacer">
+               <div className="image-container">
+                  <Image
+                     src={slice.primary.image.url}
+                     alt={slice.primary.image.alt}
+                     layout="fill"
+                  />
+               </div>
             </div>
          )}
 

@@ -1,6 +1,62 @@
 {
   "slices": {
     "components": {
+      "banner": {
+        "library": "slices",
+        "id": "banner",
+        "name": "Banner",
+        "description": "Banner",
+        "model": {
+          "id": "banner",
+          "type": "SharedSlice",
+          "name": "Banner",
+          "description": "Banner",
+          "variations": [
+            {
+              "id": "default",
+              "name": "Default",
+              "docURL": "...",
+              "version": "sktwi1xtmkfgx8626",
+              "description": "Banner",
+              "primary": {
+                "text": {
+                  "type": "StructuredText",
+                  "config": {
+                    "label": "Text",
+                    "placeholder": "",
+                    "allowTargetBlank": true,
+                    "multi": "paragraph,heading2,heading3,strong,em"
+                  }
+                }
+              },
+              "items": {},
+              "imageUrl": "https://images.prismic.io/slice-machine/621a5ec4-0387-4bc5-9860-2dd46cbc07cd_default_ss.png?auto=compress,format"
+            }
+          ]
+        },
+        "mocks": {
+          "default": {
+            "variation": "default",
+            "name": "Default",
+            "slice_type": "banner",
+            "items": [],
+            "primary": {
+              "text": [
+                {
+                  "type": "paragraph",
+                  "text": "Aliquip amet eiusmod nisi id irure voluptate laborum excepteur consequat ex reprehenderit culpa ipsum. Minim elit eu deserunt culpa irure officia.",
+                  "spans": []
+                }
+              ]
+            }
+          }
+        },
+        "meta": {
+          "fileName": "index",
+          "extension": "tsx"
+        },
+        "screenshotPaths": {}
+      },
       "hero": {
         "library": "slices",
         "id": "hero",
@@ -132,13 +188,100 @@
         },
         "meta": {
           "fileName": "index",
-          "extension": "js"
+          "extension": "tsx"
         },
         "screenshotPaths": {
           "default": {
             "path": "E:\\Ohjelmointi\\eroonjumeista\\.slicemachine\\assets\\slices\\Hero\\default\\preview.png",
             "width": 800,
             "height": 608
+          }
+        }
+      },
+      "introduction": {
+        "library": "slices",
+        "id": "introduction",
+        "name": "Introduction",
+        "description": "Introduction",
+        "model": {
+          "id": "introduction",
+          "type": "SharedSlice",
+          "name": "Introduction",
+          "description": "Introduction",
+          "variations": [
+            {
+              "id": "default",
+              "name": "Default",
+              "docURL": "...",
+              "version": "sktwi1xtmkfgx8626",
+              "description": "Introduction",
+              "primary": {
+                "title": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Title",
+                    "placeholder": ""
+                  }
+                },
+                "paragraphs": {
+                  "type": "StructuredText",
+                  "config": {
+                    "label": "Paragraphs",
+                    "placeholder": "",
+                    "allowTargetBlank": true,
+                    "multi": "paragraph,strong,em,hyperlink,list-item,o-list-item"
+                  }
+                },
+                "image": {
+                  "type": "Image",
+                  "config": {
+                    "label": "Image",
+                    "constraint": {},
+                    "thumbnails": []
+                  }
+                }
+              },
+              "items": {},
+              "imageUrl": "https://images.prismic.io/slice-machine/621a5ec4-0387-4bc5-9860-2dd46cbc07cd_default_ss.png?auto=compress,format"
+            }
+          ]
+        },
+        "mocks": {
+          "default": {
+            "variation": "default",
+            "name": "Default",
+            "slice_type": "introduction",
+            "items": [],
+            "primary": {
+              "title": "productize back-end deliverables",
+              "paragraphs": [
+                {
+                  "type": "paragraph",
+                  "text": "Aute non veniam aliquip qui qui nisi aliqua pariatur. Eiusmod dolor laboris excepteur ex tempor eiusmod cillum laborum irure sit do labore. Nisi eu enim irure sint mollit consequat aute in officia labore labore id consequat duis elit.",
+                  "spans": []
+                }
+              ],
+              "image": {
+                "dimensions": {
+                  "width": 900,
+                  "height": 500
+                },
+                "alt": "Placeholder image",
+                "copyright": null,
+                "url": "https://images.unsplash.com/photo-1589321599763-d66926c29613?w=900&h=500&fit=crop"
+              }
+            }
+          }
+        },
+        "meta": {
+          "fileName": "index",
+          "extension": "tsx"
+        },
+        "screenshotPaths": {
+          "default": {
+            "path": "E:\\Ohjelmointi\\eroonjumeista\\.slicemachine\\assets\\slices\\Introduction\\default\\preview.png",
+            "width": 800,
+            "height": 27
           }
         }
       },
@@ -396,7 +539,7 @@
         },
         "meta": {
           "fileName": "index",
-          "extension": "js"
+          "extension": "tsx"
         },
         "screenshotPaths": {}
       },

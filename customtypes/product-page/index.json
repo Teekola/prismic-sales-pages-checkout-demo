@@ -25,6 +25,12 @@
             },
             "story_section": {
               "type": "SharedSlice"
+            },
+            "introduction": {
+              "type": "SharedSlice"
+            },
+            "banner": {
+              "type": "SharedSlice"
             }
           }
         }

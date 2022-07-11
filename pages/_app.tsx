@@ -5,7 +5,7 @@ import { ThemeProvider } from "next-themes";
 import { PrismicProvider } from "@prismicio/react";
 import { PrismicPreview } from "@prismicio/next";
 import { linkResolver, repositoryName } from "../prismicio";
-import { H1, H2, P, Italic } from "components/textComponents";
+import { H1, H2, P, Italic, UL } from "components/textComponents";
 import { PropsWithChildren } from "react";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
@@ -24,6 +24,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             em: ({ children }: PropsWithChildren) => (
                <Italic>{children}</Italic>
             ),
+            list: ({ children }: PropsWithChildren) => <UL>{children}</UL>,
          }}
       >
          <PrismicPreview repositoryName={repositoryName}>

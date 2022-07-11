@@ -1,0 +1,17 @@
+[
+  {
+    "variation": "default",
+    "name": "Default",
+    "slice_type": "banner",
+    "items": [],
+    "primary": {
+      "text": [
+        {
+          "type": "paragraph",
+          "text": "Aliquip amet eiusmod nisi id irure voluptate laborum excepteur consequat ex reprehenderit culpa ipsum. Minim elit eu deserunt culpa irure officia.",
+          "spans": []
+        }
+      ]
+    }
+  }
+]

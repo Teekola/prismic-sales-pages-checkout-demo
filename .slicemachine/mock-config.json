@@ -61,6 +61,30 @@
           }
         }
       }
+    },
+    "Introduction": {
+      "default": {
+        "primary": {
+          "paragraphs": {
+            "config": {
+              "patternType": "PARAGRAPH",
+              "blocks": 1
+            }
+          }
+        }
+      }
+    },
+    "Banner": {
+      "default": {
+        "primary": {
+          "text": {
+            "config": {
+              "patternType": "PARAGRAPH",
+              "blocks": 1
+            }
+          }
+        }
+      }
     }
   }
 }
