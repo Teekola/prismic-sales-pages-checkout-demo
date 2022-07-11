@@ -102,8 +102,8 @@ const StyledContainer = styled.section<ContainerProps>`
 
       .image-container {
          position: absolute;
-         width: 60vw;
-         height: 75vh;
+         width: 75vw;
+         height: 80vh;
          overflow: visible;
          top: -1rem;
          left: ${({ imagePosition }) =>
@@ -111,7 +111,6 @@ const StyledContainer = styled.section<ContainerProps>`
       }
 
       .image-container > span > img {
-         object-fit: cover;
          object-position: ${({ imagePosition }) =>
             imagePosition === "Right" ? "-150px center" : "150px center"};
       }
