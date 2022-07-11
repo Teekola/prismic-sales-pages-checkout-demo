@@ -94,7 +94,7 @@ const StyledContainer = styled.section<ContainerProps>`
       .image-spacer {
          position: relative;
          width: 45%;
-         height: 75vh;
+         height: max(75vh, 38vw);
          overflow: visible;
          margin: ${({ imagePosition }) =>
             imagePosition === "Right" ? "0 -1rem 0 0" : "0 0 0 -1rem"};
@@ -103,7 +103,7 @@ const StyledContainer = styled.section<ContainerProps>`
       .image-container {
          position: absolute;
          width: 75vw;
-         height: 80vh;
+         height: max(75vh, 38vw);
          overflow: visible;
          top: -1rem;
          left: ${({ imagePosition }) =>
