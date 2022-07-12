@@ -5,6 +5,7 @@ const buttons = css`
    button {
       font-family: "Lato", sans-serif;
       min-width: fit-content;
+      max-width: max-content;
    }
    .primary-cta {
       font-weight: bold;

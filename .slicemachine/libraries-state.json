@@ -57,6 +57,76 @@
         },
         "screenshotPaths": {}
       },
+      "call_to_action_section": {
+        "library": "slices",
+        "id": "call_to_action_section",
+        "name": "CallToActionSection",
+        "description": "CallToActionSection",
+        "model": {
+          "id": "call_to_action_section",
+          "type": "SharedSlice",
+          "name": "CallToActionSection",
+          "description": "CallToActionSection",
+          "variations": [
+            {
+              "id": "default",
+              "name": "Default",
+              "docURL": "...",
+              "version": "sktwi1xtmkfgx8626",
+              "description": "CallToActionSection",
+              "primary": {
+                "text": {
+                  "type": "StructuredText",
+                  "config": {
+                    "label": "Text",
+                    "placeholder": "Tekstikappaleet",
+                    "allowTargetBlank": true,
+                    "multi": "paragraph,heading2,heading3,strong,em,list-item,o-list-item"
+                  }
+                },
+                "buttonText": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Button Text",
+                    "placeholder": ""
+                  }
+                }
+              },
+              "items": {},
+              "imageUrl": "https://images.prismic.io/slice-machine/621a5ec4-0387-4bc5-9860-2dd46cbc07cd_default_ss.png?auto=compress,format"
+            }
+          ]
+        },
+        "mocks": {
+          "default": {
+            "variation": "default",
+            "name": "Default",
+            "slice_type": "call_to_action_section",
+            "items": [],
+            "primary": {
+              "text": [
+                {
+                  "type": "paragraph",
+                  "text": "Sunt fugiat ipsum qui sint incididunt sunt nulla sit in. Sit id sint culpa proident.",
+                  "spans": []
+                }
+              ],
+              "buttonText": "envisioneer granular convergence"
+            }
+          }
+        },
+        "meta": {
+          "fileName": "index",
+          "extension": "tsx"
+        },
+        "screenshotPaths": {
+          "default": {
+            "path": "E:\\Ohjelmointi\\eroonjumeista\\.slicemachine\\assets\\slices\\CallToActionSection\\default\\preview.png",
+            "width": 800,
+            "height": 264
+          }
+        }
+      },
       "hero": {
         "library": "slices",
         "id": "hero",

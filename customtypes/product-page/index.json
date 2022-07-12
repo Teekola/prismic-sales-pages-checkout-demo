@@ -31,6 +31,9 @@
             },
             "banner": {
               "type": "SharedSlice"
+            },
+            "call_to_action_section": {
+              "type": "SharedSlice"
             }
           }
         }
