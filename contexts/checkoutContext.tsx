@@ -10,22 +10,37 @@ type ProductT = {
    id: string;
 };
 type CheckoutProductsT = Array<ProductT>;
+type CheckoutFormDataT = {
+   firstName: string;
+   lastName: string;
+   email: string;
+   phone: string;
+   city: string;
+} | null;
 type CheckoutContextT = {
    checkoutProducts: CheckoutProductsT;
+   checkoutFormData: CheckoutFormDataT;
    setCheckoutProducts: (newCheckoutProducts: CheckoutProductsT) => void;
+   setCheckoutFormData: (newCheckoutFormData: CheckoutFormDataT) => void;
 } | null;
 
 // Context Hook
 const useCheckoutContext = () => {
    const [checkoutProducts, setCheckoutProducts] = useState<CheckoutProductsT>([]);
+   const [checkoutFormData, setCheckoutFormData] = useState<CheckoutFormDataT>(null);
    // Use Callback is needed to prevent it from creating
    // new function (so new reference) every time.
    // The empty dependency array means that the function is
    // only created once.
    return {
       checkoutProducts,
+      checkoutFormData,
       setCheckoutProducts: useCallback(
          (newCheckoutProducts: CheckoutProductsT) => setCheckoutProducts(newCheckoutProducts),
+         []
+      ),
+      setCheckoutFormData: useCallback(
+         (newCheckoutFormData: CheckoutFormDataT) => setCheckoutFormData(newCheckoutFormData),
          []
       ),
    };
@@ -47,7 +62,16 @@ export const useCheckoutProducts = () =>
    useContextSelector(CheckoutContext, (state) =>
       state?.checkoutProducts ? state.checkoutProducts : []
    );
+export const useCheckoutFormData = () =>
+   useContextSelector(CheckoutContext, (state) =>
+      state?.checkoutFormData ? state.checkoutFormData : null
+   );
+
 export const useSetCheckoutProducts = () =>
    useContextSelector(CheckoutContext, (state) =>
       state?.setCheckoutProducts ? state.setCheckoutProducts : () => null
+   );
+export const useSetCheckoutFormData = () =>
+   useContextSelector(CheckoutContext, (state) =>
+      state?.setCheckoutFormData ? state.setCheckoutFormData : () => null
    );

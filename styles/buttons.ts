@@ -22,6 +22,13 @@ const buttons = css`
       transition: filter 0.1s;
    }
 
+   .primary-cta:focus {
+      cursor: pointer;
+      outline: none;
+      filter: brightness(90%) contrast(150%);
+      transition: filter 0.1s;
+   }
+
    .secondary-cta {
       font-weight: bold;
       color: var(--c-dark);
@@ -32,6 +39,14 @@ const buttons = css`
    }
 
    .secondary-cta:hover {
+      cursor: pointer;
+      filter: brightness(150%) contrast(150%);
+      color: var(--c-primary);
+      border-color: var(--c-primary);
+      transition: all 0.1s;
+   }
+
+   .secondary-cta:focus {
       cursor: pointer;
       filter: brightness(150%) contrast(150%);
       color: var(--c-primary);

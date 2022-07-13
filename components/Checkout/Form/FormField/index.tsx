@@ -22,12 +22,12 @@ const FormField = <TFormValues extends Record<string, unknown>>({
             {label}
          </label>
          <input
-            {...attributes}
             className={hasError ? "text-input error" : "text-input"}
+            {...attributes}
             {...register(name, registerOptions)}
             onBlur={() => handleBlur(name)}
             onKeyUp={() => handleKeyUp(name)}
-            onChange={!!handleChange ? (e) => handleChange(e) : undefined}
+            {...(handleChange ? { onChange: (e) => handleChange(e) } : {})}
          />
          <ErrorMessage
             errors={errors}
