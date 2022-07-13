@@ -2,6 +2,9 @@ import { createClient } from "../prismicio";
 import Head from "next/head";
 import Layout from "components/Layouts/landingPageLayout";
 import Form from "components/Checkout/Form";
+import Providers from "components/Checkout/Providers";
+
+import { useCheckoutStep } from "../contexts/checkoutContext";
 
 interface CheckoutpageProps {
    title: string;
@@ -12,6 +15,7 @@ interface CheckoutpageProps {
 }
 
 export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
+   const checkoutStep = useCheckoutStep();
    return (
       <>
          <Head>
@@ -19,8 +23,10 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
             <meta name="description" content="Eroonjumeista.fi Kassa" />
          </Head>
          <Layout>
+            <p>Vaihe: {checkoutStep}</p>
             <h1>{title}</h1>
-            <Form formProps={formProps} />
+            {checkoutStep === "form" && <Form formProps={formProps} />}
+            {checkoutStep === "providers" && <Providers />}
          </Layout>
       </>
    );

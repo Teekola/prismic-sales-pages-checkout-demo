@@ -4,11 +4,19 @@ import FormField from "./FormField";
 import { ChangeEvent, useState, useEffect } from "react";
 import { FormProps, FormFields, HasTried } from "./types";
 import Script from "next/script";
-import { useSetCheckoutFormData } from "contexts/checkoutContext";
+import {
+   useCheckoutFormData,
+   useSetCheckoutStep,
+   useSetCheckoutFormData,
+} from "contexts/checkoutContext";
+import { useRouter } from "next/router";
 
 export default function Form({ formProps }: FormProps) {
    const [hasTried, setHasTried] = useState<HasTried>({});
+   const router = useRouter();
+   const checkoutFormData = useCheckoutFormData();
    const setCheckoutFormData = useSetCheckoutFormData();
+   const setCheckoutStep = useSetCheckoutStep();
    const {
       register,
       handleSubmit,
@@ -26,6 +34,45 @@ export default function Form({ formProps }: FormProps) {
    });
 
    // TODO: Browser History
+
+   // TODO: Cleanup current step at the end of checkout flow
+
+   // TODO: Returning from reminder email
+
+   // Check and set correct step
+   useEffect(() => {
+      const storageCheckoutStep = sessionStorage.getItem("checkoutStep");
+      if (storageCheckoutStep === "providers") {
+         setCheckoutStep("providers");
+      }
+   }, [setCheckoutStep]);
+
+   // Fill form fields
+   useEffect(() => {
+      // Place the values from formData
+      if (checkoutFormData) {
+         setValue("firstName", checkoutFormData.firstName, { shouldDirty: true });
+         setValue("lastName", checkoutFormData.lastName, { shouldDirty: true });
+         setValue("email", checkoutFormData.email, { shouldDirty: true });
+         setValue("phone", checkoutFormData.phone, { shouldDirty: true });
+         setValue("city", checkoutFormData.city, { shouldDirty: true });
+         return;
+      }
+
+      // Place the values from storageData
+      try {
+         const storageData = JSON.parse(`${sessionStorage.getItem("checkoutFormData")}`);
+         if (storageData) {
+            setValue("firstName", storageData.firstName, { shouldDirty: true });
+            setValue("lastName", storageData.lastName, { shouldDirty: true });
+            setValue("email", storageData.email, { shouldDirty: true });
+            setValue("phone", storageData.phone, { shouldDirty: true });
+            setValue("city", storageData.city, { shouldDirty: true });
+         }
+      } catch (error) {
+         console.log(error);
+      }
+   }, [checkoutFormData, setValue, router.asPath]);
 
    // Check for autocomplete
    useEffect(() => {
@@ -83,8 +130,8 @@ export default function Form({ formProps }: FormProps) {
       trigger(fieldName);
    };
    const handleFormSubmit = (submittedData: FormFields) => {
-      console.log(submittedData);
       setCheckoutFormData(submittedData);
+      setCheckoutStep("providers");
    };
 
    const handlePhoneChange = (e: ChangeEvent<HTMLInputElement>) => {
