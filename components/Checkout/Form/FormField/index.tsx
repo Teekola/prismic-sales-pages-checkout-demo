@@ -8,26 +8,33 @@ const FormField = <TFormValues extends Record<string, unknown>>({
    rhf,
    handlers,
 }: FormFieldProps<TFormValues>) => {
-   const { name, label, attributes } = fieldOptions;
+   const { name, label, instruction, attributes } = fieldOptions;
    const { register, registerOptions, errors } = rhf;
-   const { handleBlur, handleKeyUp } = handlers;
+   const { handleBlur, handleKeyUp, handleChange } = handlers;
    const errorMessages = get(errors, name);
    const hasError = !!(errors && errorMessages);
    return (
       <StyledFormField>
-         <label htmlFor={attributes.id}>{label}</label>
+         <label
+            htmlFor={attributes.id}
+            className={registerOptions.required ? "label required" : "label"}
+         >
+            {label}
+         </label>
          <input
             {...attributes}
             className={hasError ? "text-input error" : "text-input"}
             {...register(name, registerOptions)}
             onBlur={() => handleBlur(name)}
             onKeyUp={() => handleKeyUp(name)}
+            onChange={!!handleChange ? (e) => handleChange(e) : undefined}
          />
          <ErrorMessage
             errors={errors}
             name={name as any}
             render={({ message }) => <p className="error-message">{message}</p>}
          />
+         {!hasError && !!instruction && <p className="instruction">{instruction}</p>}
       </StyledFormField>
    );
 };

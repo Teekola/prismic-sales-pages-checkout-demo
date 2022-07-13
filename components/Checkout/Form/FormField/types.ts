@@ -5,10 +5,11 @@ type FormFieldProps<TFormValues> = {
    fieldOptions: {
       name: Path<TFormValues>;
       label: string;
+      instruction?: string;
       attributes: {
          id: string;
          name: string;
-         type: string;
+         type: "text" | "tel";
          placeholder?: string;
          autoComplete?: "email" | "tel";
          inputMode?: "email" | "numeric";

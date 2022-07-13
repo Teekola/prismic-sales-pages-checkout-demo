@@ -12,6 +12,22 @@
           "placeholder": ""
         }
       }
+    },
+    "Form": {
+      "emailInstruction": {
+        "type": "Text",
+        "config": {
+          "label": "Email Instruction",
+          "placeholder": ""
+        }
+      },
+      "phoneInstruction": {
+        "type": "Text",
+        "config": {
+          "label": "Phone Instruction",
+          "placeholder": ""
+        }
+      }
     }
   }
 }

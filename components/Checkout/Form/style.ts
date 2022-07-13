@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const StyledForm = styled.form`
    --input-focus-color: var(--c-primary);
-   --form-max-width: 80ch;
+   --form-max-width: 60ch;
    --error-color: var(--c-accent-red);
 
    display: flex;

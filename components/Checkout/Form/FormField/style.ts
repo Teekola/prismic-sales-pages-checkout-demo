@@ -16,6 +16,12 @@ const StyledFormField = styled.div`
       outline: 2px solid var(--input-focus-color);
    }
 
+   .required::after {
+      content: "*";
+      margin-left: 0.5rem;
+      color: var(--error-color);
+   }
+
    .error {
       outline: 1px solid var(--error-color) !important;
    }
@@ -28,7 +34,7 @@ const StyledFormField = styled.div`
       color: var(--error-color);
    }
 
-   .note {
+   .instruction {
       font-size: 0.875rem;
    }
 `;

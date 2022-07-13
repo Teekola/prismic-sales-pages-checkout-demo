@@ -5,9 +5,13 @@ import Form from "components/Checkout/Form";
 
 interface CheckoutpageProps {
    title: string;
+   formProps: {
+      emailInstruction: string;
+      phoneInstruction: string;
+   };
 }
 
-export default function Checkoutpage({ title }: CheckoutpageProps) {
+export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
    return (
       <>
          <Head>
@@ -16,7 +20,7 @@ export default function Checkoutpage({ title }: CheckoutpageProps) {
          </Head>
          <Layout>
             <h1>{title}</h1>
-            <Form />
+            <Form formProps={formProps} />
          </Layout>
       </>
    );
@@ -30,6 +34,10 @@ export async function getStaticProps({ previewData }: any) {
    return {
       props: {
          title: document.data.title,
+         formProps: {
+            emailInstruction: document.data.emailInstruction,
+            phoneInstruction: document.data.phoneInstruction,
+         },
       },
    };
 }
