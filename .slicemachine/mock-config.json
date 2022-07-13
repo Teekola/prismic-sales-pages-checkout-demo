@@ -2,7 +2,8 @@
   "_cts": {
     "etusivu": {},
     "home-page": {},
-    "product-page": {}
+    "product-page": {},
+    "checkout-page": {}
   },
   "slices": {
     "TextParagraph": {
