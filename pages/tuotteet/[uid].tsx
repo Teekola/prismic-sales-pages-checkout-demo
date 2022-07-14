@@ -5,7 +5,7 @@ import * as prismicH from "@prismicio/helpers";
 
 import { GetStaticProps } from "next";
 import Head from "next/head";
-import Layout from "components/Layouts/productPageLayout";
+import Layout from "components/layouts/productPageLayout";
 
 interface ProductPageProps {
    slices: SliceZoneLike<SliceLike<string>> | undefined;
@@ -41,6 +41,7 @@ export const getStaticProps: GetStaticProps = async ({ params, previewData }: an
    return {
       props: {
          slices: productPage.data.slices,
+         product: productPage.data.integrationField,
       },
    };
 };

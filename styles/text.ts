@@ -9,7 +9,7 @@ const text = css`
 
    h1 {
       font-weight: 900;
-      font-size: 4rem;
+      font-size: clamp(2rem, 10vw, 4rem);
       line-height: 1.1;
    }
 

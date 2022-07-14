@@ -5,7 +5,7 @@ const nextConfig = {
     styledComponents: true
   },
   images: {
-    domains: ['images.prismic.io', 'images.unsplash.com']
+    domains: ['images.prismic.io', 'images.unsplash.com', 'kajabi-storefronts-production.kajabi-cdn.com']
   }
 }
 

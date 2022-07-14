@@ -9,11 +9,13 @@ export const repositoryName = prismic.getRepositoryName(endpoint)
 export function linkResolver(doc) {
 	switch (doc.type) {
 		case 'home-page':
-			return '/'
+			return '/';
 		case 'product-page':
-			return `/tuotteet/${doc.uid}`
+			return `/tuotteet/${doc.uid}`;
+		case 'checkout-page':
+			return '/kassa';
 		default:
-			return null
+			return null;
 	}
 }
 

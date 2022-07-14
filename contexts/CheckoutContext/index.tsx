@@ -4,34 +4,14 @@
  */
 import { useState, PropsWithChildren, useCallback } from "react";
 import { createContext, useContextSelector } from "use-context-selector";
-
-// Types
-type Step = "form" | "providers";
-type ProductT = {
-   id: string;
-};
-type CheckoutProductsT = Array<ProductT>;
-type CheckoutFormDataT = {
-   firstName: string;
-   lastName: string;
-   email: string;
-   phone: string;
-   city: string;
-} | null;
-type CheckoutContextT = {
-   checkoutStep: Step;
-   checkoutProducts: CheckoutProductsT;
-   checkoutFormData: CheckoutFormDataT;
-   setCheckoutStep: (newStep: Step) => void;
-   setCheckoutProducts: (newCheckoutProducts: CheckoutProductsT) => void;
-   setCheckoutFormData: (newCheckoutFormData: CheckoutFormDataT) => void;
-} | null;
+import { CheckoutProductsT, CheckoutContextT, CheckoutFormDataT, Step, DiscountT } from "./types";
 
 // Context Hook
 const useCheckoutContext = () => {
    const [checkoutProducts, setCheckoutProducts] = useState<CheckoutProductsT>([]);
    const [checkoutFormData, setCheckoutFormData] = useState<CheckoutFormDataT>(null);
    const [checkoutStep, setCheckoutStep] = useState<Step>("form");
+   const [checkoutDiscount, setCheckoutDiscount] = useState<DiscountT>(null);
    // Use Callback is needed to prevent it from creating
    // new function (so new reference) every time.
    // The empty dependency array means that the function is
@@ -40,6 +20,7 @@ const useCheckoutContext = () => {
       checkoutStep,
       checkoutProducts,
       checkoutFormData,
+      checkoutDiscount,
       setCheckoutStep: useCallback((newCheckoutStep: Step) => {
          setCheckoutStep(newCheckoutStep);
          sessionStorage.setItem("checkoutStep", newCheckoutStep);
@@ -51,6 +32,10 @@ const useCheckoutContext = () => {
       setCheckoutFormData: useCallback((newCheckoutFormData: CheckoutFormDataT) => {
          setCheckoutFormData(newCheckoutFormData);
          sessionStorage.setItem("checkoutFormData", JSON.stringify(newCheckoutFormData));
+      }, []),
+      setCheckoutDiscount: useCallback((newCheckoutDiscount: DiscountT) => {
+         setCheckoutDiscount(newCheckoutDiscount);
+         sessionStorage.setItem("checkoutDiscount", JSON.stringify(newCheckoutDiscount));
       }, []),
    };
 };
@@ -79,6 +64,10 @@ export const useCheckoutFormData = () =>
    useContextSelector(CheckoutContext, (state) =>
       state?.checkoutFormData ? state.checkoutFormData : null
    );
+export const useCheckoutDiscount = () =>
+   useContextSelector(CheckoutContext, (state) =>
+      state?.checkoutDiscount ? state.checkoutDiscount : null
+   );
 
 export const useSetCheckoutStep = () =>
    useContextSelector(CheckoutContext, (state) =>
@@ -91,4 +80,8 @@ export const useSetCheckoutProducts = () =>
 export const useSetCheckoutFormData = () =>
    useContextSelector(CheckoutContext, (state) =>
       state?.setCheckoutFormData ? state.setCheckoutFormData : () => null
+   );
+export const useSetCheckoutDiscount = () =>
+   useContextSelector(CheckoutContext, (state) =>
+      state?.setCheckoutDiscount ? state.setCheckoutDiscount : () => null
    );

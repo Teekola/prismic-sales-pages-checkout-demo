@@ -13,17 +13,29 @@ const colors = css`
 
       // Light Theme
       --c-light: #fafafa;
+      --c-light-2: #f4f4f4;
       --c-background: #f9f7fa;
       --c-gray: #998d9e;
       --c-dark: #211029;
+      --c-card: #ffffff;
+      --c-card-2: #ffffff;
+      --c-card-3: #f4f4f4;
+      --c-formfield-border: #dfdbe0;
+      --c-formfield: #ffffff;
    }
 
    :root[data-theme="dark"] {
       // Dark Theme
       --c-primary: #8e44ad;
-      --c-light: #211029;
+      --c-light: #0e0e1c;
+      --c-light-2: #17172e;
       --c-background: #111122;
       --c-dark: #fafafa;
+      --c-card: #17172e;
+      --c-card-2: #1d1d3c;
+      --c-card-3: #17172e;
+      --c-formfield-border: #4e4e67;
+      --c-formfield: #323246;
    }
 
    body {

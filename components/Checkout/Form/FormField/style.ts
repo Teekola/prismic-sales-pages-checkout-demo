@@ -10,6 +10,8 @@ const StyledFormField = styled.div`
       width: 100%;
       padding: 0.3rem 0.6rem;
       border-radius: 0.5rem;
+      background-color: var(--c-formfield);
+      outline: 1px solid var(--c-formfield-border);
    }
 
    .text-input:focus {

@@ -7,7 +7,7 @@ import { PrismicPreview } from "@prismicio/next";
 import { linkResolver, repositoryName } from "../prismicio";
 import { H1, H2, P, Italic, UL } from "components/textComponents";
 import { PropsWithChildren } from "react";
-import { GlobalContextProvider } from "contexts/checkoutContext";
+import { GlobalContextProvider } from "contexts/CheckoutContext";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
    return (

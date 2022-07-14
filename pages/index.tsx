@@ -4,7 +4,7 @@ import { components } from "../slices";
 
 import Head from "next/head";
 import { useRouter } from "next/router";
-import Layout from "components/Layouts/landingPageLayout";
+import Layout from "components/layouts/landingPageLayout";
 import { useEffect } from "react";
 
 interface HomepageProps {

@@ -9,6 +9,7 @@ const StyledForm = styled.form`
    flex-direction: column;
    gap: 1rem;
    max-width: var(--form-max-width);
+   width: 100%;
 
    .input-group {
       display: flex;

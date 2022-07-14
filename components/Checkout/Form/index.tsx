@@ -8,11 +8,12 @@ import {
    useCheckoutFormData,
    useSetCheckoutStep,
    useSetCheckoutFormData,
-} from "contexts/checkoutContext";
+} from "contexts/CheckoutContext";
 import { useRouter } from "next/router";
 
 export default function Form({ formProps }: FormProps) {
    const [hasTried, setHasTried] = useState<HasTried>({});
+   const [isLoaded, setIsLoaded] = useState<boolean>(false);
    const router = useRouter();
    const checkoutFormData = useCheckoutFormData();
    const setCheckoutFormData = useSetCheckoutFormData();
@@ -37,15 +38,7 @@ export default function Form({ formProps }: FormProps) {
 
    // TODO: Cleanup current step at the end of checkout flow
 
-   // TODO: Returning from reminder email
-
-   // Check and set correct step
-   useEffect(() => {
-      const storageCheckoutStep = sessionStorage.getItem("checkoutStep");
-      if (storageCheckoutStep === "providers") {
-         setCheckoutStep("providers");
-      }
-   }, [setCheckoutStep]);
+   // TODO: Fill in the Form Fields when  Returning from reminder email
 
    // Fill form fields
    useEffect(() => {
@@ -172,6 +165,7 @@ export default function Form({ formProps }: FormProps) {
 
    return (
       <StyledForm onSubmit={handleSubmit((data) => handleFormSubmit(data))}>
+         <h1>Laskutustiedot</h1>
          <div className="input-group">
             <FormField
                fieldOptions={{
