@@ -2,6 +2,7 @@ import { createClient, linkResolver } from "../../prismicio";
 import { SliceLike, SliceZone, SliceZoneLike } from "@prismicio/react";
 import { components } from "../../slices";
 import * as prismicH from "@prismicio/helpers";
+import { Slice } from "@prismicio/types";
 
 import { GetStaticProps } from "next";
 import Head from "next/head";
@@ -38,9 +39,34 @@ export const getStaticProps: GetStaticProps = async ({ params, previewData }: an
    const client = createClient({ previewData });
    const productPage = await client.getByUID("product-page", params.uid);
 
+   // TODO: Remove below when there is
+   // Proper Data In Database so no modifications are needed
+   // Modify product to fit the type
+   const databaseProduct = productPage.data.integrationField;
+   const product = {
+      id: databaseProduct.id.toString(),
+      name: databaseProduct.name,
+      type: databaseProduct.type,
+      originalPrice: databaseProduct.originalPrice,
+      price: databaseProduct.price,
+      discountPrice: databaseProduct.price,
+      amount: 1,
+      image_url: databaseProduct.image_url,
+      activation_url: databaseProduct.activation_link,
+      createdAt: databaseProduct.createdAt,
+      updatedAt: databaseProduct.updatedAt,
+   };
+
+   // Add productdata to cta slices
+   const slices = productPage.data.slices.map((slice: Slice) =>
+      slice.slice_type === "call_to_action_section"
+         ? { ...slice, primary: { ...slice.primary, product } }
+         : { ...slice }
+   );
+
    return {
       props: {
-         slices: productPage.data.slices,
+         slices,
          product: productPage.data.integrationField,
       },
    };

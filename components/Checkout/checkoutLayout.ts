@@ -5,6 +5,7 @@ const CheckoutLayout = styled.div`
    flex-direction: column;
    justify-content: flex-start;
    gap: 2rem;
+   min-height: 101vh;
 
    @media screen and (min-width: 1024px) {
       flex-direction: row;

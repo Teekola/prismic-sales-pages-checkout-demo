@@ -34,6 +34,7 @@ export type CheckoutContextT = {
    checkoutDiscount: DiscountT;
    setCheckoutStep: (newStep: Step) => void;
    setCheckoutProducts: (newCheckoutProducts: CheckoutProductsT) => void;
+   addCheckoutProduct: (newCheckoutProduct: ProductT) => void;
    setCheckoutFormData: (newCheckoutFormData: CheckoutFormDataT) => void;
    setCheckoutDiscount: (newCheckoutDiscount: DiscountT) => void;
 } | null;

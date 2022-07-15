@@ -9,8 +9,10 @@ import {
    useCheckoutStep,
    useSetCheckoutStep,
    useSetCheckoutProducts,
+   useSetCheckoutFormData,
 } from "../contexts/CheckoutContext";
 import CheckoutLayout from "components/Checkout/checkoutLayout";
+import { AnimatePresence } from "framer-motion";
 
 interface CheckoutpageProps {
    title: string;
@@ -23,50 +25,28 @@ interface CheckoutpageProps {
 export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
    const [isLoaded, setIsLoaded] = useState<boolean>(false);
    const checkoutStep = useCheckoutStep();
+   const setCheckoutFormData = useSetCheckoutFormData();
    const setCheckoutStep = useSetCheckoutStep();
    const setCheckoutProducts = useSetCheckoutProducts();
 
    // Check and set correct step when coming back from another page
    useEffect(() => {
+      // TODO: OPTIMOI KÄYTTÄMÄLLÄ CHECKOUTPROVIDERIN DATAA, JOS SE LÖYTYY JA VASTA MUUTOIN STORAGESTA
       const storageCheckoutStep = sessionStorage.getItem("checkoutStep");
+      const storageCheckoutProducts = JSON.parse(
+         sessionStorage.getItem("checkoutProducts") || "[]"
+      );
+      const storageCheckoutFormData = JSON.parse(
+         sessionStorage.getItem("checkoutFormData") || "{}"
+      );
+      setCheckoutProducts(storageCheckoutProducts);
+      setCheckoutFormData(storageCheckoutFormData);
       if (storageCheckoutStep === "providers") {
          setCheckoutStep("providers");
       }
       setIsLoaded(true);
-      // TOREMOVE: Temporarily add product
-      setCheckoutProducts([
-         {
-            id: "1",
-            name: "Niska-Hartian Ensiapupakkaus",
-            type: "verkkokurssi",
-            originalPrice: 4700,
-            discountPrice: 3700,
-            price: 3700,
-            image_url:
-               "https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/themes/719691/settings_images/1DKf5v6WTOuKvY4885RG_file.jpg",
-            activation_url:
-               "https://checkout.kajabi.com/webhooks/offers/LvWfev2Go3jvbCpN/238844/activatex?send_offer_grant_email=truex",
-            createdAt: "2022-02-15T10:49:16.066Z",
-            updatedAt: "2022-02-15T10:49:16.066Z",
-            amount: 1,
-         },
-         {
-            id: "2",
-            name: "Niska-Hartian Ensiapupakkaus",
-            type: "verkkokurssi",
-            originalPrice: 4700,
-            discountPrice: 3700,
-            price: 3700,
-            image_url:
-               "https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/themes/719691/settings_images/1DKf5v6WTOuKvY4885RG_file.jpg",
-            activation_url:
-               "https://checkout.kajabi.com/webhooks/offers/LvWfev2Go3jvbCpN/238844/activatex?send_offer_grant_email=truex",
-            createdAt: "2022-02-15T10:49:16.066Z",
-            updatedAt: "2022-02-15T10:49:16.066Z",
-            amount: 1,
-         },
-      ]);
-   }, [setCheckoutStep, setCheckoutProducts]);
+   }, [setCheckoutStep, setCheckoutProducts, setCheckoutFormData]);
+
    return (
       <>
          <Head>
@@ -78,11 +58,13 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
             {isLoaded && (
                <>
                   <p style={{ position: "absolute", left: 0, top: 0 }}>Vaihe: {checkoutStep}</p>
-                  <CheckoutLayout>
-                     {checkoutStep === "form" && <Form formProps={formProps} />}
-                     {checkoutStep === "providers" && <Providers />}
-                     <Products />
-                  </CheckoutLayout>
+                  <AnimatePresence exitBeforeEnter>
+                     <CheckoutLayout>
+                        {checkoutStep === "form" && <Form formProps={formProps} />}
+                        {checkoutStep === "providers" && <Providers />}
+                        <Products />
+                     </CheckoutLayout>
+                  </AnimatePresence>
                </>
             )}
          </Layout>

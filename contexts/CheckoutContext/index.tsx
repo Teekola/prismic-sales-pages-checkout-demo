@@ -4,7 +4,14 @@
  */
 import { useState, PropsWithChildren, useCallback } from "react";
 import { createContext, useContextSelector } from "use-context-selector";
-import { CheckoutProductsT, CheckoutContextT, CheckoutFormDataT, Step, DiscountT } from "./types";
+import {
+   CheckoutProductsT,
+   CheckoutContextT,
+   CheckoutFormDataT,
+   Step,
+   DiscountT,
+   ProductT,
+} from "./types";
 
 // Context Hook
 const useCheckoutContext = () => {
@@ -18,17 +25,27 @@ const useCheckoutContext = () => {
    // only created once.
    return {
       checkoutStep,
+      // CheckoutProducts
       checkoutProducts,
+      setCheckoutProducts: useCallback((newCheckoutProducts: CheckoutProductsT) => {
+         setCheckoutProducts(newCheckoutProducts);
+         sessionStorage.setItem("checkoutProducts", JSON.stringify(newCheckoutProducts));
+      }, []),
+      addCheckoutProduct: useCallback(
+         (newCheckoutProduct: ProductT) => {
+            const newCheckoutProducts = checkoutProducts.concat(newCheckoutProduct);
+            setCheckoutProducts(newCheckoutProducts);
+            sessionStorage.setItem("checkoutProducts", JSON.stringify(newCheckoutProducts));
+         },
+         [checkoutProducts]
+      ),
       checkoutFormData,
       checkoutDiscount,
       setCheckoutStep: useCallback((newCheckoutStep: Step) => {
          setCheckoutStep(newCheckoutStep);
          sessionStorage.setItem("checkoutStep", newCheckoutStep);
       }, []),
-      setCheckoutProducts: useCallback((newCheckoutProducts: CheckoutProductsT) => {
-         setCheckoutProducts(newCheckoutProducts);
-         sessionStorage.setItem("checkoutProducts", JSON.stringify(newCheckoutProducts));
-      }, []),
+
       setCheckoutFormData: useCallback((newCheckoutFormData: CheckoutFormDataT) => {
          setCheckoutFormData(newCheckoutFormData);
          sessionStorage.setItem("checkoutFormData", JSON.stringify(newCheckoutFormData));
@@ -52,34 +69,48 @@ export const GlobalContextProvider = ({ children }: PropsWithChildren) => (
 // Create and export custom hooks for the context data.
 // use-context-selector is used to prevent unnecessary renders
 // ? is needed to get rid of the 'can be null error'.
+
+// Checkout Step
 export const useCheckoutStep = () =>
    useContextSelector(CheckoutContext, (state) =>
       state?.checkoutStep ? state.checkoutStep : "form"
-   );
-export const useCheckoutProducts = () =>
-   useContextSelector(CheckoutContext, (state) =>
-      state?.checkoutProducts ? state.checkoutProducts : []
-   );
-export const useCheckoutFormData = () =>
-   useContextSelector(CheckoutContext, (state) =>
-      state?.checkoutFormData ? state.checkoutFormData : null
-   );
-export const useCheckoutDiscount = () =>
-   useContextSelector(CheckoutContext, (state) =>
-      state?.checkoutDiscount ? state.checkoutDiscount : null
    );
 
 export const useSetCheckoutStep = () =>
    useContextSelector(CheckoutContext, (state) =>
       state?.setCheckoutStep ? state.setCheckoutStep : () => null
    );
+
+// Checkout Products
+export const useCheckoutProducts = () =>
+   useContextSelector(CheckoutContext, (state) =>
+      state?.checkoutProducts ? state.checkoutProducts : []
+   );
+
 export const useSetCheckoutProducts = () =>
    useContextSelector(CheckoutContext, (state) =>
       state?.setCheckoutProducts ? state.setCheckoutProducts : () => null
    );
+export const useAddCheckoutProduct = () =>
+   useContextSelector(CheckoutContext, (state) =>
+      state?.addCheckoutProduct ? state.addCheckoutProduct : () => null
+   );
+
+// Checkout Form Data
+export const useCheckoutFormData = () =>
+   useContextSelector(CheckoutContext, (state) =>
+      state?.checkoutFormData ? state.checkoutFormData : null
+   );
+
 export const useSetCheckoutFormData = () =>
    useContextSelector(CheckoutContext, (state) =>
       state?.setCheckoutFormData ? state.setCheckoutFormData : () => null
+   );
+
+// Checkout Discount
+export const useCheckoutDiscount = () =>
+   useContextSelector(CheckoutContext, (state) =>
+      state?.checkoutDiscount ? state.checkoutDiscount : null
    );
 export const useSetCheckoutDiscount = () =>
    useContextSelector(CheckoutContext, (state) =>
