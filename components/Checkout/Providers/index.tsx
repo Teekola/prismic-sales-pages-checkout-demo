@@ -44,10 +44,23 @@ export default function Providers() {
          isCancelled = true;
       };
    }, [checkoutDiscount, checkoutFormData, checkoutProducts]);
+
+   // Browser History
+   useEffect(() => {
+      history.pushState("Maksutavan valinta", "");
+      window.onpopstate = () => {
+         setCheckoutStep("form");
+         sessionStorage.setItem("checkoutStep", "form");
+      };
+      // Cleanup the entry on rerender
+      return () => {
+         history.back();
+      };
+   }, [setCheckoutStep]);
+
    return (
       <StyledContainer>
          <h1>Valitse maksutapa</h1>
-         <BackButton label="Takaisin" onClick={() => setCheckoutStep("form")} />
          <p className="terms">
             Valitsemalla maksutavan hyväksyt{" "}
             <a
@@ -59,9 +72,20 @@ export default function Providers() {
             </a>
             .
          </p>
-         <p>Ladataan maksutapoja...</p>
-         <Loader />
+         {!providerForms && (
+            <>
+               <p>Ladataan maksutapoja...</p>
+               <Loader />
+            </>
+         )}
          {providerForms}
+         <BackButton
+            label="Takaisin"
+            onClick={() => {
+               setCheckoutStep("form");
+               history.back();
+            }}
+         />
       </StyledContainer>
    );
 }

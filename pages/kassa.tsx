@@ -1,6 +1,5 @@
 import { createClient } from "../prismicio";
 import Head from "next/head";
-import Layout from "components/layouts/landingPageLayout";
 import Form from "components/Checkout/Form";
 import Providers from "components/Checkout/Providers";
 import Products from "components/Checkout/Products";
@@ -10,9 +9,11 @@ import {
    useSetCheckoutStep,
    useSetCheckoutProducts,
    useSetCheckoutFormData,
+   useCheckoutProducts,
 } from "../contexts/CheckoutContext";
 import CheckoutLayout from "components/Checkout/checkoutLayout";
 import { AnimatePresence } from "framer-motion";
+import StyledCheckout from "components/Checkout/style";
 
 interface CheckoutpageProps {
    title: string;
@@ -25,6 +26,7 @@ interface CheckoutpageProps {
 export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
    const [isLoaded, setIsLoaded] = useState<boolean>(false);
    const checkoutStep = useCheckoutStep();
+   const checkoutProducts = useCheckoutProducts();
    const setCheckoutFormData = useSetCheckoutFormData();
    const setCheckoutStep = useSetCheckoutStep();
    const setCheckoutProducts = useSetCheckoutProducts();
@@ -53,21 +55,21 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
             <title>Eroonjumeista.fi Kassa</title>
             <meta name="description" content="Eroonjumeista.fi Kassa" />
          </Head>
-         <Layout>
-            <h2 style={{ fontSize: "2rem" }}>{title}</h2>
+         <StyledCheckout>
+            <div className="checkout-info">
+               <h2 style={{ fontSize: "2rem" }}>{title}</h2>
+               <p>Vaihe {checkoutStep === "form" ? 1 : 2}/2</p>
+            </div>
             {isLoaded && (
-               <>
-                  <p style={{ position: "absolute", left: 0, top: 0 }}>Vaihe: {checkoutStep}</p>
-                  <AnimatePresence exitBeforeEnter>
-                     <CheckoutLayout>
-                        {checkoutStep === "form" && <Form formProps={formProps} />}
-                        {checkoutStep === "providers" && <Providers />}
-                        <Products />
-                     </CheckoutLayout>
-                  </AnimatePresence>
-               </>
+               <AnimatePresence exitBeforeEnter>
+                  <CheckoutLayout>
+                     {checkoutStep === "form" && <Form formProps={formProps} />}
+                     {checkoutStep === "providers" && <Providers />}
+                     {checkoutProducts.length > 0 && <Products />}
+                  </CheckoutLayout>
+               </AnimatePresence>
             )}
-         </Layout>
+         </StyledCheckout>
       </>
    );
 }

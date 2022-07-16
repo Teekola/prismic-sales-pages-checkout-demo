@@ -2,9 +2,10 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 
 export const StyledContainer = styled.div`
-   max-width: 60ch;
+   max-width: 700px;
    width: 100%;
-   display: grid;
+   display: flex;
+   flex-direction: column;
    gap: 2rem;
 
    .group-container {
@@ -25,6 +26,7 @@ export const StyledContainer = styled.div`
 export const StyledProviderForm = styled(motion.form)`
    width: 160px;
    height: 96px;
+
    .provider-button {
       width: 100%;
       height: 100%;
@@ -58,19 +60,18 @@ export const StyledProviderForm = styled(motion.form)`
    .provider-button:disabled:active {
       cursor: default;
       transform: scale(1);
-      box-shadow: var(--button-shadow);
    }
 
-   .selected > button {
+   &.selected > .provider-button {
       transform: scale(1) !important;
       opacity: 0.75 !important;
       transition: transform 100ms ease-in-out, opacity 100ms ease-in-out;
    }
 
    .provider-img-container {
+      position: relative;
       height: 51.2px;
       width: 128px;
-      max-height: 51.2px;
       margin: 0 auto;
    }
 `;

@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const StyledForm = styled.form`
    --input-focus-color: var(--c-primary);
-   --form-max-width: 60ch;
+   --form-max-width: 600px;
    --error-color: var(--c-accent-red);
 
    display: flex;
@@ -26,6 +26,10 @@ const StyledForm = styled.form`
 
    .submit[data-disabled="true"] {
       background-color: var(--c-gray);
+   }
+
+   .error-message {
+      color: var(--error-color);
    }
 
    @media screen and (max-width: 360px) {

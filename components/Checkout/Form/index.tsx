@@ -8,14 +8,15 @@ import {
    useCheckoutFormData,
    useSetCheckoutStep,
    useSetCheckoutFormData,
+   useCheckoutProducts,
 } from "contexts/CheckoutContext";
 import { useRouter } from "next/router";
 
 export default function Form({ formProps }: FormProps) {
    const [hasTried, setHasTried] = useState<HasTried>({});
-   const [isLoaded, setIsLoaded] = useState<boolean>(false);
    const router = useRouter();
    const checkoutFormData = useCheckoutFormData();
+   const checkoutProducts = useCheckoutProducts();
    const setCheckoutFormData = useSetCheckoutFormData();
    const setCheckoutStep = useSetCheckoutStep();
    const {
@@ -34,9 +35,7 @@ export default function Form({ formProps }: FormProps) {
       },
    });
 
-   // TODO: Browser History
-
-   // TODO: Cleanup current step at the end of checkout flow
+   // TODO: Cleanup current step, and products at the end of checkout flow
 
    // TODO: Fill in the Form Fields when  Returning from reminder email
 
@@ -261,10 +260,20 @@ export default function Form({ formProps }: FormProps) {
          <button
             className="primary-cta submit"
             type="submit"
-            data-disabled={Object.keys(errors).length != 0 || Object.keys(dirtyFields).length < 5}
+            data-disabled={
+               Object.keys(errors).length != 0 ||
+               Object.keys(dirtyFields).length < 5 ||
+               checkoutProducts.length < 1
+            }
+            disabled={checkoutProducts.length < 1}
          >
             Jatka maksutavan valintaan
          </button>
+         {checkoutProducts.length < 1 && (
+            <p className="error-message">
+               Kassalla ei ole tuotteita. Lisää tuotteita ostoskoriin jatkaaksesi.
+            </p>
+         )}
 
          <Script src="https://unpkg.com/detect-autofill/dist/detect-autofill.js" />
       </StyledForm>

@@ -34,9 +34,12 @@ const generateProviderData = async (
       : [...checkoutProducts];
    const totalPrice = calculateDiscountedTotalPrice(discountedProducts);
    const successCallbackUrl = `${ABSOLUTE_URL}/api/successfulOrder`;
-   const successRedirectUrl = `${ABSOLUTE_URL}/kiitos/${checkoutProducts[0].id}-${totalPrice}`;
+   const successRedirectUrl = `${ABSOLUTE_URL}/kiitos/${checkoutProducts[0]?.id}-${totalPrice}`;
    const cancelRedirectUrl = `${ABSOLUTE_URL}/kassa`;
 
+   ///////////////////////////////////////
+   // PROVIDERS
+   ///////////////////////////////////////
    const paytrail = await generatePaytrailProviderData(
       stamp,
       reference,

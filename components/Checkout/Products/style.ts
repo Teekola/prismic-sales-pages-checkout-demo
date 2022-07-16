@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const StyledCard = styled.div`
    width: 100%;
-   max-width: 60ch;
+   max-width: 600px;
 
    border-radius: 1rem;
    padding: 1rem;

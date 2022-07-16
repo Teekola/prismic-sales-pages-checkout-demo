@@ -3,7 +3,6 @@ import styled from "styled-components";
 const StyledBackButton = styled.button`
    --arrow-color: var(--c-dark);
 
-   margin-top: 3rem;
    opacity: 0.5;
    background: none;
    width: max-content;

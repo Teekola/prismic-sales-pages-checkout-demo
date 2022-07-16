@@ -1,8 +1,7 @@
 import StyledLoader from "./style";
-import { CSSProperties } from "react";
 
 type LoaderProps = {
-   style?: CSSProperties;
+   style?: { [key: string]: any };
    layout?: boolean | "position" | "size" | undefined;
    initial?: any;
    animate?: any;

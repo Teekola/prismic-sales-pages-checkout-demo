@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 const StyledFormField = styled.div`
+   --error-color: var(-c-accent-red);
    width: 100%;
    display: flex;
    flex-direction: column;
