@@ -19,7 +19,7 @@ export default function Providers() {
    const checkoutFormData = useCheckoutFormData();
    const setCheckoutStep = useSetCheckoutStep();
 
-   // Recreate the Provider Forms HTML when the providerData or the orderData changes
+   // Recreate the Provider Forms HTML and update the order when data changes
    useEffect(() => {
       let isCancelled = false;
       const generateAndSetProviderForms = async () => {
@@ -30,9 +30,11 @@ export default function Providers() {
             checkoutDiscount
          );
 
-         // Create Provider Forms
+         // Create and Set Provider Forms
          const providerForms = generateProviderForms(providerData);
          setProviderForms(providerForms);
+
+         // TODO: CREATE / UPDATE ORDER IN/TO DATABASE
       };
       generateAndSetProviderForms();
 
