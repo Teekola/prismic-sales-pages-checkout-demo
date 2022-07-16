@@ -14,9 +14,6 @@ import { FilledCheckoutFormDataT } from "./types";
 
 export default function Providers() {
    const [providerForms, setProviderForms] = useState<JSX.Element | JSX.Element[] | null>(null);
-   const [providerSelected, setProviderSelected] = useState(false);
-   const [selectedProviderPosition, setSelectedProviderPosition] = useState(null);
-
    const checkoutProducts = useCheckoutProducts();
    const checkoutDiscount = useCheckoutDiscount();
    const checkoutFormData = useCheckoutFormData();

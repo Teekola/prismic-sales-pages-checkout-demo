@@ -44,6 +44,8 @@ const generateProviderForms = ({ paytrail }: ProviderData) => {
          </motion.div>
       </motion.div>
    ));
+
+   // TODO: ADD CUSTOM PROVIDERS: LIIKUNTASETELIT JA SÄHKÖPOSTILASKU
    return paytrailForms;
 };
 
