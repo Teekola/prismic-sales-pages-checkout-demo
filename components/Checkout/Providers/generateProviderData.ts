@@ -34,7 +34,7 @@ const generateProviderData = async (
       : [...checkoutProducts];
    const totalPrice = calculateDiscountedTotalPrice(discountedProducts);
    const successCallbackUrl = `${ABSOLUTE_URL}/api/successfulOrder`;
-   const successRedirectUrl = `${ABSOLUTE_URL}/kiitos/${checkoutProducts[0]?.id}-${totalPrice}`;
+   const successRedirectUrl = `${ABSOLUTE_URL}/kassa/success?pid=${checkoutProducts[0]?.id}&tp=${totalPrice}`;
    const cancelRedirectUrl = `${ABSOLUTE_URL}/kassa`;
 
    ///////////////////////////////////////

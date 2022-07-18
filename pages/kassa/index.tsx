@@ -1,4 +1,4 @@
-import { createClient } from "../prismicio";
+import { createClient } from "../../prismicio";
 import Head from "next/head";
 import Form from "components/Checkout/Form";
 import Providers from "components/Checkout/Providers";
@@ -11,7 +11,7 @@ import {
    useSetCheckoutFormData,
    useCheckoutProducts,
    useSetCheckoutDiscount,
-} from "../contexts/CheckoutContext";
+} from "../../contexts/CheckoutContext";
 import CheckoutLayout from "components/Checkout/checkoutLayout";
 import { AnimatePresence } from "framer-motion";
 import StyledCheckout from "components/Checkout/style";
