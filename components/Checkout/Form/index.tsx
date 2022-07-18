@@ -50,20 +50,6 @@ export default function Form({ formProps }: FormProps) {
          setValue("city", checkoutFormData.city, { shouldDirty: true });
          return;
       }
-
-      // Place the values from storageData
-      try {
-         const storageData = JSON.parse(`${sessionStorage.getItem("checkoutFormData")}`);
-         if (storageData) {
-            setValue("firstName", storageData.firstName, { shouldDirty: true });
-            setValue("lastName", storageData.lastName, { shouldDirty: true });
-            setValue("email", storageData.email, { shouldDirty: true });
-            setValue("phone", storageData.phone, { shouldDirty: true });
-            setValue("city", storageData.city, { shouldDirty: true });
-         }
-      } catch (error) {
-         console.log(error);
-      }
    }, [checkoutFormData, setValue, router.asPath]);
 
    // Check for autocomplete

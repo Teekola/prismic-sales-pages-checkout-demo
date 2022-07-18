@@ -21,7 +21,6 @@ export default function Providers() {
 
    // Recreate the Provider Forms HTML and update the order when data changes
    useEffect(() => {
-      let isCancelled = false;
       const generateAndSetProviderForms = async () => {
          // Create Provider Data
          const providerData = await generateProviderData(
@@ -37,11 +36,6 @@ export default function Providers() {
          // TODO: CREATE / UPDATE ORDER IN/TO DATABASE
       };
       generateAndSetProviderForms();
-
-      // Cleanup
-      return () => {
-         isCancelled = true;
-      };
    }, [checkoutDiscount, checkoutFormData, checkoutProducts]);
 
    // Browser History

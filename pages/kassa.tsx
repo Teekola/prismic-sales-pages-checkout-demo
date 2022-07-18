@@ -10,6 +10,7 @@ import {
    useSetCheckoutProducts,
    useSetCheckoutFormData,
    useCheckoutProducts,
+   useSetCheckoutDiscount,
 } from "../contexts/CheckoutContext";
 import CheckoutLayout from "components/Checkout/checkoutLayout";
 import { AnimatePresence } from "framer-motion";
@@ -30,10 +31,10 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
    const setCheckoutFormData = useSetCheckoutFormData();
    const setCheckoutStep = useSetCheckoutStep();
    const setCheckoutProducts = useSetCheckoutProducts();
+   const setCheckoutDiscount = useSetCheckoutDiscount();
 
    // Check and set correct step when coming back from another page
    useEffect(() => {
-      // TODO: OPTIMOI KÄYTTÄMÄLLÄ CHECKOUTPROVIDERIN DATAA, JOS SE LÖYTYY JA VASTA MUUTOIN STORAGESTA
       const storageCheckoutStep = sessionStorage.getItem("checkoutStep");
       const storageCheckoutProducts = JSON.parse(
          sessionStorage.getItem("checkoutProducts") || "[]"
@@ -41,13 +42,17 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
       const storageCheckoutFormData = JSON.parse(
          sessionStorage.getItem("checkoutFormData") || "{}"
       );
+      const storageCheckoutDiscount = JSON.parse(
+         sessionStorage.getItem("checkoutDiscount") || "{}"
+      );
       setCheckoutProducts(storageCheckoutProducts);
       setCheckoutFormData(storageCheckoutFormData);
+      setCheckoutDiscount(storageCheckoutDiscount);
       if (storageCheckoutStep === "providers") {
          setCheckoutStep("providers");
       }
       setIsLoaded(true);
-   }, [setCheckoutStep, setCheckoutProducts, setCheckoutFormData]);
+   }, [setCheckoutStep, setCheckoutProducts, setCheckoutFormData, setCheckoutDiscount]);
 
    return (
       <>
