@@ -4,6 +4,8 @@ import {
    useCheckoutDiscount,
    useCheckoutFormData,
    useCheckoutProducts,
+   useCheckoutReference,
+   useSetCheckoutReference,
    useSetCheckoutStep,
 } from "contexts/CheckoutContext";
 import { StyledContainer } from "./styles";
@@ -12,11 +14,14 @@ import generateProviderData from "./generateProviderData";
 import generateProviderForms from "./generateProviderForms";
 import { FilledCheckoutFormDataT } from "./types";
 
+const WEBSITE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "";
+
 export default function Providers() {
    const [providerForms, setProviderForms] = useState<JSX.Element | JSX.Element[] | null>(null);
    const checkoutProducts = useCheckoutProducts();
    const checkoutDiscount = useCheckoutDiscount();
    const checkoutFormData = useCheckoutFormData();
+   const checkoutReference = useCheckoutReference();
    const setCheckoutStep = useSetCheckoutStep();
 
    // Recreate the Provider Forms HTML and update the order when data changes
@@ -33,10 +38,10 @@ export default function Providers() {
          const providerForms = generateProviderForms(providerData);
          setProviderForms(providerForms);
 
-         // TODO: CREATE / UPDATE ORDER IN/TO DATABASE
+         // TODO: CREATE / UPDATE => UPSERT ORDER INTO DATABASE
       };
       generateAndSetProviderForms();
-   }, [checkoutDiscount, checkoutFormData, checkoutProducts]);
+   }, [checkoutDiscount, checkoutFormData, checkoutProducts, checkoutReference]);
 
    // Browser History
    useEffect(() => {

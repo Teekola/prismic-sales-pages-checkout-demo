@@ -3,7 +3,7 @@
  * https://www.youtube.com/watch?v=DEPwA3mv_R8
  */
 import { useState, PropsWithChildren, useCallback } from "react";
-import { createContext, useContextSelector } from "use-context-selector";
+import { createContext, useContext, useContextSelector } from "use-context-selector";
 import {
    CheckoutProductsT,
    CheckoutContextT,
@@ -11,6 +11,7 @@ import {
    Step,
    DiscountT,
    ProductT,
+   CheckoutReferenceT,
 } from "./types";
 
 // Context Hook
@@ -19,12 +20,18 @@ const useCheckoutContext = () => {
    const [checkoutFormData, setCheckoutFormData] = useState<CheckoutFormDataT>(null);
    const [checkoutStep, setCheckoutStep] = useState<Step>("form");
    const [checkoutDiscount, setCheckoutDiscount] = useState<DiscountT>(null);
+   const [checkoutReference, setCheckoutReference] = useState<CheckoutReferenceT>(null);
    // Use Callback is needed to prevent it from creating
    // new function (so new reference) every time.
    // The empty dependency array means that the function is
    // only created once.
    return {
+      // CheckoutStep
       checkoutStep,
+      setCheckoutStep: useCallback((newCheckoutStep: Step) => {
+         setCheckoutStep(newCheckoutStep);
+         sessionStorage.setItem("checkoutStep", newCheckoutStep);
+      }, []),
       // CheckoutProducts
       checkoutProducts,
       setCheckoutProducts: useCallback((newCheckoutProducts: CheckoutProductsT) => {
@@ -39,20 +46,23 @@ const useCheckoutContext = () => {
          },
          [checkoutProducts]
       ),
+      // CheckoutFormData
       checkoutFormData,
-      checkoutDiscount,
-      setCheckoutStep: useCallback((newCheckoutStep: Step) => {
-         setCheckoutStep(newCheckoutStep);
-         sessionStorage.setItem("checkoutStep", newCheckoutStep);
-      }, []),
-
       setCheckoutFormData: useCallback((newCheckoutFormData: CheckoutFormDataT) => {
          setCheckoutFormData(newCheckoutFormData);
          sessionStorage.setItem("checkoutFormData", JSON.stringify(newCheckoutFormData));
       }, []),
+      // CheckoutDiscount
+      checkoutDiscount,
       setCheckoutDiscount: useCallback((newCheckoutDiscount: DiscountT) => {
          setCheckoutDiscount(newCheckoutDiscount);
          sessionStorage.setItem("checkoutDiscount", JSON.stringify(newCheckoutDiscount));
+      }, []),
+      // CheckoutReference
+      checkoutReference,
+      setCheckoutReference: useCallback((newCheckoutReference: NonNullable<CheckoutReferenceT>) => {
+         setCheckoutReference(newCheckoutReference);
+         sessionStorage.setItem("checkoutReference", newCheckoutReference);
       }, []),
    };
 };
@@ -115,4 +125,14 @@ export const useCheckoutDiscount = () =>
 export const useSetCheckoutDiscount = () =>
    useContextSelector(CheckoutContext, (state) =>
       state?.setCheckoutDiscount ? state.setCheckoutDiscount : () => null
+   );
+
+// Checkout Reference
+export const useCheckoutReference = () =>
+   useContextSelector(CheckoutContext, (state) =>
+      state?.checkoutReference ? state.checkoutReference : null
+   );
+export const useSetCheckoutReference = () =>
+   useContextSelector(CheckoutContext, (state) =>
+      state?.setCheckoutReference ? state.setCheckoutReference : () => null
    );

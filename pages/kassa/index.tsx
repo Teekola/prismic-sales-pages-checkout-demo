@@ -11,6 +11,7 @@ import {
    useSetCheckoutFormData,
    useCheckoutProducts,
    useSetCheckoutDiscount,
+   useSetCheckoutReference,
 } from "../../contexts/CheckoutContext";
 import CheckoutLayout from "components/Checkout/checkoutLayout";
 import { AnimatePresence } from "framer-motion";
@@ -32,6 +33,7 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
    const setCheckoutStep = useSetCheckoutStep();
    const setCheckoutProducts = useSetCheckoutProducts();
    const setCheckoutDiscount = useSetCheckoutDiscount();
+   const setCheckoutReference = useSetCheckoutReference();
 
    // Check and set correct step when coming back from another page
    useEffect(() => {
@@ -45,14 +47,24 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
       const storageCheckoutDiscount = JSON.parse(
          sessionStorage.getItem("checkoutDiscount") || "{}"
       );
+      const storageCheckoutReference = sessionStorage.getItem("checkoutReference");
       setCheckoutProducts(storageCheckoutProducts);
       setCheckoutFormData(storageCheckoutFormData);
       setCheckoutDiscount(storageCheckoutDiscount);
+      if (storageCheckoutReference) {
+         setCheckoutReference(storageCheckoutReference);
+      }
       if (storageCheckoutStep === "providers") {
          setCheckoutStep("providers");
       }
       setIsLoaded(true);
-   }, [setCheckoutStep, setCheckoutProducts, setCheckoutFormData, setCheckoutDiscount]);
+   }, [
+      setCheckoutStep,
+      setCheckoutProducts,
+      setCheckoutFormData,
+      setCheckoutDiscount,
+      setCheckoutReference,
+   ]);
 
    return (
       <>

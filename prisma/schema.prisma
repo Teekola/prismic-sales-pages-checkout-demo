@@ -23,3 +23,18 @@ model Product {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
+
+model Order {
+  reference            String   @id @map("_id")
+  transactionReference String   @unique
+  products             Int[]    @db.Int
+  amount               Int      @default(0) @db.Int
+  name                 String
+  email                String
+  phone                String   @default("")
+  city                 String   @default("")
+  success              Boolean  @default(false)
+  provider             String   @default("")
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}

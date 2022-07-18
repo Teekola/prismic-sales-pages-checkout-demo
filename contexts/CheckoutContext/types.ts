@@ -27,14 +27,17 @@ export type CheckoutFormDataT = {
    phone: string;
    city: string;
 } | null;
+export type CheckoutReferenceT = string | null;
 export type CheckoutContextT = {
    checkoutStep: Step;
    checkoutProducts: CheckoutProductsT;
    checkoutFormData: CheckoutFormDataT;
    checkoutDiscount: DiscountT;
+   checkoutReference: CheckoutReferenceT;
    setCheckoutStep: (newStep: Step) => void;
    setCheckoutProducts: (newCheckoutProducts: CheckoutProductsT) => void;
    addCheckoutProduct: (newCheckoutProduct: ProductT) => void;
    setCheckoutFormData: (newCheckoutFormData: CheckoutFormDataT) => void;
    setCheckoutDiscount: (newCheckoutDiscount: DiscountT) => void;
+   setCheckoutReference: (newCheckoutReference: NonNullable<CheckoutReferenceT>) => void;
 } | null;
