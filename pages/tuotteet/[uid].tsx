@@ -59,6 +59,8 @@ export const getStaticProps: GetStaticProps = async ({ params, previewData }: an
       updatedAt: databaseProduct.updatedAt,
    };
 
+   console.log(product);
+
    // Add productdata to cta slices
    const slices = productPage.data.slices.map((slice: Slice) =>
       slice.slice_type === "call_to_action_section"
