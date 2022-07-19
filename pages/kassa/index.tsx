@@ -12,10 +12,12 @@ import {
    useCheckoutProducts,
    useSetCheckoutDiscount,
    useSetCheckoutReference,
+   useCheckoutReference,
 } from "../../contexts/CheckoutContext";
 import CheckoutLayout from "components/Checkout/checkoutLayout";
 import { AnimatePresence } from "framer-motion";
 import StyledCheckout from "components/Checkout/style";
+import { generateCheckoutReference } from "components/Checkout/data/checkoutReference";
 
 interface CheckoutpageProps {
    title: string;
@@ -29,6 +31,7 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
    const [isLoaded, setIsLoaded] = useState<boolean>(false);
    const checkoutStep = useCheckoutStep();
    const checkoutProducts = useCheckoutProducts();
+   const checkoutReference = useCheckoutReference();
    const setCheckoutFormData = useSetCheckoutFormData();
    const setCheckoutStep = useSetCheckoutStep();
    const setCheckoutProducts = useSetCheckoutProducts();
@@ -51,9 +54,13 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
       setCheckoutProducts(storageCheckoutProducts);
       setCheckoutFormData(storageCheckoutFormData);
       setCheckoutDiscount(storageCheckoutDiscount);
+
       if (storageCheckoutReference) {
          setCheckoutReference(storageCheckoutReference);
+      } else {
+         setCheckoutReference(generateCheckoutReference());
       }
+
       if (storageCheckoutStep === "providers") {
          setCheckoutStep("providers");
       }
@@ -64,6 +71,7 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
       setCheckoutFormData,
       setCheckoutDiscount,
       setCheckoutReference,
+      checkoutReference,
    ]);
 
    return (

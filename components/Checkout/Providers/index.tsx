@@ -5,7 +5,6 @@ import {
    useCheckoutFormData,
    useCheckoutProducts,
    useCheckoutReference,
-   useSetCheckoutReference,
    useSetCheckoutStep,
 } from "contexts/CheckoutContext";
 import { StyledContainer } from "./styles";
@@ -34,11 +33,28 @@ export default function Providers() {
             checkoutDiscount
          );
 
+         if (providerData.paytrail.status === "error") {
+            setProviderForms(<p>Paytrail Error!</p>);
+            return;
+         }
+
          // Create and Set Provider Forms
          const providerForms = generateProviderForms(providerData);
          setProviderForms(providerForms);
 
-         // TODO: CREATE / UPDATE => UPSERT ORDER INTO DATABASE
+         /*
+         const upsert = {
+            reference: checkoutReference,
+            update: {},
+            create: {},
+         };
+         // Upsert order into database
+         await fetch(`${WEBSITE_URL}/api/db/orders/${checkoutReference}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(upsert),
+         });
+         */
       };
       generateAndSetProviderForms();
    }, [checkoutDiscount, checkoutFormData, checkoutProducts, checkoutReference]);

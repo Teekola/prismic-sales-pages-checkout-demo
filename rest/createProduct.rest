@@ -1,0 +1,11 @@
+POST http://localhost:3000/api/db/seed/products
+Content-Type: application/json
+
+{
+   "name": "Niska-Hartian Ensiapupakkaus Testi",
+   "type": "verkkokurssi",
+   "originalPrice": 2,
+   "price": 1,
+   "imageUrl": "https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/themes/719691/settings_images/1DKf5v6WTOuKvY4885RG_file.jpg",
+   "activationUrl": ""
+}

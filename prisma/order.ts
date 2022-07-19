@@ -7,7 +7,7 @@ export const getOrder = async (
    reference: string
 ) => {
    try {
-      let order = await prisma.order.findUnique({
+      const order = await prisma.order.findUnique({
          select,
          where: { reference },
       });

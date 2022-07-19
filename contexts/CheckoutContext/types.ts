@@ -1,18 +1,5 @@
+import { ProductT, ProductId } from "prisma/types";
 export type Step = "form" | "providers";
-export type ProductId = string;
-export type ProductT = {
-   id: ProductId;
-   name: string;
-   type: string;
-   originalPrice: number;
-   price: number;
-   discountPrice: number;
-   amount: number;
-   image_url: string;
-   activation_url: string;
-   createdAt: string;
-   updatedAt: string;
-};
 export type DiscountT = {
    discountAmount: number;
    discountType: "€" | "%";
@@ -27,7 +14,7 @@ export type CheckoutFormDataT = {
    phone: string;
    city: string;
 } | null;
-export type CheckoutReferenceT = string | null;
+export type CheckoutReferenceT = string;
 export type CheckoutContextT = {
    checkoutStep: Step;
    checkoutProducts: CheckoutProductsT;
@@ -39,5 +26,5 @@ export type CheckoutContextT = {
    addCheckoutProduct: (newCheckoutProduct: ProductT) => void;
    setCheckoutFormData: (newCheckoutFormData: CheckoutFormDataT) => void;
    setCheckoutDiscount: (newCheckoutDiscount: DiscountT) => void;
-   setCheckoutReference: (newCheckoutReference: NonNullable<CheckoutReferenceT>) => void;
+   setCheckoutReference: (newCheckoutReference: CheckoutReferenceT) => void;
 } | null;

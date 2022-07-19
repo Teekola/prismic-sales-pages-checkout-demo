@@ -3,11 +3,12 @@ import epassiSvg from "../../public/epassi.webp";
 import edenredPng from "../../public/edenred.png";
 import emailInvoicePng from "../../public/emailInvoice.png";
 */
-import { CheckoutProductsT, DiscountT } from "contexts/CheckoutContext/types";
+import { CheckoutProductsT, CheckoutReferenceT, DiscountT } from "contexts/CheckoutContext/types";
 import { VatPercentage, FilledCheckoutFormDataT } from "./types";
 import { applyDiscountToProducts, calculateDiscountedTotalPrice } from "../Products/prices";
 import generatePaytrailProviderData from "./Paytrail/data";
 import { ProviderData } from "./types";
+import { generateCheckoutReference } from "../data/checkoutReference";
 
 const vatPercentage: VatPercentage = 24;
 const ABSOLUTE_URL =
@@ -27,7 +28,7 @@ const generateProviderData = async (
    ///////////////////////////////////////
    // UNIVERSAL PROPERTIES
    ///////////////////////////////////////
-   const stamp = Math.round(Date.now() + Math.random()).toString();
+   const stamp = generateCheckoutReference();
    const reference = stamp.toString();
    const discountedProducts = checkoutDiscount
       ? applyDiscountToProducts(checkoutProducts, checkoutDiscount)
@@ -36,6 +37,10 @@ const generateProviderData = async (
    const successCallbackUrl = `${ABSOLUTE_URL}/api/successfulOrder`;
    const successRedirectUrl = `${ABSOLUTE_URL}/kassa/success?pid=${checkoutProducts[0]?.id}&tp=${totalPrice}`;
    const cancelRedirectUrl = `${ABSOLUTE_URL}/kassa`;
+
+   ///////////////////////////////////////
+   // DATA FOR ORDER UPSERT
+   ///////////////////////////////////////
 
    ///////////////////////////////////////
    // PROVIDERS

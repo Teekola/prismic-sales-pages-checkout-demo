@@ -11,30 +11,41 @@ datasource db {
 }
 
 model Product {
-  id              Int      @id @map("_id")
-  name            String
-  type            String   @default("")
-  originalPrice   Int      @default(1)
-  price           Int      @default(1)
-  image_url       String   @default("")
-  activation_link String
-  orderBumps      Int[]    @db.Int
-  product_page    String   @default("https://www.eroonjumeista.fi/")
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  type          String   @default("verkkokurssi")
+  originalPrice Int      @default(1)
+  price         Int      @default(1)
+  imageUrl      String   @default("")
+  activationUrl String?
+  Order         Order[]  @relation(fields: [orderIds], references: [id])
+  orderIds      String[] @db.ObjectId
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 model Order {
-  reference            String   @id @map("_id")
-  transactionReference String   @unique
-  products             Int[]    @db.Int
-  amount               Int      @default(0) @db.Int
-  name                 String
-  email                String
-  phone                String   @default("")
-  city                 String   @default("")
-  success              Boolean  @default(false)
-  provider             String   @default("")
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @updatedAt
+  id                   String    @id @default(auto()) @map("_id") @db.ObjectId
+  reference            String    @unique
+  transactionReference String    @unique
+  products             Product[] @relation(fields: [productIds], references: [id])
+  productIds           String[]  @db.ObjectId
+  totalPrice           Int       @default(0) @db.Int
+  provider             String    @default("Odottaa valintaa")
+  status               String    @default("kesken")
+  customer             Customer  @relation(fields: [customerId], references: [id])
+  customerId           String    @db.ObjectId
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+}
+
+model Customer {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  name      String
+  phone     String
+  city      String
+  Order     Order[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
