@@ -41,7 +41,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
    const prismicProducts: Array<PrismicProduct> = [];
    products.forEach((product) => {
       let pp: PrismicProduct = {
-         id: "" + product.id,
+         id: product.id,
          title: product.name,
          description: product.type,
          image_url: product.imageUrl,
