@@ -14,6 +14,7 @@ import generateProviderForms from "./generateProviderForms";
 import { FilledCheckoutFormDataT } from "./types";
 
 const WEBSITE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "";
+const DATABASE_ACCESS_TOKEN = process.env.NEXT_PUBLIC_DATABASE_ACCESS_TOKEN || "";
 
 export default function Providers() {
    const [providerForms, setProviderForms] = useState<JSX.Element | JSX.Element[] | null>(null);
@@ -25,9 +26,12 @@ export default function Providers() {
 
    // Recreate the Provider Forms HTML and update the order when data changes
    useEffect(() => {
+      // Cleanup variable
+      let isCancelled = false;
       const generateAndSetProviderForms = async () => {
          // Create Provider Data
          const providerData = await generateProviderData(
+            checkoutReference,
             checkoutProducts,
             checkoutFormData as FilledCheckoutFormDataT,
             checkoutDiscount
@@ -42,21 +46,31 @@ export default function Providers() {
          const providerForms = generateProviderForms(providerData);
          setProviderForms(providerForms);
 
-         /*
-         const upsert = {
-            reference: checkoutReference,
-            update: {},
-            create: {},
-         };
+         // Prevent updating multiple times in a row
+         if (isCancelled) {
+            return;
+         }
+         //////////////////////////////////
+         // Upsert Order in the Database //
+         //////////////////////////////////
+         console.log("UPSERT");
+
          // Upsert order into database
          await fetch(`${WEBSITE_URL}/api/db/orders/${checkoutReference}`, {
             method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(upsert),
+            headers: {
+               "Content-Type": "application/json",
+               authorization: DATABASE_ACCESS_TOKEN,
+            },
+            body: JSON.stringify(providerData.upsert),
          });
-         */
       };
       generateAndSetProviderForms();
+
+      // Cleanup
+      return () => {
+         isCancelled = true;
+      };
    }, [checkoutDiscount, checkoutFormData, checkoutProducts, checkoutReference]);
 
    // Browser History

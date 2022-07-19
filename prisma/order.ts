@@ -1,5 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "./prisma";
+import { CreateOrderData, UpdateOrderData } from "./types";
 
 // Get the correct order using the reference
 export const getOrder = async (
@@ -19,10 +20,7 @@ export const getOrder = async (
 };
 
 // Get multiple orders
-export const getOrders = async (
-   select: Prisma.OrderSelect | null | undefined,
-   where: Prisma.OrderWhereInput
-) => {
+export const getOrders = async (select?: Prisma.OrderSelect, where?: Prisma.OrderWhereInput) => {
    try {
       const orders = await prisma.order.findMany({
          select,
@@ -36,12 +34,6 @@ export const getOrders = async (
    }
 };
 
-type CreateOrderData =
-   | (Prisma.Without<Prisma.OrderCreateInput, Prisma.OrderUncheckedCreateInput> &
-        Prisma.OrderUncheckedCreateInput)
-   | (Prisma.Without<Prisma.OrderUncheckedCreateInput, Prisma.OrderCreateInput> &
-        Prisma.OrderCreateInput);
-
 // Create a new order with data from the obj
 export const createOrder = async (data: CreateOrderData) => {
    // Copy the reference to be also transactionReference
@@ -50,12 +42,6 @@ export const createOrder = async (data: CreateOrderData) => {
       data,
    });
 };
-
-type UpdateOrderData =
-   | (Prisma.Without<Prisma.OrderUpdateInput, Prisma.OrderUncheckedUpdateInput> &
-        Prisma.OrderUncheckedUpdateInput)
-   | (Prisma.Without<Prisma.OrderUncheckedUpdateInput, Prisma.OrderUpdateInput> &
-        Prisma.OrderUpdateInput);
 
 // Update the order's data
 // where is optional, default is to use the reference
@@ -86,12 +72,20 @@ export const upsertOrder = async (
          where: { reference },
          update,
          create,
+         include: {
+            products: true,
+            customer: true,
+         },
       });
-
-      const created = upserted.createdAt === upserted.updatedAt;
+      const created = upserted.reference === upserted.transactionReference;
       return created;
    } catch (error) {
-      console.log("Upsert order error", error);
+      console.log(error);
       return null;
    }
+};
+
+export const deleteAllOrders = async () => {
+   await prisma.order.deleteMany({});
+   console.log("All orders have been deleted");
 };

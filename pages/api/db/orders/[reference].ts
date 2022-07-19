@@ -2,12 +2,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { upsertOrder } from "prisma/order";
 
-type Data = {
-   name: any;
-};
-const DATABASE_ACCESS_TOKEN = process.env.DATABASE_ACCESS_TOKEN;
+const DATABASE_ACCESS_TOKEN = process.env.NEXT_PUBLIC_DATABASE_ACCESS_TOKEN;
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
    // Authorize
    if (req.headers.authorization !== DATABASE_ACCESS_TOKEN) {
       return res.status(401).end();
@@ -44,5 +41,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
    if (req.method === "PATCH") {
       // Update order
    }
-   return res.status(200).json({ name: "John Doe" });
+   return res.status(200).end();
 }

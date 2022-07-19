@@ -9,6 +9,7 @@ import { applyDiscountToProducts, calculateDiscountedTotalPrice } from "../Produ
 import generatePaytrailProviderData from "./Paytrail/data";
 import { ProviderData } from "./types";
 import { generateCheckoutReference } from "../data/checkoutReference";
+import { OrderUpsert } from "prisma/types";
 
 const vatPercentage: VatPercentage = 24;
 const ABSOLUTE_URL =
@@ -21,6 +22,7 @@ const ABSOLUTE_URL =
 
 // Generate payloads for all payment providers
 const generateProviderData = async (
+   checkoutReference: CheckoutReferenceT,
    checkoutProducts: CheckoutProductsT,
    checkoutFormData: FilledCheckoutFormDataT,
    checkoutDiscount: DiscountT
@@ -29,7 +31,7 @@ const generateProviderData = async (
    // UNIVERSAL PROPERTIES
    ///////////////////////////////////////
    const stamp = generateCheckoutReference();
-   const reference = stamp.toString();
+   const transactionReference = stamp.toString();
    const discountedProducts = checkoutDiscount
       ? applyDiscountToProducts(checkoutProducts, checkoutDiscount)
       : [...checkoutProducts];
@@ -41,13 +43,67 @@ const generateProviderData = async (
    ///////////////////////////////////////
    // DATA FOR ORDER UPSERT
    ///////////////////////////////////////
+   const upsert: OrderUpsert = {
+      // Reference of the order that is updated / created
+      reference: checkoutReference,
+      update: {
+         transactionReference,
+         // Connect the products with id
+         products: {
+            connect: checkoutProducts.map((checkoutProduct) => {
+               return { id: checkoutProduct.id };
+            }),
+         },
+         totalPrice,
+         // Connect the user based on email or create new one
+         customer: {
+            upsert: {
+               update: {
+                  email: checkoutFormData.email,
+                  name: checkoutFormData.firstName + " " + checkoutFormData.lastName,
+                  phone: checkoutFormData.phone,
+                  city: checkoutFormData.city,
+               },
+               create: {
+                  email: checkoutFormData.email,
+                  name: checkoutFormData.firstName + " " + checkoutFormData.lastName,
+                  phone: checkoutFormData.phone,
+                  city: checkoutFormData.city,
+               },
+            },
+         },
+      },
+      create: {
+         reference: checkoutReference,
+         transactionReference: checkoutReference,
+         products: {
+            connect: checkoutProducts.map((checkoutProduct) => {
+               return { id: checkoutProduct.id };
+            }),
+         },
+         totalPrice,
+         customer: {
+            connectOrCreate: {
+               where: {
+                  email: checkoutFormData.email,
+               },
+               create: {
+                  email: checkoutFormData.email,
+                  name: checkoutFormData.firstName + " " + checkoutFormData.lastName,
+                  phone: checkoutFormData.phone,
+                  city: checkoutFormData.city,
+               },
+            },
+         },
+      },
+   };
 
    ///////////////////////////////////////
    // PROVIDERS
    ///////////////////////////////////////
    const paytrail = await generatePaytrailProviderData(
       stamp,
-      reference,
+      transactionReference,
       discountedProducts,
       checkoutFormData,
       totalPrice,
@@ -282,6 +338,7 @@ const generateProviderData = async (
    // RETURN OBJECT
    ///////////////////////////////////////
    const payloads = {
+      upsert,
       paytrail,
       /*
 		eazybreak,
