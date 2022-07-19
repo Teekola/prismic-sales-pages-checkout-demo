@@ -74,6 +74,7 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
       checkoutReference,
    ]);
 
+   // TODO: ADD SEO TO PRISMIC
    return (
       <>
          <Head>
