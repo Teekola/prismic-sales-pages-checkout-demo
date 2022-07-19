@@ -10,9 +10,9 @@ import {
    CheckoutFormDataT,
    Step,
    DiscountT,
-   ProductT,
    CheckoutReferenceT,
 } from "./types";
+import { ProductT } from "prisma/types";
 
 // Context Hook
 const useCheckoutContext = () => {

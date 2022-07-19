@@ -2,7 +2,7 @@ import { SliceComponentProps, PrismicRichText, PrismicLink } from "@prismicio/re
 import { Slice, RichTextField, KeyTextField, FilledLinkToDocumentField } from "@prismicio/types";
 import StyledContainer from "./style";
 import { useAddCheckoutProduct, useCheckoutProducts } from "contexts/CheckoutContext";
-import { ProductT } from "contexts/CheckoutContext/types";
+import { ProductT } from "prisma/types";
 
 type CallToActionSlice = Slice<
    "call_to_action_section",
