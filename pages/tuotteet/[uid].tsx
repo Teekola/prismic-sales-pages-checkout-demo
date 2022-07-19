@@ -50,9 +50,11 @@ export const getStaticProps: GetStaticProps = async ({ params, previewData }: an
       originalPrice: databaseProduct.originalPrice,
       price: databaseProduct.price,
       discountPrice: databaseProduct.price,
-      amount: 1,
-      image_url: databaseProduct.image_url,
-      activation_url: databaseProduct.activation_link,
+      quantity: 1,
+      imageUrl:
+         databaseProduct.imageUrl ||
+         "https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/themes/2149406054/settings_images/XXOMbqhTBmXubMuk7hhg_c9b54f34-b54f-490d-9eca-a9c1d01357d5.jpg",
+      activationUrl: databaseProduct.activationUrl || "",
       createdAt: databaseProduct.createdAt,
       updatedAt: databaseProduct.updatedAt,
    };

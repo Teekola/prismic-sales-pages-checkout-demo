@@ -7,7 +7,7 @@ export const centsToEurosString = (cents: number) => {
 export const calculateTotalPrice = (arr: CheckoutProductsT) => {
    let total = 0;
    arr.forEach((obj) => {
-      total += obj.originalPrice * obj.amount;
+      total += obj.originalPrice * obj.quantity;
    });
 
    if (total === 0) total = 1;
@@ -20,7 +20,7 @@ export const calculateDiscountedTotalPrice = (arr: CheckoutProductsT) => {
    let price;
    arr.forEach((obj) => {
       price = obj.discountPrice !== undefined ? obj.discountPrice : obj.price;
-      total += price * obj.amount;
+      total += price * obj.quantity;
    });
 
    if (total === 0) total = 1;
@@ -55,9 +55,9 @@ export const applyDiscountToProducts = (productsArr: CheckoutProductsT, discount
          if (discountProducts.includes(product.id) && discountAmountLeft > 0) {
             // Jos tuotteen hinta * tuotteen määrä on pienempi kuin alennushinta,
             // Aseta tuotteen alennushinnaksi 0
-            if (product.price * product.amount <= discountAmountLeft) {
+            if (product.price * product.quantity <= discountAmountLeft) {
                product.discountPrice = 0;
-               discountAmountLeft -= product.price * product.amount;
+               discountAmountLeft -= product.price * product.quantity;
                finalProducts.push(product);
                continue;
             }
@@ -65,7 +65,7 @@ export const applyDiscountToProducts = (productsArr: CheckoutProductsT, discount
             // Jos tuotteen hinta * tuotteen määrä >= alennushinta, jaa tuotteet 2-3 osaan:
             // 0 hintainen tuote * määrä => kuinka monta kertaa mahtuu tuotteen hinta alennushintaan
             let zeroes = Math.floor(discountAmountLeft / product.price);
-            let new_product = { ...product, discountPrice: 0, amount: zeroes };
+            let new_product = { ...product, discountPrice: 0, quantity: zeroes };
             discountAmountLeft -= zeroes * product.price;
             finalProducts.push(new_product);
             // 0<x<=täyshinta hintainen tuote * 1 => paljonko alennushinta poistaa "viimeisestä" tuotteesta
@@ -74,7 +74,7 @@ export const applyDiscountToProducts = (productsArr: CheckoutProductsT, discount
                new_product = {
                   ...product,
                   discountPrice: product.price - discountAmountLeft,
-                  amount: 1,
+                  quantity: 1,
                };
                discountAmountLeft = 0;
                finalProducts.push(new_product);
@@ -82,8 +82,8 @@ export const applyDiscountToProducts = (productsArr: CheckoutProductsT, discount
             }
             // täyshintainen tuote * määrä => kuinka monta tuotetta jää jäljelle
             const productCopy = { ...product };
-            productCopy.amount -= zeroes + middleprice;
-            if (productCopy.amount > 0) {
+            productCopy.quantity -= zeroes + middleprice;
+            if (productCopy.quantity > 0) {
                finalProducts.push(productCopy);
             }
          } else {

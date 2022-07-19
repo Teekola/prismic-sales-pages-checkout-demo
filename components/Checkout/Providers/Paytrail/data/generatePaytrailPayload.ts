@@ -28,7 +28,7 @@ const generatePaytrailPayload = (
    products.forEach((product) => {
       let item: PaytrailItem = {
          unitPrice: product.discountPrice !== undefined ? product.discountPrice : product.price,
-         units: product.amount,
+         units: product.quantity,
          vatPercentage,
          productCode: product.id.toString(),
          description: product.name,

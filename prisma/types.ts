@@ -9,6 +9,8 @@ export type ProductT = {
    activationUrl: string;
    createdAt: Date;
    updatedAt: Date;
+   quantity: number;
+   discountPrice: number;
 };
 
 export type Order = {

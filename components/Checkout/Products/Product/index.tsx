@@ -3,12 +3,12 @@ import Image from "next/image";
 import StyledContainer from "./style";
 
 export default function Product({ product }: ProductProps) {
-   const { id, name, type, originalPrice, discountPrice, price, amount, image_url } = product;
+   const { id, name, type, originalPrice, discountPrice, price, quantity, imageUrl } = product;
    return (
       <StyledContainer>
          <div className="image-container">
             <Image
-               src={image_url}
+               src={imageUrl}
                alt="tuotekuva"
                layout="fill"
                objectFit="contain"
@@ -33,13 +33,13 @@ export default function Product({ product }: ProductProps) {
                   </p>
                )}
                <p className="amount">×</p>
-               <p className="amount">{amount}</p>
+               <p className="amount">{quantity}</p>
                {(discountPrice < originalPrice || price < originalPrice) && (
                   <p className="amount">
                      (Säästät{" "}
                      {(
                         ((originalPrice - (discountPrice ? discountPrice : price)) / 100) *
-                        amount
+                        quantity
                      ).toFixed(2)}{" "}
                      €)
                   </p>
