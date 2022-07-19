@@ -38,7 +38,8 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
    const setCheckoutDiscount = useSetCheckoutDiscount();
    const setCheckoutReference = useSetCheckoutReference();
 
-   // Check and set correct step when coming back from another page
+   // Update CheckoutContext Data From Session Storage
+   // When Returning Back to The Checkout Page.
    useEffect(() => {
       const storageCheckoutStep = sessionStorage.getItem("checkoutStep");
       const storageCheckoutProducts = JSON.parse(
