@@ -52,7 +52,7 @@ export default function Products() {
             )}
             {discountedTotalPrice < totalPrice && (
                <p className="discount-info">
-                  {discount && (
+                  {discount?.discountAmount && (
                      <>
                         <span>
                            Alennus: <i>{discount.discountCode}</i> –{discount.discountAmount}{" "}
