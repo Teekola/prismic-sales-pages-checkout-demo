@@ -25,6 +25,7 @@ export default function Providers() {
    const setCheckoutStep = useSetCheckoutStep();
 
    // Recreate the Provider Forms HTML and update the order when data changes
+   // TODO: MOVE TO kassa.tsx, add providerForms as a prop, to prevent updating when not needed
    useEffect(() => {
       // Cleanup variable
       let isCancelled = false;

@@ -3,7 +3,7 @@
  * https://www.youtube.com/watch?v=DEPwA3mv_R8
  */
 import { useState, PropsWithChildren, useCallback } from "react";
-import { createContext, useContext, useContextSelector } from "use-context-selector";
+import { createContext, useContextSelector } from "use-context-selector";
 import {
    CheckoutProductsT,
    CheckoutContextT,
