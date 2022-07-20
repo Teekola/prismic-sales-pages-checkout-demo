@@ -15,7 +15,7 @@
          "integrationField": {
             "type": "IntegrationFields",
             "config": {
-               "catalog": "eroonjumeista--products",
+               "catalog": "eroonjumeista--product_catalog",
                "label": "Product",
                "placeholder": "Valitse tietokannan vastaava tuote"
             }

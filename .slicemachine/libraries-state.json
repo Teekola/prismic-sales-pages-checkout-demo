@@ -156,7 +156,13 @@
           "fileName": "index",
           "extension": "tsx"
         },
-        "screenshotPaths": {}
+        "screenshotPaths": {
+          "default": {
+            "path": "E:\\Ohjelmointi\\eroonjumeista\\.slicemachine\\assets\\slices\\CallToActionSection\\default\\preview.png",
+            "width": 800,
+            "height": 187
+          }
+        }
       },
       "hero": {
         "library": "slices",
