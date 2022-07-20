@@ -18,5 +18,4 @@ export const createProduct = async (data: CreateProductData) => {
 
 export const deleteAllProducts = async () => {
    await prisma.product.deleteMany({});
-   console.log("All products have been deleted");
 };
