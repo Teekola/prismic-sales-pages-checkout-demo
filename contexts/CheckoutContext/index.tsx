@@ -23,6 +23,8 @@ const useCheckoutContext = () => {
    const [checkoutStep, setCheckoutStep] = useState<Step>("form");
    const [checkoutDiscount, setCheckoutDiscount] = useState<DiscountT>({} as DiscountT);
    const [checkoutReference, setCheckoutReference] = useState<CheckoutReferenceT>("");
+   const [checkoutTransactionReference, setCheckoutTransactionReference] =
+      useState<CheckoutReferenceT>("");
    // Use Callback is needed to prevent it from creating
    // new function (so new reference) every time.
    // The empty dependency array means that the function is
@@ -66,6 +68,15 @@ const useCheckoutContext = () => {
          setCheckoutReference(newCheckoutReference);
          sessionStorage.setItem("checkoutReference", newCheckoutReference);
       }, []),
+      // CheckoutTransactionReference
+      checkoutTransactionReference,
+      setCheckoutTransactionReference: useCallback(
+         (newCheckoutTransactionReference: CheckoutReferenceT) => {
+            setCheckoutTransactionReference(newCheckoutTransactionReference);
+            sessionStorage.setItem("checkoutTransactionReference", newCheckoutTransactionReference);
+         },
+         []
+      ),
    };
 };
 
@@ -137,4 +148,13 @@ export const useCheckoutReference = () =>
 export const useSetCheckoutReference = () =>
    useContextSelector(CheckoutContext, (state) =>
       state?.setCheckoutReference ? state.setCheckoutReference : () => null
+   );
+// Checkout Transaction Reference
+export const useCheckoutTransactionReference = () =>
+   useContextSelector(CheckoutContext, (state) =>
+      state?.checkoutTransactionReference ? state.checkoutTransactionReference : ""
+   );
+export const useSetCheckoutTransactionReference = () =>
+   useContextSelector(CheckoutContext, (state) =>
+      state?.setCheckoutTransactionReference ? state.setCheckoutTransactionReference : () => null
    );

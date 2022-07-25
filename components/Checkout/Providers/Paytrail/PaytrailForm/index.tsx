@@ -3,11 +3,18 @@ import { StyledProviderForm } from "../../styles";
 import { PaytrailFormProps } from "components/Checkout/Providers/Paytrail/types";
 import { useState, FormEvent } from "react";
 import Loader from "components/ui/Loader";
+import { useCheckoutReference, useCheckoutTransactionReference } from "contexts/CheckoutContext";
+import { Prisma } from "@prisma/client";
+
+const WEBSITE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "";
+const DATABASE_ACCESS_TOKEN = process.env.NEXT_PUBLIC_DATABASE_ACCESS_TOKEN || "";
 
 export default function PaytrailForm({ name, url, svg, parameters, variants }: PaytrailFormProps) {
    const [selected, setSelected] = useState<boolean>(false);
+   const checkoutReference = useCheckoutReference();
+   const checkoutTransactionReference = useCheckoutTransactionReference();
 
-   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       setSelected(true);
       // Disable all provider-buttons
@@ -18,6 +25,19 @@ export default function PaytrailForm({ name, url, svg, parameters, variants }: P
       // Add class to the selected form's button to style it differently
       (e.target as HTMLFormElement).classList.add("selected");
 
+      // Update order
+      const body = {
+         provider: name,
+         transactionReference: checkoutTransactionReference,
+      } as Prisma.OrderUpdateInput;
+
+      await fetch(`${WEBSITE_URL}/api/db/orders/${checkoutReference}`, {
+         method: "PATCH",
+         headers: {
+            Authorization: DATABASE_ACCESS_TOKEN,
+         },
+         body: JSON.stringify(body),
+      });
       // Submit form
       (e.target as HTMLFormElement).submit();
    };

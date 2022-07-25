@@ -22,10 +22,12 @@ export type CheckoutContextT = {
    checkoutFormData: CheckoutFormDataT;
    checkoutDiscount: DiscountT;
    checkoutReference: CheckoutReferenceT;
+   checkoutTransactionReference: CheckoutReferenceT;
    setCheckoutStep: (newStep: Step) => void;
    setCheckoutProducts: (newCheckoutProducts: CheckoutProductsT) => void;
    addCheckoutProduct: (newCheckoutProduct: ProductT) => void;
    setCheckoutFormData: (newCheckoutFormData: CheckoutFormDataT) => void;
    setCheckoutDiscount: (newCheckoutDiscount: DiscountT) => void;
    setCheckoutReference: (newCheckoutReference: CheckoutReferenceT) => void;
+   setCheckoutTransactionReference: (newCheckoutTransactionReference: CheckoutReferenceT) => void;
 } | null;

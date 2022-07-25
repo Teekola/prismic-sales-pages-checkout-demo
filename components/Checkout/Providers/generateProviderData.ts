@@ -25,18 +25,20 @@ const generateProviderData = async (
    checkoutReference: CheckoutReferenceT,
    checkoutProducts: CheckoutProductsT,
    checkoutFormData: FilledCheckoutFormDataT,
-   checkoutDiscount: DiscountT
+   checkoutDiscount: DiscountT,
+   setCheckoutTransactionReference: (newCheckoutTransactionReference: CheckoutReferenceT) => void
 ): Promise<ProviderData> => {
    ///////////////////////////////////////
    // UNIVERSAL PROPERTIES
    ///////////////////////////////////////
    const stamp = generateCheckoutReference();
    const transactionReference = stamp.toString();
+   setCheckoutTransactionReference(transactionReference);
    const discountedProducts = checkoutDiscount
       ? applyDiscountToProducts(checkoutProducts, checkoutDiscount)
       : [...checkoutProducts];
    const totalPrice = calculateDiscountedTotalPrice(discountedProducts);
-   const successCallbackUrl = `${ABSOLUTE_URL}/api/successfulOrder`;
+   const successCallbackUrl = `${ABSOLUTE_URL}/api/checkout/successfulOrder`;
    const successRedirectUrl = `${ABSOLUTE_URL}/kassa/success?pid=${checkoutProducts[0]?.id}&tp=${totalPrice}`;
    const cancelRedirectUrl = `${ABSOLUTE_URL}/kassa`;
 
@@ -75,7 +77,7 @@ const generateProviderData = async (
       },
       create: {
          reference: checkoutReference,
-         transactionReference: checkoutReference,
+         transactionReference,
          products: {
             connect: checkoutProducts.map((checkoutProduct) => {
                return { id: checkoutProduct.id };

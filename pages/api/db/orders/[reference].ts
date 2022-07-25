@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import { deleteOrder, upsertOrder } from "prisma/order";
+import { deleteOrder, updateOrder, upsertOrder } from "prisma/order";
 import { deleteOrderFromProducts } from "prisma/product";
 
 const DATABASE_ACCESS_TOKEN = process.env.NEXT_PUBLIC_DATABASE_ACCESS_TOKEN;
@@ -45,6 +45,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
    if (req.method === "PATCH") {
       // TODO: Update order
+      await updateOrder(body, { reference: orderReference });
+      console.log("Order " + orderReference + " was updated.");
+      return res.status(200).end();
    }
 
    if (req.method === "DELETE") {

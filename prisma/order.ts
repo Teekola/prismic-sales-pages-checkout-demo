@@ -3,14 +3,13 @@ import { prisma } from "./prisma";
 import { CreateOrderData, UpdateOrderData } from "./types";
 
 // Get the correct order using the reference
-export const getOrder = async (
-   select: Prisma.OrderSelect | null | undefined,
-   reference: string
-) => {
+export const getOrder = async (where: Prisma.OrderWhereUniqueInput) => {
    try {
       const order = await prisma.order.findUnique({
-         select,
-         where: { reference },
+         where,
+         include: {
+            customer: true,
+         },
       });
       return order;
    } catch (error) {
@@ -46,15 +45,11 @@ export const createOrder = async (data: CreateOrderData) => {
 // Update the order's data
 // where is optional, default is to use the reference
 // where is needed to change the status to success based on transactionReference
-export const updateOrder = async (
-   reference: string,
-   data: UpdateOrderData,
-   where: Prisma.OrderWhereUniqueInput
-) => {
+export const updateOrder = async (data: UpdateOrderData, where: Prisma.OrderWhereUniqueInput) => {
    try {
       await prisma.order.update({
          data,
-         where: where ? where : { reference },
+         where,
       });
    } catch (error) {
       console.error("Update order error", error);

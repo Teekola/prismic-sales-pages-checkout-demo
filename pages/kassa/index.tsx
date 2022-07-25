@@ -15,6 +15,7 @@ import {
    useCheckoutReference,
    useCheckoutFormData,
    useCheckoutDiscount,
+   useSetCheckoutTransactionReference,
 } from "../../contexts/CheckoutContext";
 import CheckoutLayout from "components/Checkout/checkoutLayout";
 import { AnimatePresence } from "framer-motion";
@@ -51,6 +52,7 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
    const setCheckoutProducts = useSetCheckoutProducts();
    const setCheckoutDiscount = useSetCheckoutDiscount();
    const setCheckoutReference = useSetCheckoutReference();
+   const setCheckoutTransactionReference = useSetCheckoutTransactionReference();
 
    // Update CheckoutContext Data From Session Storage
    // When Returning Back to The Checkout Page.
@@ -66,6 +68,9 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
          sessionStorage.getItem("checkoutDiscount") || "{}"
       );
       const storageCheckoutReference = sessionStorage.getItem("checkoutReference");
+      const storageCheckoutTransactionReference = sessionStorage.getItem(
+         "checkoutTransactionReference"
+      );
       setCheckoutProducts(storageCheckoutProducts);
       setCheckoutFormData(storageCheckoutFormData);
       setCheckoutDiscount(storageCheckoutDiscount);
@@ -74,6 +79,12 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
          setCheckoutReference(storageCheckoutReference);
       } else {
          setCheckoutReference(generateCheckoutReference());
+      }
+
+      if (storageCheckoutTransactionReference) {
+         setCheckoutTransactionReference(storageCheckoutTransactionReference);
+      } else {
+         setCheckoutTransactionReference(generateCheckoutReference());
       }
 
       if (storageCheckoutStep === "providers") {
@@ -86,6 +97,7 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
       setCheckoutFormData,
       setCheckoutDiscount,
       setCheckoutReference,
+      setCheckoutTransactionReference,
       checkoutReference,
    ]);
 
@@ -109,7 +121,8 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
             checkoutReference,
             checkoutProducts,
             checkoutFormData as FilledCheckoutFormDataT,
-            checkoutDiscount as DiscountT
+            checkoutDiscount as DiscountT,
+            setCheckoutTransactionReference
          );
 
          if (providerData.paytrail.status === "error") {
@@ -143,7 +156,13 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
       return () => {
          isCancelled = true;
       };
-   }, [checkoutDiscount, checkoutFormData, checkoutProducts, checkoutReference]);
+   }, [
+      checkoutDiscount,
+      checkoutFormData,
+      checkoutProducts,
+      checkoutReference,
+      setCheckoutTransactionReference,
+   ]);
 
    // TODO: ADD SEO TO PRISMIC
    return (

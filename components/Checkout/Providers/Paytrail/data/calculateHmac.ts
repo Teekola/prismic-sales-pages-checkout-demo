@@ -6,10 +6,10 @@ const crypto = require("crypto");
  * @param {object} params Headers or query string parameters
  * @param {object|undefined} body Request body or empty string for GET requests
  */
-type Params = {
-   [key: string]: string;
-};
-const calculateHmac = (secret: string, params: Params, body: object | undefined) => {
+type Params = Partial<{
+   [key: string]: string | string[];
+}>;
+const calculateHmac = (secret: string, params: Params, body?: object | undefined) => {
    const hmacPayload = Object.keys(params)
       .sort()
       .map((key) => [key, params[key]].join(":"))
