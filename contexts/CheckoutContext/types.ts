@@ -5,7 +5,7 @@ export type DiscountT = {
    discountType: "€" | "%";
    discountProducts: Array<ProductId>;
    discountCode: string;
-} | null;
+};
 export type CheckoutProductsT = Array<ProductT>;
 export type CheckoutFormDataT = {
    firstName: string;
@@ -13,7 +13,8 @@ export type CheckoutFormDataT = {
    email: string;
    phone: string;
    city: string;
-} | null;
+};
+
 export type CheckoutReferenceT = string;
 export type CheckoutContextT = {
    checkoutStep: Step;

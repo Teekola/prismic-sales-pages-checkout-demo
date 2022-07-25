@@ -11,11 +11,12 @@ import {
    useCheckoutProducts,
 } from "contexts/CheckoutContext";
 import { useRouter } from "next/router";
+import { CheckoutFormDataT } from "contexts/CheckoutContext/types";
 
 export default function Form({ formProps }: FormProps) {
    const [hasTried, setHasTried] = useState<HasTried>({});
    const router = useRouter();
-   const checkoutFormData = useCheckoutFormData();
+   const checkoutFormData = useCheckoutFormData() as CheckoutFormDataT;
    const checkoutProducts = useCheckoutProducts();
    const setCheckoutFormData = useSetCheckoutFormData();
    const setCheckoutStep = useSetCheckoutStep();
@@ -42,7 +43,7 @@ export default function Form({ formProps }: FormProps) {
    // Fill form fields
    useEffect(() => {
       // Place the values from formData
-      if (checkoutFormData) {
+      if (Object.keys(checkoutFormData).length > 0) {
          setValue("firstName", checkoutFormData.firstName, { shouldDirty: true });
          setValue("lastName", checkoutFormData.lastName, { shouldDirty: true });
          setValue("email", checkoutFormData.email, { shouldDirty: true });
@@ -108,8 +109,21 @@ export default function Form({ formProps }: FormProps) {
       trigger(fieldName);
    };
    const handleFormSubmit = (submittedData: FormFields) => {
-      setCheckoutFormData(submittedData);
       setCheckoutStep("providers");
+
+      // Check if the fields have same values with old ones
+      // and only set formdata if there are differences
+      if (
+         Object.keys(checkoutFormData).length === 5 &&
+         checkoutFormData.firstName === submittedData.firstName &&
+         checkoutFormData.lastName === submittedData.lastName &&
+         checkoutFormData.email === submittedData.email &&
+         checkoutFormData.city === submittedData.city &&
+         checkoutFormData.phone === submittedData.phone
+      ) {
+         return;
+      }
+      setCheckoutFormData(submittedData);
    };
 
    const handlePhoneChange = (e: ChangeEvent<HTMLInputElement>) => {

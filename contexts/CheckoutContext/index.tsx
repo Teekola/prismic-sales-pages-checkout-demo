@@ -17,9 +17,11 @@ import { ProductT } from "prisma/types";
 // Context Hook
 const useCheckoutContext = () => {
    const [checkoutProducts, setCheckoutProducts] = useState<CheckoutProductsT>([]);
-   const [checkoutFormData, setCheckoutFormData] = useState<CheckoutFormDataT>(null);
+   const [checkoutFormData, setCheckoutFormData] = useState<CheckoutFormDataT>(
+      {} as CheckoutFormDataT
+   );
    const [checkoutStep, setCheckoutStep] = useState<Step>("form");
-   const [checkoutDiscount, setCheckoutDiscount] = useState<DiscountT>(null);
+   const [checkoutDiscount, setCheckoutDiscount] = useState<DiscountT>({} as DiscountT);
    const [checkoutReference, setCheckoutReference] = useState<CheckoutReferenceT>("");
    // Use Callback is needed to prevent it from creating
    // new function (so new reference) every time.
@@ -109,7 +111,7 @@ export const useAddCheckoutProduct = () =>
 // Checkout Form Data
 export const useCheckoutFormData = () =>
    useContextSelector(CheckoutContext, (state) =>
-      state?.checkoutFormData ? state.checkoutFormData : null
+      state?.checkoutFormData ? state.checkoutFormData : {}
    );
 
 export const useSetCheckoutFormData = () =>
@@ -120,7 +122,7 @@ export const useSetCheckoutFormData = () =>
 // Checkout Discount
 export const useCheckoutDiscount = () =>
    useContextSelector(CheckoutContext, (state) =>
-      state?.checkoutDiscount ? state.checkoutDiscount : null
+      state?.checkoutDiscount ? state.checkoutDiscount : {}
    );
 export const useSetCheckoutDiscount = () =>
    useContextSelector(CheckoutContext, (state) =>

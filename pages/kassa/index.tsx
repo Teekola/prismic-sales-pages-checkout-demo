@@ -13,11 +13,17 @@ import {
    useSetCheckoutDiscount,
    useSetCheckoutReference,
    useCheckoutReference,
+   useCheckoutFormData,
+   useCheckoutDiscount,
 } from "../../contexts/CheckoutContext";
 import CheckoutLayout from "components/Checkout/checkoutLayout";
 import { AnimatePresence } from "framer-motion";
 import StyledCheckout from "components/Checkout/style";
 import { generateCheckoutReference } from "components/Checkout/data/checkoutReference";
+import generateProviderData from "components/Checkout/Providers/generateProviderData";
+import generateProviderForms from "components/Checkout/Providers/generateProviderForms";
+import { FilledCheckoutFormDataT } from "components/Checkout/Providers/types";
+import { DiscountT } from "contexts/CheckoutContext/types";
 
 interface CheckoutpageProps {
    title: string;
@@ -27,10 +33,18 @@ interface CheckoutpageProps {
    };
 }
 
+export type ProviderFormsT = JSX.Element | JSX.Element[] | null;
+
+const WEBSITE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "";
+const DATABASE_ACCESS_TOKEN = process.env.NEXT_PUBLIC_DATABASE_ACCESS_TOKEN || "";
+
 export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
    const [isLoaded, setIsLoaded] = useState<boolean>(false);
+   const [providerForms, setProviderForms] = useState<ProviderFormsT>(null);
    const checkoutStep = useCheckoutStep();
    const checkoutProducts = useCheckoutProducts();
+   const checkoutFormData = useCheckoutFormData();
+   const checkoutDiscount = useCheckoutDiscount();
    const checkoutReference = useCheckoutReference();
    const setCheckoutFormData = useSetCheckoutFormData();
    const setCheckoutStep = useSetCheckoutStep();
@@ -75,6 +89,62 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
       checkoutReference,
    ]);
 
+   // Recreate the Provider Forms HTML and update the order when data changes
+   useEffect(() => {
+      // Cleanup variable
+      let isCancelled = false;
+
+      // If there is no formdata, products or reference, return
+      if (
+         Object.keys(checkoutFormData).length === 0 ||
+         checkoutProducts.length < 1 ||
+         checkoutReference === ""
+      ) {
+         return;
+      }
+
+      const generateAndSetProviderForms = async () => {
+         // Create Provider Data
+         const providerData = await generateProviderData(
+            checkoutReference,
+            checkoutProducts,
+            checkoutFormData as FilledCheckoutFormDataT,
+            checkoutDiscount as DiscountT
+         );
+
+         if (providerData.paytrail.status === "error") {
+            setProviderForms(<p>Paytrail Error!</p>);
+            return;
+         }
+
+         // Create and Set Provider Forms
+         const providerForms = generateProviderForms(providerData);
+         setProviderForms(providerForms);
+
+         // Prevent updating multiple times in a row
+         if (isCancelled) {
+            return;
+         }
+         //////////////////////////////////
+         // Upsert Order in the Database //
+         //////////////////////////////////
+         await fetch(`${WEBSITE_URL}/api/db/orders/${checkoutReference}`, {
+            method: "PUT",
+            headers: {
+               "Content-Type": "application/json",
+               authorization: DATABASE_ACCESS_TOKEN,
+            },
+            body: JSON.stringify(providerData.upsert),
+         });
+      };
+      generateAndSetProviderForms();
+
+      // Cleanup
+      return () => {
+         isCancelled = true;
+      };
+   }, [checkoutDiscount, checkoutFormData, checkoutProducts, checkoutReference]);
+
    // TODO: ADD SEO TO PRISMIC
    return (
       <>
@@ -91,7 +161,7 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
                <AnimatePresence exitBeforeEnter>
                   <CheckoutLayout>
                      {checkoutStep === "form" && <Form formProps={formProps} />}
-                     {checkoutStep === "providers" && <Providers />}
+                     {checkoutStep === "providers" && <Providers providerForms={providerForms} />}
                      {checkoutProducts.length > 0 && <Products />}
                   </CheckoutLayout>
                </AnimatePresence>
