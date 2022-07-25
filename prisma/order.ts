@@ -89,3 +89,14 @@ export const deleteAllOrders = async () => {
    await prisma.order.deleteMany({});
    console.log("All orders have been deleted");
 };
+
+export const deleteOrder = async (reference: string) => {
+   try {
+      await prisma.order.delete({
+         where: { reference },
+      });
+      return true;
+   } catch (error) {
+      return false;
+   }
+};

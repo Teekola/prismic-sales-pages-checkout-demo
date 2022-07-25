@@ -1,6 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getOrders, deleteAllOrders } from "prisma/order";
+import { deleteAllOrdersFromProducts } from "prisma/product";
 
 const DATABASE_ACCESS_TOKEN = process.env.DATABASE_ACCESS_TOKEN;
 
@@ -22,6 +23,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
    if (req.method === "DELETE") {
       // Delete all orders
       await deleteAllOrders();
+
+      // Delete all orders from all products
+      await deleteAllOrdersFromProducts();
    }
    return res.status(200).end();
 }
