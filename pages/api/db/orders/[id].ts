@@ -65,7 +65,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       }
 
       // Delete specific order
-      const order = await deleteOrder(id);
+      const order = await deleteOrder({ id });
 
       // Log error
       if (order === false) {

@@ -80,10 +80,10 @@ export const deleteAllOrders = async () => {
    }
 };
 
-export const deleteOrder = async (reference: string) => {
+export const deleteOrder = async (where: Prisma.OrderDeleteArgs["where"]) => {
    try {
       const order = await prisma.order.delete({
-         where: { reference },
+         where,
       });
       return order;
    } catch (error) {
