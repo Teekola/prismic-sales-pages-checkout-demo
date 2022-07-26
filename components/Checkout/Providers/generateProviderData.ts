@@ -3,13 +3,14 @@ import epassiSvg from "../../public/epassi.webp";
 import edenredPng from "../../public/edenred.png";
 import emailInvoicePng from "../../public/emailInvoice.png";
 */
-import { CheckoutProductsT, CheckoutReferenceT, DiscountT } from "contexts/CheckoutContext/types";
+import { CheckoutReferenceT, DiscountT } from "contexts/CheckoutContext/types";
 import { VatPercentage, FilledCheckoutFormDataT } from "./types";
 import { applyDiscountToProducts, calculateDiscountedTotalPrice } from "../Products/prices";
 import generatePaytrailProviderData from "./Paytrail/data";
 import { ProviderData } from "./types";
 import { generateCheckoutReference } from "../data/checkoutReference";
 import { OrderUpsert } from "prisma/types";
+import { Product } from "@prisma/client";
 
 const vatPercentage: VatPercentage = 24;
 const ABSOLUTE_URL =
@@ -23,7 +24,7 @@ const ABSOLUTE_URL =
 // Generate payloads for all payment providers
 const generateProviderData = async (
    checkoutReference: CheckoutReferenceT,
-   checkoutProducts: CheckoutProductsT,
+   checkoutProducts: Product[],
    checkoutFormData: FilledCheckoutFormDataT,
    checkoutDiscount: DiscountT,
    setCheckoutTransactionReference: (newCheckoutTransactionReference: CheckoutReferenceT) => void
@@ -57,6 +58,7 @@ const generateProviderData = async (
             }),
          },
          totalPrice,
+         provider: "Odottaa valintaa",
          // Connect the user based on email or create new one
          customer: {
             upsert: {
@@ -84,6 +86,7 @@ const generateProviderData = async (
             }),
          },
          totalPrice,
+         provider: "Odottaa valintaa",
          customer: {
             connectOrCreate: {
                where: {

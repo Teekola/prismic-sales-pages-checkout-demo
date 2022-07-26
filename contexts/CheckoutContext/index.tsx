@@ -5,18 +5,18 @@
 import { useState, PropsWithChildren, useCallback } from "react";
 import { createContext, useContextSelector } from "use-context-selector";
 import {
-   CheckoutProductsT,
    CheckoutContextT,
    CheckoutFormDataT,
    Step,
    DiscountT,
    CheckoutReferenceT,
+   ProviderFormsT,
 } from "./types";
-import { ProductT } from "prisma/types";
+import { Product } from "@prisma/client";
 
 // Context Hook
 const useCheckoutContext = () => {
-   const [checkoutProducts, setCheckoutProducts] = useState<CheckoutProductsT>([]);
+   const [checkoutProducts, setCheckoutProducts] = useState<Product[]>([]);
    const [checkoutFormData, setCheckoutFormData] = useState<CheckoutFormDataT>(
       {} as CheckoutFormDataT
    );
@@ -25,6 +25,7 @@ const useCheckoutContext = () => {
    const [checkoutReference, setCheckoutReference] = useState<CheckoutReferenceT>("");
    const [checkoutTransactionReference, setCheckoutTransactionReference] =
       useState<CheckoutReferenceT>("");
+   const [checkoutProviderForms, setCheckoutProviderForms] = useState<ProviderFormsT>(null);
    // Use Callback is needed to prevent it from creating
    // new function (so new reference) every time.
    // The empty dependency array means that the function is
@@ -38,12 +39,12 @@ const useCheckoutContext = () => {
       }, []),
       // CheckoutProducts
       checkoutProducts,
-      setCheckoutProducts: useCallback((newCheckoutProducts: CheckoutProductsT) => {
+      setCheckoutProducts: useCallback((newCheckoutProducts: Product[]) => {
          setCheckoutProducts(newCheckoutProducts);
          sessionStorage.setItem("checkoutProducts", JSON.stringify(newCheckoutProducts));
       }, []),
       addCheckoutProduct: useCallback(
-         (newCheckoutProduct: ProductT) => {
+         (newCheckoutProduct: Product) => {
             const newCheckoutProducts = checkoutProducts.concat(newCheckoutProduct);
             setCheckoutProducts(newCheckoutProducts);
             sessionStorage.setItem("checkoutProducts", JSON.stringify(newCheckoutProducts));
@@ -77,6 +78,11 @@ const useCheckoutContext = () => {
          },
          []
       ),
+      // Provider Forms
+      checkoutProviderForms,
+      setCheckoutProviderForms: useCallback((newCheckoutProviderForms: ProviderFormsT) => {
+         setCheckoutProviderForms(newCheckoutProviderForms);
+      }, []),
    };
 };
 
@@ -157,4 +163,15 @@ export const useCheckoutTransactionReference = () =>
 export const useSetCheckoutTransactionReference = () =>
    useContextSelector(CheckoutContext, (state) =>
       state?.setCheckoutTransactionReference ? state.setCheckoutTransactionReference : () => null
+   );
+
+// Provider Forms
+export const useCheckoutProviderForms = () =>
+   useContextSelector(CheckoutContext, (state) =>
+      state?.checkoutProviderForms ? state.checkoutProviderForms : null
+   );
+// Provider Forms
+export const useSetCheckoutProviderForms = () =>
+   useContextSelector(CheckoutContext, (state) =>
+      state?.setCheckoutProviderForms ? state.setCheckoutProviderForms : () => null
    );

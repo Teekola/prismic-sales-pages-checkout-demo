@@ -108,7 +108,7 @@ export default function Form({ formProps }: FormProps) {
       // Run validation
       trigger(fieldName);
    };
-   const handleFormSubmit = (submittedData: FormFields) => {
+   const handleFormSubmit = async (submittedData: FormFields) => {
       setCheckoutStep("providers");
 
       // Check if the fields have same values with old ones

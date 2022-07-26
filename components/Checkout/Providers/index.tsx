@@ -1,16 +1,12 @@
 import BackButton from "components/ui/BackButton";
 import Loader from "components/ui/Loader";
-import { useSetCheckoutStep } from "contexts/CheckoutContext";
+import { useCheckoutProviderForms, useSetCheckoutStep } from "contexts/CheckoutContext";
 import { StyledContainer } from "./styles";
 import { useEffect } from "react";
 
-import { ProviderFormsT } from "pages/kassa";
-export type ProvidersProps = {
-   providerForms: ProviderFormsT;
-};
-
-export default function Providers({ providerForms }: ProvidersProps) {
+export default function Providers() {
    const setCheckoutStep = useSetCheckoutStep();
+   const checkoutProviderForms = useCheckoutProviderForms();
 
    // Browser History
    useEffect(() => {
@@ -39,13 +35,13 @@ export default function Providers({ providerForms }: ProvidersProps) {
             </a>
             .
          </p>
-         {providerForms === null && (
+         {checkoutProviderForms === null && (
             <>
                <p>Ladataan maksutapoja...</p>
                <Loader />
             </>
          )}
-         {providerForms}
+         {checkoutProviderForms}
          <BackButton
             label="Takaisin"
             onClick={() => {

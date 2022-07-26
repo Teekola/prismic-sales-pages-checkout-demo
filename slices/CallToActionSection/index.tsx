@@ -2,13 +2,13 @@ import { SliceComponentProps, PrismicRichText, PrismicLink } from "@prismicio/re
 import { Slice, RichTextField, KeyTextField, FilledLinkToDocumentField } from "@prismicio/types";
 import StyledContainer from "./style";
 import { useAddCheckoutProduct, useCheckoutProducts } from "contexts/CheckoutContext";
-import { ProductT } from "prisma/types";
+import { Product } from "@prisma/client";
 
 type CallToActionSlice = Slice<
    "call_to_action_section",
    {
       text: RichTextField;
-      product?: ProductT;
+      product?: Product;
    },
    {
       buttonLabel: KeyTextField;
@@ -20,7 +20,7 @@ const CallToActionSection = ({ slice }: SliceComponentProps<CallToActionSlice>) 
    const addCheckoutProduct = useAddCheckoutProduct();
    const checkoutProducts = useCheckoutProducts();
    const product = slice.primary.product ? slice.primary.product : null;
-   const handleBuyInstantly = (product: ProductT) => {
+   const handleBuyInstantly = (product: Product) => {
       if (checkoutProducts.find((checkoutProduct) => checkoutProduct.id === product.id)) {
          return;
       }

@@ -16,6 +16,7 @@ import {
    useCheckoutFormData,
    useCheckoutDiscount,
    useSetCheckoutTransactionReference,
+   useSetCheckoutProviderForms,
 } from "../../contexts/CheckoutContext";
 import CheckoutLayout from "components/Checkout/checkoutLayout";
 import { AnimatePresence } from "framer-motion";
@@ -34,19 +35,17 @@ interface CheckoutpageProps {
    };
 }
 
-export type ProviderFormsT = JSX.Element | JSX.Element[] | null;
-
 const WEBSITE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "";
 const DATABASE_ACCESS_TOKEN = process.env.NEXT_PUBLIC_DATABASE_ACCESS_TOKEN || "";
 
 export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
    const [isLoaded, setIsLoaded] = useState<boolean>(false);
-   const [providerForms, setProviderForms] = useState<ProviderFormsT>(null);
    const checkoutStep = useCheckoutStep();
    const checkoutProducts = useCheckoutProducts();
    const checkoutFormData = useCheckoutFormData();
    const checkoutDiscount = useCheckoutDiscount();
    const checkoutReference = useCheckoutReference();
+   const setCheckoutProviderForms = useSetCheckoutProviderForms();
    const setCheckoutFormData = useSetCheckoutFormData();
    const setCheckoutStep = useSetCheckoutStep();
    const setCheckoutProducts = useSetCheckoutProducts();
@@ -98,7 +97,6 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
       setCheckoutDiscount,
       setCheckoutReference,
       setCheckoutTransactionReference,
-      checkoutReference,
    ]);
 
    // Recreate the Provider Forms HTML and update the order when data changes
@@ -126,13 +124,13 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
          );
 
          if (providerData.paytrail.status === "error") {
-            setProviderForms(<p>Paytrail Error!</p>);
+            setCheckoutProviderForms(<p>Paytrail Error!</p>);
             return;
          }
 
          // Create and Set Provider Forms
          const providerForms = generateProviderForms(providerData);
-         setProviderForms(providerForms);
+         setCheckoutProviderForms(providerForms);
 
          // Prevent updating multiple times in a row
          if (isCancelled) {
@@ -162,6 +160,7 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
       checkoutProducts,
       checkoutReference,
       setCheckoutTransactionReference,
+      setCheckoutProviderForms,
    ]);
 
    // TODO: ADD SEO TO PRISMIC
@@ -180,7 +179,7 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
                <AnimatePresence exitBeforeEnter>
                   <CheckoutLayout>
                      {checkoutStep === "form" && <Form formProps={formProps} />}
-                     {checkoutStep === "providers" && <Providers providerForms={providerForms} />}
+                     {checkoutStep === "providers" && <Providers />}
                      {checkoutProducts.length > 0 && <Products />}
                   </CheckoutLayout>
                </AnimatePresence>
