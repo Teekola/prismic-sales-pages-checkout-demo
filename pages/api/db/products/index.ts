@@ -4,8 +4,17 @@ import { createProduct, deleteAllProducts, getProducts } from "prisma/product";
 
 const PRISMIC_PRODUCTS_ENDPOINT = process.env.PRISMIC_PRODUCTS_ENDPOINT as string;
 const PRISMIC_PRODUCTS_TOKEN = process.env.PRISMIC_PRODUCTS_TOKEN;
+const DATABASE_ACCESS_TOKEN = process.env.NEXT_PUBLIC_DATABASE_ACCESS_TOKEN;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
+   /*
+   TODO
+   // Authorize
+   if (req.headers.authorization !== DATABASE_ACCESS_TOKEN) {
+      return res.status(401).end();
+   }
+   */
+
    // Get body
    const body = req.body;
 

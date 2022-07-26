@@ -7,6 +7,7 @@ const DATABASE_ACCESS_TOKEN = process.env.NEXT_PUBLIC_DATABASE_ACCESS_TOKEN;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
    /*
+   TODO
    // Authorize
    if (req.headers.authorization !== DATABASE_ACCESS_TOKEN) {
       return res.status(401).end();
