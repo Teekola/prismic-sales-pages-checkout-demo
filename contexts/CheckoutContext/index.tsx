@@ -11,20 +11,20 @@ import {
    DiscountT,
    CheckoutReferenceT,
    ProviderFormsT,
+   CheckoutOrderIdT,
 } from "./types";
-import { Product } from "@prisma/client";
+import { ProductT } from "./types";
 
 // Context Hook
 const useCheckoutContext = () => {
-   const [checkoutProducts, setCheckoutProducts] = useState<Product[]>([]);
+   const [checkoutProducts, setCheckoutProducts] = useState<ProductT[]>([]);
    const [checkoutFormData, setCheckoutFormData] = useState<CheckoutFormDataT>(
       {} as CheckoutFormDataT
    );
    const [checkoutStep, setCheckoutStep] = useState<Step>("form");
    const [checkoutDiscount, setCheckoutDiscount] = useState<DiscountT>({} as DiscountT);
+   const [checkoutOrderId, setCheckoutOrderId] = useState<CheckoutOrderIdT>("");
    const [checkoutReference, setCheckoutReference] = useState<CheckoutReferenceT>("");
-   const [checkoutTransactionReference, setCheckoutTransactionReference] =
-      useState<CheckoutReferenceT>("");
    const [checkoutProviderForms, setCheckoutProviderForms] = useState<ProviderFormsT>(null);
    // Use Callback is needed to prevent it from creating
    // new function (so new reference) every time.
@@ -39,12 +39,12 @@ const useCheckoutContext = () => {
       }, []),
       // CheckoutProducts
       checkoutProducts,
-      setCheckoutProducts: useCallback((newCheckoutProducts: Product[]) => {
+      setCheckoutProducts: useCallback((newCheckoutProducts: ProductT[]) => {
          setCheckoutProducts(newCheckoutProducts);
          sessionStorage.setItem("checkoutProducts", JSON.stringify(newCheckoutProducts));
       }, []),
       addCheckoutProduct: useCallback(
-         (newCheckoutProduct: Product) => {
+         (newCheckoutProduct: ProductT) => {
             const newCheckoutProducts = checkoutProducts.concat(newCheckoutProduct);
             setCheckoutProducts(newCheckoutProducts);
             sessionStorage.setItem("checkoutProducts", JSON.stringify(newCheckoutProducts));
@@ -63,21 +63,18 @@ const useCheckoutContext = () => {
          setCheckoutDiscount(newCheckoutDiscount);
          sessionStorage.setItem("checkoutDiscount", JSON.stringify(newCheckoutDiscount));
       }, []),
+      // CheckoutOrderId
+      checkoutOrderId,
+      setCheckoutOrderId: useCallback((newCheckoutOrderId: CheckoutOrderIdT) => {
+         setCheckoutOrderId(newCheckoutOrderId);
+         sessionStorage.setItem("checkoutOrderId", newCheckoutOrderId);
+      }, []),
       // CheckoutReference
       checkoutReference,
       setCheckoutReference: useCallback((newCheckoutReference: CheckoutReferenceT) => {
          setCheckoutReference(newCheckoutReference);
          sessionStorage.setItem("checkoutReference", newCheckoutReference);
       }, []),
-      // CheckoutTransactionReference
-      checkoutTransactionReference,
-      setCheckoutTransactionReference: useCallback(
-         (newCheckoutTransactionReference: CheckoutReferenceT) => {
-            setCheckoutTransactionReference(newCheckoutTransactionReference);
-            sessionStorage.setItem("checkoutTransactionReference", newCheckoutTransactionReference);
-         },
-         []
-      ),
       // Provider Forms
       checkoutProviderForms,
       setCheckoutProviderForms: useCallback((newCheckoutProviderForms: ProviderFormsT) => {
@@ -146,6 +143,16 @@ export const useSetCheckoutDiscount = () =>
       state?.setCheckoutDiscount ? state.setCheckoutDiscount : () => null
    );
 
+// Checkout Order Id
+export const useCheckoutOrderId = () =>
+   useContextSelector(CheckoutContext, (state) =>
+      state?.checkoutOrderId ? state.checkoutOrderId : ""
+   );
+export const useSetCheckoutOrderId = () =>
+   useContextSelector(CheckoutContext, (state) =>
+      state?.setCheckoutOrderId ? state.setCheckoutOrderId : () => null
+   );
+
 // Checkout Reference
 export const useCheckoutReference = () =>
    useContextSelector(CheckoutContext, (state) =>
@@ -155,22 +162,12 @@ export const useSetCheckoutReference = () =>
    useContextSelector(CheckoutContext, (state) =>
       state?.setCheckoutReference ? state.setCheckoutReference : () => null
    );
-// Checkout Transaction Reference
-export const useCheckoutTransactionReference = () =>
-   useContextSelector(CheckoutContext, (state) =>
-      state?.checkoutTransactionReference ? state.checkoutTransactionReference : ""
-   );
-export const useSetCheckoutTransactionReference = () =>
-   useContextSelector(CheckoutContext, (state) =>
-      state?.setCheckoutTransactionReference ? state.setCheckoutTransactionReference : () => null
-   );
 
 // Provider Forms
 export const useCheckoutProviderForms = () =>
    useContextSelector(CheckoutContext, (state) =>
       state?.checkoutProviderForms ? state.checkoutProviderForms : null
    );
-// Provider Forms
 export const useSetCheckoutProviderForms = () =>
    useContextSelector(CheckoutContext, (state) =>
       state?.setCheckoutProviderForms ? state.setCheckoutProviderForms : () => null

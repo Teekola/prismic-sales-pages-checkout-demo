@@ -1,9 +1,9 @@
-import { Product } from "@prisma/client";
+import { Order, Product } from "@prisma/client";
 export type Step = "form" | "providers";
 export type DiscountT = {
    discountAmount: number;
    discountType: "€" | "%";
-   discountProducts: Array<Pick<Product, "id">>;
+   discountProducts: Array<Product["id"]>;
    discountCode: string;
 };
 export type CheckoutFormDataT = {
@@ -14,22 +14,25 @@ export type CheckoutFormDataT = {
    city: string;
 };
 
-export type CheckoutReferenceT = string;
+export type ProductT = Product & { discountPrice?: number; quantity: number };
+
+export type CheckoutReferenceT = Order["reference"];
+export type CheckoutOrderIdT = Order["id"];
 export type ProviderFormsT = JSX.Element | JSX.Element[] | null;
 export type CheckoutContextT = {
    checkoutStep: Step;
-   checkoutProducts: Product[];
+   checkoutProducts: ProductT[];
    checkoutFormData: CheckoutFormDataT;
    checkoutDiscount: DiscountT;
+   checkoutOrderId: CheckoutOrderIdT;
    checkoutReference: CheckoutReferenceT;
-   checkoutTransactionReference: CheckoutReferenceT;
    checkoutProviderForms: ProviderFormsT;
    setCheckoutStep: (newStep: Step) => void;
-   setCheckoutProducts: (newCheckoutProducts: Product[]) => void;
-   addCheckoutProduct: (newCheckoutProduct: Product) => void;
+   setCheckoutProducts: (newCheckoutProducts: ProductT[]) => void;
+   addCheckoutProduct: (newCheckoutProduct: ProductT) => void;
    setCheckoutFormData: (newCheckoutFormData: CheckoutFormDataT) => void;
    setCheckoutDiscount: (newCheckoutDiscount: DiscountT) => void;
    setCheckoutReference: (newCheckoutReference: CheckoutReferenceT) => void;
-   setCheckoutTransactionReference: (newCheckoutTransactionReference: CheckoutReferenceT) => void;
+   setCheckoutOrderId: (newCheckoutOrderId: CheckoutOrderIdT) => void;
    setCheckoutProviderForms: (newCheckoutProviderForms: ProviderFormsT) => void;
 } | null;

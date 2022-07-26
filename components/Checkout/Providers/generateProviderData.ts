@@ -3,14 +3,14 @@ import epassiSvg from "../../public/epassi.webp";
 import edenredPng from "../../public/edenred.png";
 import emailInvoicePng from "../../public/emailInvoice.png";
 */
-import { CheckoutReferenceT, DiscountT } from "contexts/CheckoutContext/types";
+import { CheckoutOrderIdT, CheckoutReferenceT, DiscountT } from "contexts/CheckoutContext/types";
 import { VatPercentage, FilledCheckoutFormDataT } from "./types";
 import { applyDiscountToProducts, calculateDiscountedTotalPrice } from "../Products/prices";
 import generatePaytrailProviderData from "./Paytrail/data";
 import { ProviderData } from "./types";
 import { generateCheckoutReference } from "../data/checkoutReference";
-import { OrderUpsert } from "prisma/types";
-import { Product } from "@prisma/client";
+import { ProductT } from "contexts/CheckoutContext/types";
+import { Prisma } from "@prisma/client";
 
 const vatPercentage: VatPercentage = 24;
 const ABSOLUTE_URL =
@@ -23,18 +23,17 @@ const ABSOLUTE_URL =
 
 // Generate payloads for all payment providers
 const generateProviderData = async (
-   checkoutReference: CheckoutReferenceT,
-   checkoutProducts: Product[],
+   checkoutProducts: ProductT[],
    checkoutFormData: FilledCheckoutFormDataT,
    checkoutDiscount: DiscountT,
-   setCheckoutTransactionReference: (newCheckoutTransactionReference: CheckoutReferenceT) => void
+   setCheckoutReference: (newCheckoutReference: CheckoutReferenceT) => void
 ): Promise<ProviderData> => {
    ///////////////////////////////////////
    // UNIVERSAL PROPERTIES
    ///////////////////////////////////////
    const stamp = generateCheckoutReference();
-   const transactionReference = stamp.toString();
-   setCheckoutTransactionReference(transactionReference);
+   const reference = stamp.toString();
+   setCheckoutReference(reference);
    const discountedProducts = checkoutDiscount
       ? applyDiscountToProducts(checkoutProducts, checkoutDiscount)
       : [...checkoutProducts];
@@ -44,60 +43,27 @@ const generateProviderData = async (
    const cancelRedirectUrl = `${ABSOLUTE_URL}/kassa`;
 
    ///////////////////////////////////////
-   // DATA FOR ORDER UPSERT
+   // DATA FOR ORDER CREATE
    ///////////////////////////////////////
-   const upsert: OrderUpsert = {
-      // Reference of the order that is updated / created
-      reference: checkoutReference,
-      update: {
-         transactionReference,
-         // Connect the products with id
-         products: {
-            connect: checkoutProducts.map((checkoutProduct) => {
-               return { id: checkoutProduct.id };
-            }),
-         },
-         totalPrice,
-         provider: "Odottaa valintaa",
-         // Connect the user based on email or create new one
-         customer: {
-            upsert: {
-               update: {
-                  email: checkoutFormData.email,
-                  name: checkoutFormData.firstName + " " + checkoutFormData.lastName,
-                  phone: checkoutFormData.phone,
-                  city: checkoutFormData.city,
-               },
-               create: {
-                  email: checkoutFormData.email,
-                  name: checkoutFormData.firstName + " " + checkoutFormData.lastName,
-                  phone: checkoutFormData.phone,
-                  city: checkoutFormData.city,
-               },
-            },
-         },
+
+   const data: Prisma.OrderUpdateArgs["data"] | Prisma.OrderCreateArgs["data"] = {
+      reference,
+      products: {
+         connect: checkoutProducts.map((checkoutProduct) => {
+            return { id: checkoutProduct.id };
+         }),
       },
-      create: {
-         reference: checkoutReference,
-         transactionReference,
-         products: {
-            connect: checkoutProducts.map((checkoutProduct) => {
-               return { id: checkoutProduct.id };
-            }),
-         },
-         totalPrice,
-         provider: "Odottaa valintaa",
-         customer: {
-            connectOrCreate: {
-               where: {
-                  email: checkoutFormData.email,
-               },
-               create: {
-                  email: checkoutFormData.email,
-                  name: checkoutFormData.firstName + " " + checkoutFormData.lastName,
-                  phone: checkoutFormData.phone,
-                  city: checkoutFormData.city,
-               },
+      provider: "Odottaa valintaa",
+      customer: {
+         connectOrCreate: {
+            where: {
+               email: checkoutFormData.email,
+            },
+            create: {
+               email: checkoutFormData.email,
+               name: checkoutFormData.firstName + " " + checkoutFormData.lastName,
+               phone: checkoutFormData.phone,
+               city: checkoutFormData.city,
             },
          },
       },
@@ -108,7 +74,7 @@ const generateProviderData = async (
    ///////////////////////////////////////
    const paytrail = await generatePaytrailProviderData(
       stamp,
-      transactionReference,
+      reference,
       discountedProducts,
       checkoutFormData,
       totalPrice,
@@ -343,7 +309,7 @@ const generateProviderData = async (
    // RETURN OBJECT
    ///////////////////////////////////////
    const payloads = {
-      upsert,
+      data,
       paytrail,
       /*
 		eazybreak,

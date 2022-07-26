@@ -1,4 +1,4 @@
-import { Product } from "@prisma/client";
+import { ProductT } from "contexts/CheckoutContext/types";
 export type ProductProps = {
-   product: Product;
+   product: ProductT;
 };

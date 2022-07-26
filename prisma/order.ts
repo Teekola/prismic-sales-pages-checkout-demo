@@ -33,50 +33,34 @@ export const getOrders = async (select?: Prisma.OrderSelect, where?: Prisma.Orde
    }
 };
 
-// Create a new order with data from the obj
+// Create a new order with data
 export const createOrder = async (data: CreateOrderData) => {
-   // Copy the reference to be also transactionReference
-   data.transactionReference = data.reference;
-   await prisma.order.create({
-      data,
-   });
-};
-
-// Update the order's data
-// where is optional, default is to use the reference
-// where is needed to change the status to success based on transactionReference
-export const updateOrder = async (data: UpdateOrderData, where: Prisma.OrderWhereUniqueInput) => {
    try {
-      await prisma.order.update({
+      const order = await prisma.order.create({
          data,
-         where,
-      });
-   } catch (error) {
-      console.error("Update order error", error);
-   }
-};
-
-// Upsert order
-export const upsertOrder = async (
-   reference: string,
-   update: UpdateOrderData,
-   create: CreateOrderData
-) => {
-   try {
-      const upserted = await prisma.order.upsert({
-         where: { reference },
-         update,
-         create,
          include: {
-            products: true,
             customer: true,
          },
       });
-      const created = upserted.reference === upserted.transactionReference;
-      return created;
+      return order;
    } catch (error) {
-      console.log(error);
-      return null;
+      console.error("Create order error", error);
+   }
+};
+
+// Update the order's data
+export const updateOrder = async (data: UpdateOrderData, where: Prisma.OrderWhereUniqueInput) => {
+   try {
+      const order = await prisma.order.update({
+         data,
+         where,
+         include: {
+            customer: true,
+         },
+      });
+      return order;
+   } catch (error) {
+      console.error("Update order error", error);
    }
 };
 

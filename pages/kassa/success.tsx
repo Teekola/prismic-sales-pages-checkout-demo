@@ -4,7 +4,11 @@ import { getOrder } from "prisma/order";
 import { useEffect } from "react";
 
 type SuccessProps = {
-   orderData: Partial<Order & Customer>;
+   orderData: {
+      name: Customer["name"];
+      reference: Order["reference"];
+      id: Order["id"];
+   };
 };
 
 export default function Success({ orderData }: SuccessProps) {
@@ -15,51 +19,55 @@ export default function Success({ orderData }: SuccessProps) {
       }, 500);
    }, []);
    // TODO: Prismiciin onnistuneen tilauksen sivu muokattavaksi
+   if (orderData === null) {
+      return (
+         <>
+            <h1>Tapahtui virhe.</h1>
+         </>
+      );
+   }
+
    return (
       <>
          <h1>Kiitos tilauksestasi!</h1>
-         <p>Tilaajan nimi: {orderData?.name}</p>
-         <p>Reference: {orderData?.reference}</p>
-         <p>Transaction reference: {orderData?.transactionReference}</p>
+         <p>Tilaajan nimi: {orderData.name}</p>
+         <p>Reference: {orderData.reference}</p>
+         <p>Order id: {orderData.id}</p>
       </>
    );
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-   const { req, query } = context;
+   const { query } = context;
 
    //////////////////////////////////////////////////////////
    // HANDLE DIFFERENT PAYMENT PROVIDERS
    //////////////////////////////////////////////////////////
-   try {
-      // Paytrail
-      if (query["checkout-reference"]) {
-         const transactionReference = query["checkout-reference"].toString();
+   // Paytrail
+   if (query["checkout-reference"]) {
+      const reference = query["checkout-reference"].toString();
 
-         // Get the order data
-         const where: Prisma.OrderWhereUniqueInput = { transactionReference };
+      // Get the order data
+      const where: Prisma.OrderWhereUniqueInput = { reference };
 
-         const order = await getOrder(where);
-         const orderData = {
-            name: order?.customer?.name,
-            reference: order?.reference,
-            transactionReference: order?.transactionReference,
-         };
+      const order = await getOrder(where);
 
-         // Return order reference
+      if (order !== null) {
          return {
             props: {
-               orderData,
+               orderData: {
+                  id: order.id,
+                  reference: order.reference,
+                  name: order.customer.name,
+               },
+            },
+         };
+      } else {
+         return {
+            props: {
+               orderData: null,
             },
          };
       }
-   } catch (error) {
-      console.log(error);
-
-      return {
-         props: {
-            orderData: null,
-         },
-      };
    }
 }

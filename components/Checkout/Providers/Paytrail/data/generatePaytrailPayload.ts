@@ -1,4 +1,3 @@
-import { CheckoutProductsT } from "contexts/CheckoutContext/types";
 import {
    PaytrailItem,
    PaytrailCustomer,
@@ -7,6 +6,7 @@ import {
    PaytrailParams,
 } from "../types";
 import { VatPercentage, FilledCheckoutFormDataT } from "../../types";
+import { ProductT } from "contexts/CheckoutContext/types";
 
 ///////////////////////////////////////
 // PAYTRAIL
@@ -15,7 +15,7 @@ import { VatPercentage, FilledCheckoutFormDataT } from "../../types";
 const generatePaytrailPayload = (
    stamp: string,
    reference: string,
-   products: CheckoutProductsT,
+   products: ProductT[],
    formData: FilledCheckoutFormDataT,
    totalPrice: number,
    vatPercentage: VatPercentage,

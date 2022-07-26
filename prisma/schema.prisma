@@ -25,18 +25,17 @@ model Product {
 }
 
 model Order {
-  id                   String    @id @default(auto()) @map("_id") @db.ObjectId
-  reference            String    @unique
-  transactionReference String    @unique
-  products             Product[] @relation(fields: [productIds], references: [id])
-  productIds           String[]  @db.ObjectId
-  totalPrice           Int       @default(0) @db.Int
-  provider             String    @default("Odottaa valintaa")
-  status               String    @default("kesken")
-  customer             Customer  @relation(fields: [customerId], references: [id], onUpdate: Cascade)
-  createdAt            DateTime  @default(now())
-  updatedAt            DateTime  @updatedAt
-  customerId           String    @db.ObjectId
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  reference  String    @unique
+  products   Product[] @relation(fields: [productIds], references: [id])
+  productIds String[]  @db.ObjectId
+  totalPrice Int       @default(0) @db.Int
+  provider   String    @default("Odottaa valintaa")
+  status     String    @default("kesken")
+  customer   Customer  @relation(fields: [customerId], references: [id], onUpdate: Cascade)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  customerId String    @db.ObjectId
 }
 
 model Customer {

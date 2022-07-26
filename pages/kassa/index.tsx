@@ -12,11 +12,11 @@ import {
    useCheckoutProducts,
    useSetCheckoutDiscount,
    useSetCheckoutReference,
-   useCheckoutReference,
    useCheckoutFormData,
    useCheckoutDiscount,
-   useSetCheckoutTransactionReference,
    useSetCheckoutProviderForms,
+   useSetCheckoutOrderId,
+   useCheckoutOrderId,
 } from "../../contexts/CheckoutContext";
 import CheckoutLayout from "components/Checkout/checkoutLayout";
 import { AnimatePresence } from "framer-motion";
@@ -44,14 +44,14 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
    const checkoutProducts = useCheckoutProducts();
    const checkoutFormData = useCheckoutFormData();
    const checkoutDiscount = useCheckoutDiscount();
-   const checkoutReference = useCheckoutReference();
+   const checkoutOrderId = useCheckoutOrderId();
    const setCheckoutProviderForms = useSetCheckoutProviderForms();
    const setCheckoutFormData = useSetCheckoutFormData();
    const setCheckoutStep = useSetCheckoutStep();
    const setCheckoutProducts = useSetCheckoutProducts();
    const setCheckoutDiscount = useSetCheckoutDiscount();
+   const setCheckoutOrderId = useSetCheckoutOrderId();
    const setCheckoutReference = useSetCheckoutReference();
-   const setCheckoutTransactionReference = useSetCheckoutTransactionReference();
 
    // Update CheckoutContext Data From Session Storage
    // When Returning Back to The Checkout Page.
@@ -66,25 +66,12 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
       const storageCheckoutDiscount = JSON.parse(
          sessionStorage.getItem("checkoutDiscount") || "{}"
       );
-      const storageCheckoutReference = sessionStorage.getItem("checkoutReference");
-      const storageCheckoutTransactionReference = sessionStorage.getItem(
-         "checkoutTransactionReference"
-      );
+      const storageCheckoutOrderId = sessionStorage.getItem("checkoutOrderId") || "";
+
+      setCheckoutOrderId(storageCheckoutOrderId);
       setCheckoutProducts(storageCheckoutProducts);
       setCheckoutFormData(storageCheckoutFormData);
       setCheckoutDiscount(storageCheckoutDiscount);
-
-      if (storageCheckoutReference) {
-         setCheckoutReference(storageCheckoutReference);
-      } else {
-         setCheckoutReference(generateCheckoutReference());
-      }
-
-      if (storageCheckoutTransactionReference) {
-         setCheckoutTransactionReference(storageCheckoutTransactionReference);
-      } else {
-         setCheckoutTransactionReference(generateCheckoutReference());
-      }
 
       if (storageCheckoutStep === "providers") {
          setCheckoutStep("providers");
@@ -95,8 +82,7 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
       setCheckoutProducts,
       setCheckoutFormData,
       setCheckoutDiscount,
-      setCheckoutReference,
-      setCheckoutTransactionReference,
+      setCheckoutOrderId,
    ]);
 
    // Recreate the Provider Forms HTML and update the order when data changes
@@ -104,23 +90,18 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
       // Cleanup variable
       let isCancelled = false;
 
-      // If there is no formdata, products or reference, return
-      if (
-         Object.keys(checkoutFormData).length === 0 ||
-         checkoutProducts.length < 1 ||
-         checkoutReference === ""
-      ) {
+      // If there is no formdata or products, return
+      if (Object.keys(checkoutFormData).length === 0 || checkoutProducts.length < 1) {
          return;
       }
 
       const generateAndSetProviderForms = async () => {
          // Create Provider Data
          const providerData = await generateProviderData(
-            checkoutReference,
             checkoutProducts,
             checkoutFormData as FilledCheckoutFormDataT,
             checkoutDiscount as DiscountT,
-            setCheckoutTransactionReference
+            setCheckoutReference
          );
 
          if (providerData.paytrail.status === "error") {
@@ -136,17 +117,34 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
          if (isCancelled) {
             return;
          }
-         //////////////////////////////////
-         // Upsert Order in the Database //
-         //////////////////////////////////
-         await fetch(`${WEBSITE_URL}/api/db/orders/${checkoutReference}`, {
-            method: "PUT",
-            headers: {
-               "Content-Type": "application/json",
-               authorization: DATABASE_ACCESS_TOKEN,
-            },
-            body: JSON.stringify(providerData.upsert),
-         });
+         ////////////////////////////////////////////
+         // Create or Update Order in the Database //
+         ////////////////////////////////////////////
+
+         // Create Order and Set Order Id
+         if (checkoutOrderId === "") {
+            const orderRes = await fetch(`${WEBSITE_URL}/api/db/orders`, {
+               method: "POST",
+               headers: {
+                  "Content-Type": "application/json",
+                  authorization: DATABASE_ACCESS_TOKEN,
+               },
+               body: JSON.stringify(providerData.data),
+            });
+            const order = await orderRes.json();
+            setCheckoutOrderId(order.id);
+         }
+         // Update Order
+         else {
+            await fetch(`${WEBSITE_URL}/api/db/orders/${checkoutOrderId}`, {
+               method: "PATCH",
+               headers: {
+                  "Content-Type": "application/json",
+                  authorization: DATABASE_ACCESS_TOKEN,
+               },
+               body: JSON.stringify(providerData.data),
+            });
+         }
       };
       generateAndSetProviderForms();
 
@@ -154,13 +152,17 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
       return () => {
          isCancelled = true;
       };
+
+      // checkoutOrderId is not included in the dependency array
+      // to prevent unnecessary rerender when creating order
+      // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [
       checkoutDiscount,
       checkoutFormData,
       checkoutProducts,
-      checkoutReference,
-      setCheckoutTransactionReference,
+      setCheckoutReference,
       setCheckoutProviderForms,
+      setCheckoutOrderId,
    ]);
 
    // TODO: ADD SEO TO PRISMIC
