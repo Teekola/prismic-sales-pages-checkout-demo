@@ -21,7 +21,6 @@ import {
 import CheckoutLayout from "components/Checkout/checkoutLayout";
 import { AnimatePresence } from "framer-motion";
 import StyledCheckout from "components/Checkout/style";
-import { generateCheckoutReference } from "components/Checkout/data/checkoutReference";
 import generateProviderData from "components/Checkout/Providers/generateProviderData";
 import generateProviderForms from "components/Checkout/Providers/generateProviderForms";
 import { FilledCheckoutFormDataT } from "components/Checkout/Providers/types";

@@ -1,0 +1,33 @@
+{
+  "id": "74725270-e289-4df8-a46e-24a9a0b8a84a",
+  "uid": "dolorum-ullam-repellendus",
+  "type": "checkout_success_page",
+  "data": {
+    "successTitle": "orchestrate impactful architectures",
+    "successInstructions": [
+      {
+        "type": "paragraph",
+        "text": "Ut ullamco quis commodo est ullamco sint adipisicing voluptate in dolor.",
+        "spans": []
+      }
+    ],
+    "successButtonLink": {
+      "link_type": "Web",
+      "url": "https://prismic.io"
+    },
+    "successButtonLabel": "innovate killer e-tailers",
+    "errorTitle": "scale synergistic supply-chains",
+    "errorInstructions": [
+      {
+        "type": "paragraph",
+        "text": "Exercitation velit ea voluptate enim duis deserunt. Sint eiusmod nostrud aute sint incididunt excepteur mollit eiusmod mollit pariatur culpa. Deserunt nostrud reprehenderit elit elit tempor aliqua.",
+        "spans": []
+      }
+    ],
+    "errorButtonLink": {
+      "link_type": "Web",
+      "url": "https://slicemachine.dev"
+    },
+    "errorButtonLabel": "envisioneer back-end models"
+  }
+}

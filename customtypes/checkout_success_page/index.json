@@ -1,0 +1,102 @@
+{
+  "id": "checkout_success_page",
+  "label": "Checkout Success Page",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Main": {
+      "successTitle": {
+        "type": "Text",
+        "config": {
+          "label": "Success Title",
+          "placeholder": ""
+        }
+      },
+      "successInstructions": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Success Instructions",
+          "placeholder": "",
+          "allowTargetBlank": true,
+          "multi": "paragraph,heading3,strong,em,hyperlink,image,list-item,o-list-item,heading4,heading5,heading6"
+        }
+      },
+      "successButtonLink": {
+        "type": "Link",
+        "config": {
+          "label": "Success Button Link",
+          "placeholder": "",
+          "select": null
+        }
+      },
+      "successButtonLabel": {
+        "type": "Text",
+        "config": {
+          "label": "Success Button Label",
+          "placeholder": ""
+        }
+      },
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
+        "config": {
+          "choices": {
+            "story_section": {
+              "type": "SharedSlice"
+            },
+            "banner": {
+              "type": "SharedSlice"
+            }
+          }
+        }
+      }
+    },
+    "Error": {
+      "errorTitle": {
+        "type": "Text",
+        "config": {
+          "label": "Error Title",
+          "placeholder": ""
+        }
+      },
+      "errorInstructions": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Error Instructions",
+          "placeholder": "",
+          "allowTargetBlank": true,
+          "multi": "paragraph,strong,em,hyperlink,list-item,o-list-item,image,heading3,heading4,heading5,heading6"
+        }
+      },
+      "errorButtonLink": {
+        "type": "Link",
+        "config": {
+          "label": "Error Button Link",
+          "placeholder": "",
+          "select": null
+        }
+      },
+      "errorButtonLabel": {
+        "type": "Text",
+        "config": {
+          "label": "Error Button Label",
+          "placeholder": ""
+        }
+      },
+      "slices1": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
+        "config": {
+          "choices": {
+            "banner": {
+              "type": "SharedSlice"
+            },
+            "story_section": {
+              "type": "SharedSlice"
+            }
+          }
+        }
+      }
+    }
+  }
+}

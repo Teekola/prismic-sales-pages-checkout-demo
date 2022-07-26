@@ -3,7 +3,21 @@
     "etusivu": {},
     "home-page": {},
     "product-page": {},
-    "checkout-page": {}
+    "checkout-page": {},
+    "checkout_success_page": {
+      "successInstructions": {
+        "config": {
+          "patternType": "PARAGRAPH",
+          "blocks": 1
+        }
+      },
+      "errorInstructions": {
+        "config": {
+          "patternType": "PARAGRAPH",
+          "blocks": 1
+        }
+      }
+    }
   },
   "slices": {
     "TextParagraph": {
