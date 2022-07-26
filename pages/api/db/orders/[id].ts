@@ -15,12 +15,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
    // Get id and body
    const { id } = req.query;
-   const orderId = id?.toString() || "";
+   if (typeof id !== "string") {
+      console.error("Id is missing.");
+      return res.status(400).end();
+   }
    const body = req.body;
 
    if (req.method === "GET") {
       // Return order based on id
-      const where = { id: orderId };
+      const where = { id };
       const order = await getOrder(where);
 
       // Handle error
@@ -30,7 +33,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       }
       // Handle not found
       if (order === null) {
-         console.log("Order", orderId, "was not found.");
+         console.log("Order", "was not found.");
          return res.status(404).end();
       }
       // Return order on success
@@ -39,21 +42,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
    if (req.method === "PATCH") {
       // Update order
-      const order = await updateOrder(body, { id: orderId });
+      const order = await updateOrder(body, { id });
 
       // Handle error
       if (order === false) {
          console.error("An error occurred when trying to update order.");
          return res.status(400).end();
       }
-      console.log("Order " + orderId + " was updated.");
+      console.log("Order " + id + " was updated.");
       // Return order on success
       return res.status(200).json(order);
    }
 
    if (req.method === "DELETE") {
       // Delete specific order from all products
-      const deletedFromProducts = await deleteOrderFromProducts(orderId);
+      const deletedFromProducts = await deleteOrderFromProducts(id);
 
       // Handle error
       if (!deletedFromProducts) {
@@ -62,7 +65,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       }
 
       // Delete specific order
-      const order = await deleteOrder(orderId);
+      const order = await deleteOrder(id);
 
       // Log error
       if (order === false) {
@@ -71,7 +74,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       }
 
       // Return order on success
-      console.log("Order " + orderId + " was deleted.");
+      console.log("Order " + id + " was deleted.");
       return res.status(200).json(order);
    }
 
