@@ -14,22 +14,26 @@ export const getOrder = async (where: Prisma.OrderWhereUniqueInput) => {
       return order;
    } catch (error) {
       console.error("Get order error", error);
-      return null;
+      return false;
    }
 };
 
 // Get multiple orders
-export const getOrders = async (select?: Prisma.OrderSelect, where?: Prisma.OrderWhereInput) => {
+export const getOrders = async (
+   select?: Prisma.OrderSelect,
+   where?: Prisma.OrderWhereInput,
+   take?: number
+) => {
    try {
       const orders = await prisma.order.findMany({
          select,
          where,
-         take: 100,
+         take: take ? take : 100,
       });
       return orders;
    } catch (error) {
       console.error("Get orders error", error);
-      return null;
+      return false;
    }
 };
 
@@ -45,6 +49,7 @@ export const createOrder = async (data: CreateOrderData) => {
       return order;
    } catch (error) {
       console.error("Create order error", error);
+      return false;
    }
 };
 
@@ -61,21 +66,28 @@ export const updateOrder = async (data: UpdateOrderData, where: Prisma.OrderWher
       return order;
    } catch (error) {
       console.error("Update order error", error);
+      return false;
    }
 };
 
 export const deleteAllOrders = async () => {
-   await prisma.order.deleteMany({});
-   console.log("All orders have been deleted");
+   try {
+      const orders = await prisma.order.deleteMany({});
+      return orders;
+   } catch (error) {
+      console.error("Delete orders error", error);
+      return false;
+   }
 };
 
 export const deleteOrder = async (reference: string) => {
    try {
-      await prisma.order.delete({
+      const order = await prisma.order.delete({
          where: { reference },
       });
-      return true;
+      return order;
    } catch (error) {
+      console.error("Delete order error", error);
       return false;
    }
 };

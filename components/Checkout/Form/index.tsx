@@ -36,8 +36,6 @@ export default function Form({ formProps }: FormProps) {
       },
    });
 
-   // TODO: Cleanup current step, and products at the end of checkout flow
-
    // TODO: Fill in the Form Fields when  Returning from reminder email
 
    // Fill form fields

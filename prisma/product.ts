@@ -1,34 +1,82 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "./prisma";
 
-export const getProducts = async () => {
-   return await prisma.product.findMany();
+export const getProduct = async (where: Prisma.ProductWhereUniqueInput) => {
+   try {
+      const product = await prisma.product.findUnique({
+         where,
+         include: {
+            orders: true,
+         },
+      });
+      return product;
+   } catch (error) {
+      console.error("Get product error", error);
+      return false;
+   }
 };
 
-type CreateProductData =
-   | (Prisma.Without<Prisma.ProductCreateInput, Prisma.ProductUncheckedCreateInput> &
-        Prisma.ProductUncheckedCreateInput)
-   | (Prisma.Without<Prisma.ProductUncheckedCreateInput, Prisma.ProductCreateInput> &
-        Prisma.ProductCreateInput);
-export const createProduct = async (data: CreateProductData) => {
-   return await prisma.product.create({
-      data,
-   });
+export const getProducts = async () => {
+   try {
+      const products = await prisma.product.findMany();
+      return products;
+   } catch (error) {
+      console.error("Get products error", error);
+      return false;
+   }
+};
+
+export const createProduct = async (data: Prisma.ProductCreateArgs["data"]) => {
+   try {
+      const product = await prisma.product.create({
+         data,
+      });
+      return product;
+   } catch (error) {
+      console.error("Create product error", error);
+      return false;
+   }
+};
+
+export const updateProduct = async (
+   data: Prisma.ProductUpdateArgs["data"],
+   where: Prisma.ProductUpdateArgs["where"]
+) => {
+   try {
+      const product = await prisma.product.update({
+         where,
+         data,
+         include: {
+            orders: true,
+         },
+      });
+      return product;
+   } catch (error) {
+      console.error("Update product error", error);
+      return false;
+   }
 };
 
 export const deleteAllProducts = async () => {
-   await prisma.product.deleteMany({});
+   try {
+      const products = await prisma.product.deleteMany({});
+      return products;
+   } catch (error) {
+      console.error("Delete products error", error);
+      return false;
+   }
 };
 
 export const deleteAllOrdersFromProducts = async () => {
    try {
-      await prisma.product.updateMany({
+      const products = await prisma.product.updateMany({
          data: {
             orderIds: [],
          },
       });
-      return true;
+      return products;
    } catch (error) {
+      console.error("Delete orders from products error", error);
       return false;
    }
 };
@@ -71,6 +119,7 @@ export const deleteOrderFromProducts = async (reference: string) => {
       }
       return true;
    } catch (error) {
+      console.error("Delete order from products error", error);
       return false;
    }
 };

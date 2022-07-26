@@ -11,25 +11,63 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       return res.status(401).end();
    }
    */
-   if (req.method === "GET") {
-      // Return all orders
-      const orders = await getOrders();
-      return res.status(200).json({ orders });
-   }
+   // Get body from request
    const body = req.body;
+
+   if (req.method === "GET") {
+      // Get all orders (default limit 100)
+      const orders = await getOrders();
+
+      // Handle error
+      if (orders === false) {
+         console.error("An error occurred when trying to get orders.");
+         return res.status(500).end();
+      }
+
+      // Return orders on success
+      return res.status(200).json(orders);
+   }
+
    if (req.method === "POST") {
       // Create Order
       const order = await createOrder(body);
-      console.log("Order ", order?.id, " was created.");
+
+      // Handle error
+      if (order === false) {
+         console.error("An error occurred when trying to create order.");
+         return res.status(400).end();
+      }
+
+      // Return created order
+      console.log("Order ", order.id, " was created.");
       return res.status(200).json(order);
    }
 
    if (req.method === "DELETE") {
       // Delete all orders
-      await deleteAllOrders();
+      const orders = await deleteAllOrders();
+
+      // Handle error
+      if (orders === false) {
+         console.error("An error occurred when trying to delete orders.");
+         return res.status(400).end();
+      }
+      console.log("All orders have been deleted.");
 
       // Delete all orders from all products
-      await deleteAllOrdersFromProducts();
+      const deleted = await deleteAllOrdersFromProducts();
+
+      // Handle error
+      if (deleted === false) {
+         console.error("An error occurred when trying to delete orders from products.");
+         return res.status(400).end();
+      }
+
+      // Log success
+      console.log("All orders have been deleted from products.");
+      return res.status(200).end();
    }
+
+   // Default success on any other method
    return res.status(200).end();
 }

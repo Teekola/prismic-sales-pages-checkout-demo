@@ -2,20 +2,36 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { createProduct, deleteAllProducts, getProducts } from "prisma/product";
 
-const PRISMIC_PRODUCTS_ENDPOINT =
-   "https://if-api.prismic.io/if/write/eroonjumeista--product_catalog";
+const PRISMIC_PRODUCTS_ENDPOINT = process.env.PRISMIC_PRODUCTS_ENDPOINT as string;
 const PRISMIC_PRODUCTS_TOKEN = process.env.PRISMIC_PRODUCTS_TOKEN;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
+   // Get body
+   const body = req.body;
+
    if (req.method === "GET") {
+      // Get all products
       const products = await getProducts();
-      return res.status(200).json({ products });
+
+      // Handle error
+      if (products === false) {
+         console.error("An error occurred when trying to get products.");
+         return res.status(400).end();
+      }
+      // Return products
+      return res.status(200).json(products);
    }
 
    if (req.method === "POST") {
       // Create Product to database
-      const product = await createProduct(req.body);
-      console.log(product);
+      const product = await createProduct(body);
+
+      // Handle error
+      if (product === false) {
+         console.error("An error occurred when trying to create product.");
+         return res.status(400).end();
+      }
+      console.log("Product '" + product.id + "' was created to database.");
 
       // Body for pushing product to prismic
       const prismicProducts = [
@@ -39,19 +55,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
          body: JSON.stringify(prismicProducts),
       });
 
-      // Log error if deletion fails
-      if (!prismicRes.ok) {
+      // Log error
+      if (prismicRes.ok === false) {
          console.error("Failed to add product to Prismic.");
-      } else {
-         console.log("Product '" + product.name + "' added to prismic.");
+         return res.status(400).end();
       }
 
+      // Log success
+      console.log("Product '" + product.id + "' added to prismic.");
       return res.status(201).end();
    }
 
    if (req.method === "DELETE") {
       // Delete all Products
-      await deleteAllProducts();
+      const products = await deleteAllProducts();
+
+      // Handle error
+      if (products === false) {
+         console.error("An error occurred when trying to delete products.");
+         return res.status(400).end();
+      }
       console.log("All products were deleted from the database.");
 
       // Delete all Products from Prismic
@@ -63,13 +86,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
          },
       });
 
-      // Log error if deletion fails
-      if (!prismicRes.ok) {
+      // Log error
+      if (prismicRes.ok === false) {
          console.error("Failed delete prismic products.");
-      } else {
-         console.log("All products were deleted from prismic.");
+         return res.status(400).end();
       }
 
+      // Log success
+      console.log("All products were deleted from prismic.");
       return res.status(200).end();
    }
 
