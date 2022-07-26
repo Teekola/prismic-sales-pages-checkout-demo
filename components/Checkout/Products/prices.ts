@@ -1,10 +1,10 @@
-import { CheckoutProductsT, DiscountT } from "contexts/CheckoutContext/types";
+import { ProductT, DiscountT } from "contexts/CheckoutContext/types";
 
 export const centsToEurosString = (cents: number) => {
    return (cents / 100).toFixed(2);
 };
 
-export const calculateTotalPrice = (arr: CheckoutProductsT) => {
+export const calculateTotalPrice = (arr: ProductT[]) => {
    let total = 0;
    arr.forEach((obj) => {
       total += obj.originalPrice * obj.quantity;
@@ -15,7 +15,7 @@ export const calculateTotalPrice = (arr: CheckoutProductsT) => {
 };
 
 // Calculate price with discount price if exists
-export const calculateDiscountedTotalPrice = (arr: CheckoutProductsT) => {
+export const calculateDiscountedTotalPrice = (arr: ProductT[]) => {
    let total = 0;
    let price;
    arr.forEach((obj) => {
@@ -27,7 +27,7 @@ export const calculateDiscountedTotalPrice = (arr: CheckoutProductsT) => {
    return total;
 };
 
-export const applyDiscountToProducts = (productsArr: CheckoutProductsT, discount: DiscountT) => {
+export const applyDiscountToProducts = (productsArr: ProductT[], discount: DiscountT) => {
    if (discount === null) {
       console.log("No discount");
       return productsArr;

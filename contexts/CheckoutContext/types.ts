@@ -14,7 +14,7 @@ export type CheckoutFormDataT = {
    city: string;
 };
 
-export type ProductT = Product & { discountPrice?: number; quantity: number };
+export type ProductT = Product & { discountPrice: number; quantity: number };
 
 export type CheckoutReferenceT = Order["reference"];
 export type CheckoutOrderIdT = Order["id"];

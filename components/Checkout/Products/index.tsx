@@ -8,14 +8,14 @@ import {
    calculateDiscountedTotalPrice,
 } from "./prices";
 import { useState, useEffect } from "react";
-import { CheckoutProductsT } from "contexts/CheckoutContext/types";
+import { DiscountT, ProductT } from "contexts/CheckoutContext/types";
 
 export default function Products() {
    const checkoutProducts = useCheckoutProducts();
-   const discount = useCheckoutDiscount();
+   const discount = useCheckoutDiscount() as DiscountT;
    const [totalPrice, setTotalPrice] = useState<number>(0);
    const [discountedTotalPrice, setDiscountedTotalPrice] = useState<number>(totalPrice);
-   const [productList, setProductList] = useState<CheckoutProductsT>(checkoutProducts);
+   const [productList, setProductList] = useState<ProductT[]>(checkoutProducts);
 
    // Calculate total price and discount
    useEffect(() => {

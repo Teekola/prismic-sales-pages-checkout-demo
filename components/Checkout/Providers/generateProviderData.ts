@@ -54,6 +54,7 @@ const generateProviderData = async (
          }),
       },
       provider: "Odottaa valintaa",
+      totalPrice,
       customer: {
          connectOrCreate: {
             where: {

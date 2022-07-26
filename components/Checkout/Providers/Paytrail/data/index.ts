@@ -1,14 +1,15 @@
 import generatePaytrailPayload from "./generatePaytrailPayload";
 import fetchPaytrailProviderData from "./fetchPaytrailProviderData";
-import { CheckoutProductsT } from "contexts/CheckoutContext/types";
+import { ProductT } from "contexts/CheckoutContext/types";
 import { VatPercentage, FilledCheckoutFormDataT } from "../../types";
+import { Order } from "@prisma/client";
 
 const generatePaytrailProviderData = async (
    stamp: string,
-   reference: string,
-   products: CheckoutProductsT,
+   reference: Order["reference"],
+   products: ProductT[],
    formData: FilledCheckoutFormDataT,
-   totalPrice: number,
+   totalPrice: Order["totalPrice"],
    vatPercentage: VatPercentage,
    successCallbackUrl: string,
    successRedirectUrl: string,
