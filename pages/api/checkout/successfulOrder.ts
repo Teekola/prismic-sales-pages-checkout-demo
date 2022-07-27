@@ -1,17 +1,19 @@
 import calculateHmac from "components/Checkout/Providers/Paytrail/data/calculateHmac";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { getOrder, updateOrder } from "prisma/order";
 
 const PAYTRAIL_SECRET = process.env.PAYTRAIL_SECRET || "SAIPPUAKAUPPIAS";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
    const query = req.query;
+   const body = req.body;
 
    //////////////////////////////////////////////////////////
    // REFERENCE TO THE ORDER
    //////////////////////////////////////////////////////////
 
    // Get the reference to the order from the query parameters
-   const transactionReference =
+   const reference =
       // Paytrail
       query["checkout-reference"]
          ? query["checkout-reference"]
@@ -28,10 +30,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
          query["email-reference"]
          ? query["email-reference"]
          : // Not defined
-           undefined;
+           null;
 
    // If there is no order reference, return error
-   if (!transactionReference) return res.status(400).json({ error: "tilausviite puuttuu" });
+   if (reference === null) {
+      console.error("Order reference is missing.");
+      return res.status(400).end();
+   }
 
    //////////////////////////////////////////////////////////
    // CHECK VALIDITY
@@ -47,8 +52,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       // Calculate the correct hmac
       const paytrailHmac = calculateHmac(PAYTRAIL_SECRET, paytrailHeaders);
 
-      if (paytrailHmac !== testSignature)
-         return res.status(401).json({ error: "signatuuri ei täsmää" });
+      // If signatures don't match, update order status and log error
+      if (paytrailHmac !== testSignature) {
+         console.error("Signature does not match.");
+         return res.status(401).end();
+      }
    }
 
    /*
@@ -92,77 +100,73 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
    // ACTIVATE COURSES
    //////////////////////////////////////////////////////////
 
-   /*
-
    // Get the order data
-   try {
-      const order = await getOrder(transactionReference);
+   // Get order with reference
+   const order = await getOrder({ reference });
 
-      // If the order has already been set successful, return (don't reactivate courses)
-      if (order.success) return res.status(200).json({ success: "kurssit on jo aktivoitu" });
-
-      // Generate Kajabi-payload
-      const body = {
-         name: order.name,
-         email: order.email,
-         external_user_id: order.email,
-      };
-
-      // Fetch the activation links from the DB
-      const activationProducts = [...order.products];
-
-      // Fetch and Add Order Bump Product Data to activationProducts
-      const orderBumpIds = order.products.filter((id) => id >= 900);
-      if (orderBumpIds.length > 0) {
-         const orderBumps = await getOrderBumps(orderBumpIds);
-         orderBumps.forEach((ob) => {
-            activationProducts.push(ob.productId);
-         });
-      }
-
-      const activationLinks = await getActivationLinks(activationProducts);
-
-      // Activate the courses on the list
-      try {
-         activationLinks.forEach(async (link) => {
-            await fetch(link, {
-               method: "POST",
-               headers: {
-                  "content-type": "application/json",
-               },
-               body: JSON.stringify(body),
-            });
-         });
-      } catch (error) {
-         console.log("Virhe kurssien aktivoinnissa:", error);
-      }
-
-      // Update the order status to success
-      await updateOrder(transactionReference, { success: true }, { transactionReference });
-
-
-      //////////////////////////////////////////////////////////
-      // ADD TO HYROS
-      //////////////////////////////////////////////////////////
-      //await createHyrosOrder(order);
-
-      //////////////////////////////////////////////////////////
-      // ADD TO ACTIVE CAMPAIGN
-      //////////////////////////////////////////////////////////
-      await addToActiveCampaign(
-         order.email,
-         order.name,
-         order.phone,
-         order.city,
-         order.activationProducts
-      );
-		
-   } catch (error) {
-      console.error("Successful order: Tilausta ei löydy");
-      return res.status(404).json({ error, message: "tilausta ei löydy" });
+   // Handle error
+   if (order === false) {
+      console.error("An error occurred when trying to get order.");
+      return res.status(500).end();
    }
 
-	*/
+   // Handle no order found
+   if (order === null) {
+      console.error("No order was found with reference", reference);
+      return res.status(404).end();
+   }
 
-   return res.status(200).json({ success: "kurssit aktivoitu" });
+   // Handle already activated
+   if (order.status === "valmis") {
+      console.log("Courses were already activated for transaction", reference);
+      return res.status(200).end();
+   }
+
+   // Generate Kajabi payload
+   const kajabiBody = {
+      name: order.customer.name,
+      email: order.customer.email,
+      external_user_id: order.customer.email,
+   };
+
+   // Get activation urls from the order's products
+   const activationUrls = order.products
+      .map((product) => product.activationUrl)
+      .filter((url): url is string => url !== null);
+
+   if (activationUrls.length > 0) {
+      try {
+         // Go through the urls and activate them
+         for (let url of activationUrls) {
+            // Activate course
+            const kajabiRes = await fetch(url, {
+               method: "POST",
+               headers: {
+                  "Content-Type": "application/json",
+               },
+               body: JSON.stringify(kajabiBody),
+            });
+            // Log Kajabi response
+            const kajabi = await kajabiRes.json();
+            console.log(kajabi);
+         }
+         // Log success
+         console.log("Courses have been activated.");
+      } catch (error) {
+         console.error("An error occurred when activating courses.", error);
+      }
+   }
+
+   // Update the order status to "valmis"
+   await updateOrder({ status: "valmis" }, { reference });
+
+   //////////////////////////////////////////////////////////
+   // ADD TO HYROS
+   //////////////////////////////////////////////////////////
+
+   //////////////////////////////////////////////////////////
+   // ADD TO ACTIVE CAMPAIGN
+   //////////////////////////////////////////////////////////
+
+   return res.status(200).end();
 }
