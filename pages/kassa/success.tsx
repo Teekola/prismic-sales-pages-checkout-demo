@@ -1,16 +1,10 @@
 import { Customer, Order, Prisma } from "@prisma/client";
-import { GetServerSidePropsContext } from "next";
 import { getOrder } from "prisma/order";
 import { createClient } from "prismicio";
 import { useEffect } from "react";
 import { KeyTextField, RichTextField, LinkField } from "@prismicio/types";
-import {
-   PrismicLink,
-   PrismicRichText,
-   SliceLike,
-   SliceZone,
-   SliceZoneLike,
-} from "@prismicio/react";
+import * as prismicH from "@prismicio/helpers";
+import { PrismicLink, SliceLike, SliceZone, SliceZoneLike } from "@prismicio/react";
 import { components } from "slices";
 import { ParsedUrlQuery } from "querystring";
 
@@ -19,6 +13,7 @@ type SuccessProps = {
       name: Customer["name"];
       reference: Order["reference"];
       id: Order["id"];
+      email: Customer["email"];
    };
    title: KeyTextField;
    instructions: RichTextField;
@@ -42,11 +37,22 @@ export default function Success({
       }, 500);
    }, []);
 
-   // TODO: Function to inject orderdata to correct positions
+   // Inject name and email values to the texts
+   let injectedTitle = title;
+   let injectedInstructions = prismicH.asHTML(instructions);
+   if (orderData !== null) {
+      injectedTitle = injectedTitle
+         ? injectedTitle.replace(/{{name}}/g, orderData.name.split(" ")[0])
+         : null;
+      injectedInstructions = injectedInstructions
+         .replace(/{{name}}/g, orderData.name.split(" ")[0])
+         .replace(/{{email}}/g, orderData.email);
+   }
+
    return (
       <>
-         <h1>{title}</h1>
-         <PrismicRichText field={instructions}></PrismicRichText>
+         <h1>{injectedTitle}</h1>
+         <div dangerouslySetInnerHTML={{ __html: injectedInstructions }}></div>
          {buttonLink && buttonLabel && (
             <PrismicLink field={buttonLink}>
                <button className="primary-cta">{buttonLabel}</button>
@@ -105,6 +111,7 @@ export async function getServerSideProps({ query, previewData }: ServerSideProps
                id: order.id,
                reference: order.reference,
                name: order.customer.name,
+               email: order.customer.email,
             },
             title: successTitle,
             instructions: successInstructions,
