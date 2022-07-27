@@ -8,6 +8,8 @@ import { PrismicLink, SliceLike, SliceZone, SliceZoneLike } from "@prismicio/rea
 import { components } from "slices";
 import { ParsedUrlQuery } from "querystring";
 
+const WEBSITE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "";
+
 type SuccessProps = {
    orderData: {
       name: Customer["name"];
@@ -67,8 +69,10 @@ export default function Success({
 type ServerSidePropsT = {
    query: ParsedUrlQuery;
    previewData: any;
+   resolvedUrl: string;
 };
-export async function getServerSideProps({ query, previewData }: ServerSidePropsT) {
+
+export async function getServerSideProps({ query, previewData, resolvedUrl }: ServerSidePropsT) {
    const client = createClient({ previewData });
    const document = await client.getSingle("checkout_success_page");
 
@@ -77,6 +81,15 @@ export async function getServerSideProps({ query, previewData }: ServerSideProps
    //////////////////////////////////////////////////////////
    // TODO: ADD OTHER PROVIDERS
    // TODO: UPDATE ORDER FOR PROVIDERS WHERE CALLBACK IS NOT POSSIBLE
+
+   // Development only to test the successfulOrder endpoint
+   if (process.env.NODE_ENV === "development") {
+      const successfulOrder = await fetch(
+         `${WEBSITE_URL}/api/checkout/successfulOrder?${resolvedUrl.split("?")[1]}`
+      );
+      console.log(successfulOrder.status);
+   }
+
    // Paytrail
    if (query["checkout-reference"]) {
       const reference = query["checkout-reference"].toString();

@@ -2,7 +2,7 @@ import calculateHmac from "components/Checkout/Providers/Paytrail/data/calculate
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getOrder, updateOrder } from "prisma/order";
 
-const PAYTRAIL_SECRET = process.env.PAYTRAIL_SECRET || "SAIPPUAKAUPPIAS";
+const PAYTRAIL_SECRET = "SAIPPUAKAUPPIAS";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
    const query = req.query;
@@ -47,10 +47,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       // Retrieve the signature to be verified and remove it from the payload headers
       const testSignature = query["signature"];
       const paytrailHeaders = query;
-      delete paytrailHeaders["signature"];
+
+      // Remove headers that don't belong to the hmac payload
+      // so headers that don't start with "checkout-"
+      for (let header of Object.keys(paytrailHeaders)) {
+         if (header.split("-")[0] !== "checkout") {
+            delete paytrailHeaders[header];
+         }
+      }
 
       // Calculate the correct hmac
-      const paytrailHmac = calculateHmac(PAYTRAIL_SECRET, paytrailHeaders);
+      const paytrailHmac = calculateHmac(PAYTRAIL_SECRET, paytrailHeaders, "");
 
       // If signatures don't match, update order status and log error
       if (paytrailHmac !== testSignature) {
@@ -132,7 +139,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
    // Get activation urls from the order's products
    const activationUrls = order.products
       .map((product) => product.activationUrl)
-      .filter((url): url is string => url !== null);
+      .filter((url): url is string => url !== (null || ""));
 
    if (activationUrls.length > 0) {
       try {
