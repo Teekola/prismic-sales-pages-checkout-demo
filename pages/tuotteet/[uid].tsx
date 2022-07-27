@@ -7,6 +7,7 @@ import { Slice } from "@prismicio/types";
 import { GetStaticProps } from "next";
 import Head from "next/head";
 import Layout from "components/layouts/productPageLayout";
+import { ProductT } from "contexts/CheckoutContext/types";
 
 interface ProductPageProps {
    slices: SliceZoneLike<SliceLike<string>> | undefined;
@@ -39,28 +40,17 @@ export const getStaticProps: GetStaticProps = async ({ params, previewData }: an
    const client = createClient({ previewData });
    const productPage = await client.getByUID("product-page", params.uid);
 
-   // TODO: Remove below when there is
-   // Proper Data In Database so no modifications are needed
-   // Modify product to fit the type
+   // Get product from the integrationfield and add missing
+   // quantity and discountPrice
    const databaseProduct = productPage.data.integrationField;
-   const product = {
-      id: databaseProduct.id.toString(),
-      name: databaseProduct.name,
-      type: databaseProduct.type,
-      originalPrice: databaseProduct.originalPrice,
-      price: databaseProduct.price,
-      discountPrice: databaseProduct.price,
+   const product: ProductT = {
+      ...databaseProduct,
       quantity: 1,
-      imageUrl:
-         databaseProduct.imageUrl ||
-         "https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/themes/2149406054/settings_images/XXOMbqhTBmXubMuk7hhg_c9b54f34-b54f-490d-9eca-a9c1d01357d5.jpg",
-      activationUrl: databaseProduct.activationUrl || "",
-      createdAt: databaseProduct.createdAt,
-      updatedAt: databaseProduct.updatedAt,
+      discountPrice: databaseProduct.price,
    };
 
-   console.log(product);
-
+   // TODO: Maybe this should be limited some way? Maybe the product integration field
+   // should rather be included in each slice that needs the data directly.
    // Add productdata to cta slices
    const slices = productPage.data.slices.map((slice: Slice) =>
       slice.slice_type === "call_to_action_section"
@@ -71,7 +61,6 @@ export const getStaticProps: GetStaticProps = async ({ params, previewData }: an
    return {
       props: {
          slices,
-         product: productPage.data.integrationField,
       },
    };
 };
