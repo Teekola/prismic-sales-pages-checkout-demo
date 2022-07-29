@@ -7,6 +7,7 @@ import * as prismicH from "@prismicio/helpers";
 import { PrismicLink, SliceLike, SliceZone, SliceZoneLike } from "@prismicio/react";
 import { components } from "slices";
 import { ParsedUrlQuery } from "querystring";
+import Layout from "components/layouts/productPageLayout";
 
 const WEBSITE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "";
 
@@ -52,17 +53,28 @@ export default function Success({
    }
 
    return (
-      <>
-         <h1>{injectedTitle}</h1>
-         <div dangerouslySetInnerHTML={{ __html: injectedInstructions }}></div>
-         {buttonLink && buttonLabel && (
-            <PrismicLink field={buttonLink}>
-               <button className="primary-cta">{buttonLabel}</button>
-            </PrismicLink>
-         )}
+      <Layout>
+         <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+            <h1>{injectedTitle}</h1>
+            <div
+               style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "1rem",
+                  maxWidth: "75ch",
+                  marginBottom: "1rem",
+               }}
+               dangerouslySetInnerHTML={{ __html: injectedInstructions }}
+            ></div>
+            {buttonLink && buttonLabel && (
+               <PrismicLink field={buttonLink}>
+                  <button className="primary-cta">{buttonLabel}</button>
+               </PrismicLink>
+            )}
 
-         <SliceZone slices={slices} components={components} />
-      </>
+            <SliceZone slices={slices} components={components} />
+         </div>
+      </Layout>
    );
 }
 
@@ -87,7 +99,7 @@ export async function getServerSideProps({ query, previewData, resolvedUrl }: Se
       const successfulOrder = await fetch(
          `${WEBSITE_URL}/api/checkout/successfulOrder?${resolvedUrl.split("?")[1]}`
       );
-      console.log(successfulOrder.status);
+      console.log("Successful order response status", successfulOrder.status);
    }
 
    // Paytrail

@@ -29,6 +29,7 @@ export default function PaytrailForm({ name, url, svg, parameters, variants }: P
       const body = {
          provider: name,
          reference: checkoutReference,
+         status: "maksamassa",
       } as Partial<Order>;
 
       await fetch(`${WEBSITE_URL}/api/db/orders/${checkoutOrderId}`, {
