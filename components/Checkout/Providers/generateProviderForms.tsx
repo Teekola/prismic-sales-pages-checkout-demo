@@ -2,6 +2,7 @@ import { PaytrailResponseT } from "./Paytrail/types";
 import { ProviderData } from "./types";
 import PaytrailForm from "./Paytrail/PaytrailForm";
 import { motion } from "framer-motion";
+import EazybreakForm from "./Eazybreak/EazybreakForm";
 
 const formVariants = {
    initial: { rotate: -15 },
@@ -20,14 +21,14 @@ const addPaytrailProvidersToGroups = (paytrail: OkPaytrailResponseT) => {
    return groupedProviders;
 };
 
-const generateProviderForms = ({ paytrail }: ProviderData) => {
+const generateProviderForms = ({ paytrail, eazybreak }: ProviderData) => {
    if (paytrail.status !== "ok") {
       return <div>Virhe. Paytrail. generateProviderForms.</div>;
    }
 
-   const groups = addPaytrailProvidersToGroups(paytrail);
+   const paytrailGroups = addPaytrailProvidersToGroups(paytrail);
 
-   const paytrailForms = groups.map((group) => (
+   const paytrailForms = paytrailGroups.map((group) => (
       <motion.div key={group.id} className="group-container">
          <h3 className="group-heading">{group.name}</h3>
          <motion.div className="provider-group-container">
@@ -45,8 +46,22 @@ const generateProviderForms = ({ paytrail }: ProviderData) => {
       </motion.div>
    ));
 
+   const voucherForms = (
+      <motion.div key="vouchers" className="group-container">
+         <h3 className="group-heading">Liikuntasetelit</h3>
+         <motion.div className="provider-group-container">
+            <EazybreakForm {...eazybreak} variants={formVariants} />
+         </motion.div>
+      </motion.div>
+   );
+
    // TODO: ADD CUSTOM PROVIDERS: LIIKUNTASETELIT JA SÄHKÖPOSTILASKU
-   return paytrailForms;
+   return (
+      <>
+         {voucherForms}
+         {paytrailForms}
+      </>
+   );
 };
 
 export default generateProviderForms;

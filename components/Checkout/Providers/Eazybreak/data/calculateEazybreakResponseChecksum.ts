@@ -1,16 +1,17 @@
+import { ParsedUrlQuery } from "querystring";
 const crypto = require("crypto");
-const EAZYBREAK_SECRET = process.env.EAZYBREAK_SECRET;
+const EAZYBREAK_SECRET = process.env.EAZYBREAK_SECRET || "28867906d611e07adddd76d67d3a88b410396c00";
 
-export const calculateEazybreakResponseChecksum = (
-   id: string,
-   payment_id: string,
-   status: string,
-   value: string,
-   first_name: string,
-   last_name: string,
-   time: string,
-   code: string
-) => {
+export const calculateEazybreakResponseChecksum = (query: ParsedUrlQuery): string => {
+   const id = (query?.tp as string).split("=")[1] as string;
+   const payment_id = query.payment_id as string;
+   const status = query.status as string;
+   const value = query.value as string;
+   const first_name = query.first_name as string;
+   const last_name = query.last_name as string;
+   const time = query.time as string;
+   const code = query.code as string;
+
    const message =
       Buffer.from(id).toString("base64") +
       "|" +

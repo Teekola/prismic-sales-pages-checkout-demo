@@ -252,7 +252,6 @@ const generateProviderData = async (
       emailInvoice,
 		*/
    };
-   console.log(payloads);
 
    return payloads;
 };

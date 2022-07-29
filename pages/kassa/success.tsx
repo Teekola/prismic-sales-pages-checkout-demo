@@ -102,10 +102,10 @@ export async function getServerSideProps({ query, previewData, resolvedUrl }: Se
       console.log("Successful order response status", successfulOrder.status);
    }
 
-   // Paytrail
-   if (query["checkout-reference"]) {
-      const reference = query["checkout-reference"].toString();
+   // Get reference from: Paytrail || Eazybreak
+   const reference = query["checkout-reference"] || query["payment_id"];
 
+   if (typeof reference === "string") {
       // Get the order data
       const where: Prisma.OrderWhereUniqueInput = { reference };
 

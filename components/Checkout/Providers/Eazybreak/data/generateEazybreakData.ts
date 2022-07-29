@@ -49,6 +49,10 @@ export const generateEazybreakData = async (
          name: "mode",
          value: "redirect",
       },
+      {
+         name: "return_code",
+         value: "1",
+      },
    ];
 
    // Add success_url_callback for production only

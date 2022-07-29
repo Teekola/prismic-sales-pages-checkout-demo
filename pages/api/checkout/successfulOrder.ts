@@ -1,3 +1,4 @@
+import { calculateEazybreakResponseChecksum } from "components/Checkout/Providers/Eazybreak/data/calculateEazybreakResponseChecksum";
 import calculateHmac from "components/Checkout/Providers/Paytrail/data/calculateHmac";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getOrder, updateOrder } from "prisma/order";
@@ -59,28 +60,35 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       // Calculate the correct hmac
       const paytrailHmac = calculateHmac(PAYTRAIL_SECRET, paytrailHeaders, "");
 
-      // If signatures don't match, update order status and log error
+      // If signatures don't match log error
       if (paytrailHmac !== testSignature) {
          console.error("Signature does not match.");
          return res.status(401).end();
       }
+      // Log success
+      console.log("Paytrail was successfully validated.");
    }
 
-   /*
    // Check validity of Eazybreak
    else if (query["payment_id"]) {
       const eazybreakChecksum = calculateEazybreakResponseChecksum(query);
       console.log("Eazybreak checksum:", eazybreakChecksum);
-      console.log(" Received checksum:", query.checksum);
-      console.log("Samat?:", eazybreakChecksum === query.checksum);
-      // If the checksum is invalid or the payment status is not 'completed', return error
-      if (eazybreakChecksum !== query.checksum)
-         return res.status(401).json({ error: "tarkistussumma ei täsmää" });
-      if (query.status !== "completed")
-         return res.status(401).json({ error: "maksu ei onnistunut" });
-      console.log("Eazybreak varmistettu.");
+      console.log("Received checksum:", query.checksum);
+      console.log("Equal?:", eazybreakChecksum === query.checksum);
+      // Log error
+      if (eazybreakChecksum !== query.checksum) {
+         console.error("The checksum is invalid.");
+         return res.status(401).end();
+      }
+      if (query.status !== "completed") {
+         console.error("The payment was not completed.");
+         return res.status(401).end();
+      }
+      // Log success
+      console.log("Eazybreak was successfully validated.");
    }
 
+   /*
    // Check validity of ePassi
    else if (req.body.STAMP) {
       console.log("Request body: ", req.body);

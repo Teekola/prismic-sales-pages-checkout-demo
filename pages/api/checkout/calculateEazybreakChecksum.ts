@@ -6,11 +6,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       console.log("wrong method.");
       return res.status(400).end();
    }
-   console.log(req.body);
 
    // Get data from the body
-   const { payment_id, value, success_url, cancel_url, language, mode, success_url_callback } =
-      req.body;
+   const {
+      payment_id,
+      value,
+      success_url,
+      cancel_url,
+      language,
+      mode,
+      return_code,
+      success_url_callback,
+   } = req.body;
    try {
       // Calculate checksum
       const checksum = calculateEazybreakRequestChecksum(
@@ -20,6 +27,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
          cancel_url,
          language,
          mode,
+         return_code,
          success_url_callback
       );
       return res.status(200).json(checksum);

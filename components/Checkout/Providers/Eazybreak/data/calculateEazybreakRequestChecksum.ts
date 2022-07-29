@@ -11,6 +11,7 @@ export const calculateEazybreakRequestChecksum = (
    cancel_url: string,
    language: string,
    mode: string,
+   return_code: string,
    success_url_callback?: string | undefined
 ) => {
    let message =
@@ -33,6 +34,7 @@ export const calculateEazybreakRequestChecksum = (
    if (success_url_callback) {
       message += "|" + Buffer.from(success_url_callback).toString("base64");
    }
+   message += "|" + Buffer.from(return_code).toString("base64");
    const checksum = crypto.createHmac("sha256", EAZYBREAK_SECRET).update(message).digest("hex");
    return checksum;
 };
