@@ -65,7 +65,7 @@ export const generateEazybreakData = async (
 
    // Derive Body for the checksum calculation
    // From the parameters array
-   const checksumBody: any = {};
+   const checksumBody: { [key: string]: string } = {};
    eazybreakParameters.forEach((param) => {
       checksumBody[param.name] = param.value;
    });
