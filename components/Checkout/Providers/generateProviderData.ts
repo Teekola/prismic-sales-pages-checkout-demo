@@ -11,6 +11,7 @@ import { ProviderData } from "./types";
 import { generateCheckoutReference } from "../data/checkoutReference";
 import { ProductT } from "contexts/CheckoutContext/types";
 import { Prisma } from "@prisma/client";
+import { generateEazybreakData } from "./Eazybreak/data/generateEazybreakData";
 
 const vatPercentage: VatPercentage = 24;
 const ABSOLUTE_URL =
@@ -84,88 +85,19 @@ const generateProviderData = async (
       successRedirectUrl,
       cancelRedirectUrl
    );
-   /*
+
    ///////////////////////////////////////
    // EAZYBREAK
    ///////////////////////////////////////
+   const eazybreak = await generateEazybreakData(
+      reference,
+      totalPrice,
+      successCallbackUrl,
+      successRedirectUrl,
+      cancelRedirectUrl
+   );
 
-   // Parameters
-   const eazybreakParameters = [
-      {
-         name: "merchant",
-         value: process.env.NEXT_PUBLIC_EAZYBREAK_ACCOUNT,
-      },
-      {
-         name: "merchant_location",
-         value: process.env.NEXT_PUBLIC_EAZYBREAK_LOCATION,
-      },
-      {
-         name: "payment_id",
-         value: reference,
-      },
-      {
-         name: "value",
-         value: (sum / 100.0).toFixed(2).toString(),
-      },
-      {
-         name: "success_url",
-         value: `${ABSOLUTE_URL}/kiitos/${items[0].productCode}-${paytrail.amount}`,
-      },
-      {
-         name: "cancel_url",
-         value: cancel_url,
-      },
-      {
-         name: "language",
-         value: "fi",
-      },
-      {
-         name: "mode",
-         value: "redirect",
-      },
-   ];
-
-   // callBackUrls: activates courses, production only
-   if (process.env.NODE_ENV === "production") {
-      eazybreakParameters.push({
-         name: "success_url_callback",
-         value: `${ABSOLUTE_URL}/api/successfulOrder`,
-      });
-   }
-
-   // Body for the checksum calculation
-   const eazybreakBody = {};
-   eazybreakParameters.forEach((param) => {
-      eazybreakBody[param.name] = param.value;
-   });
-
-   // Calculate the checksum
-   const apiUrl = `${RELATIVE_URL}/api/eazybreakChecksum`;
-   const generateEazybreakChecksum = await fetch(apiUrl, {
-      method: "POST",
-      headers: {
-         "content-type": "application/json",
-      },
-      body: JSON.stringify(eazybreakBody),
-   });
-   const eazybreakChecksumObject = await generateEazybreakChecksum.json();
-   const eazybreakChecksum = eazybreakChecksumObject.checksum;
-
-   // Add the calculated checksum to the parameters
-   eazybreakParameters.push({
-      name: "checksum",
-      value: eazybreakChecksum,
-   });
-
-   // Eazybreak object
-   const eazybreak = {
-      url: process.env.NEXT_PUBLIC_EAZYBREAK_URL,
-      name: "Eazybreak",
-      id: "eazybreak",
-      svg: "https://eazybreak.fi/assets/img/eazybreak-logo.svg",
-      parameters: eazybreakParameters,
-   };
-
+   /*
    ///////////////////////////////////////
    // EPASSI
    ///////////////////////////////////////
@@ -312,14 +244,16 @@ const generateProviderData = async (
    const payloads = {
       data,
       paytrail,
+      eazybreak,
       /*
-		eazybreak,
       epassi,
       smartum,
       edenred,
       emailInvoice,
 		*/
    };
+   console.log(payloads);
+
    return payloads;
 };
 
