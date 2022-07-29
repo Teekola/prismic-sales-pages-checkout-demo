@@ -12,6 +12,7 @@ import { generateCheckoutReference } from "../data/checkoutReference";
 import { ProductT } from "contexts/CheckoutContext/types";
 import { Prisma } from "@prisma/client";
 import { generateEazybreakData } from "./Eazybreak/data/generateEazybreakData";
+import { generateEpassiData } from "./Epassi/data/generateEpassiData";
 
 const vatPercentage: VatPercentage = 24;
 const ABSOLUTE_URL =
@@ -97,73 +98,18 @@ const generateProviderData = async (
       cancelRedirectUrl
    );
 
-   /*
    ///////////////////////////////////////
    // EPASSI
    ///////////////////////////////////////
+   const epassi = await generateEpassiData(
+      reference,
+      totalPrice,
+      successCallbackUrl,
+      successRedirectUrl,
+      cancelRedirectUrl
+   );
 
-   // Body for epassi mac
-   const epassiBody = {
-      stamp: reference,
-      amount: (sum / 100.0).toFixed(2).toString(),
-   };
-
-   // Calculate epassi mac
-   const generateEpassiMac = await fetch(`${RELATIVE_URL}/api/epassiMac`, {
-      method: "POST",
-      headers: {
-         "content-type": "application/json",
-      },
-      body: JSON.stringify(epassiBody),
-   });
-   const epassiMacObject = await generateEpassiMac.json();
-   const epassiMac = epassiMacObject.mac;
-
-   // Parameters
-   const epassiParameters = [
-      {
-         name: "STAMP",
-         value: reference,
-      },
-      {
-         name: "SITE",
-         value: process.env.NEXT_PUBLIC_EPASSI_SITE,
-      },
-      {
-         name: "AMOUNT",
-         value: (sum / 100.0).toFixed(2).toString(),
-      },
-      {
-         name: "REJECT",
-         value: "https://www.eroonjumeista.fi/tilaus-keskeytyi",
-      },
-      {
-         name: "CANCEL",
-         value: cancel_url,
-      },
-      {
-         name: "RETURN",
-         value: `${ABSOLUTE_URL}/kiitos/${items[0].productCode}-${paytrail.amount}?ePassi-order=${reference}`,
-      },
-      {
-         name: "MAC",
-         value: epassiMac,
-      },
-      {
-         name: "NOTIFY_URL",
-         value: `${ABSOLUTE_URL}/api/successfulOrder`,
-      },
-   ];
-
-   // ePassi object
-   const epassi = {
-      url: process.env.NEXT_PUBLIC_EPASSI_URL,
-      name: "ePassi",
-      id: "epassi",
-      svg: epassiSvg.src,
-      parameters: epassiParameters,
-   };
-
+   /*
    ///////////////////////////////////////
    // SMARTUM
    ///////////////////////////////////////
@@ -245,8 +191,8 @@ const generateProviderData = async (
       data,
       paytrail,
       eazybreak,
-      /*
       epassi,
+      /*
       smartum,
       edenred,
       emailInvoice,

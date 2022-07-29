@@ -1,4 +1,5 @@
 import { calculateEazybreakResponseChecksum } from "components/Checkout/Providers/Eazybreak/data/calculateEazybreakResponseChecksum";
+import calculateEpassiResponseMac from "components/Checkout/Providers/Epassi/data/calculateEpassiResponseMac";
 import calculateHmac from "components/Checkout/Providers/Paytrail/data/calculateHmac";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getOrder, updateOrder } from "prisma/order";
@@ -74,7 +75,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       const eazybreakChecksum = calculateEazybreakResponseChecksum(query);
       console.log("Eazybreak checksum:", eazybreakChecksum);
       console.log("Received checksum:", query.checksum);
-      console.log("Equal?:", eazybreakChecksum === query.checksum);
+      console.log("Match?", eazybreakChecksum === query.checksum);
       // Log error
       if (eazybreakChecksum !== query.checksum) {
          console.error("The checksum is invalid.");
@@ -88,21 +89,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       console.log("Eazybreak was successfully validated.");
    }
 
-   /*
    // Check validity of ePassi
-   else if (req.body.STAMP) {
-      console.log("Request body: ", req.body);
-      const epassiMac = calculateEpassiResponseMac(req.body);
-
-      console.log("Laskettu epassi MAC:", epassiMac);
-      console.log("Oikea epassi MAC:", req.body.MAC);
-      console.log("Samat?", epassiMac === req.body.MAC);
-
-      // If the mac is invalid, return error
-      if (epassiMac !== req.body.MAC) return res.status(401).json({ error: "MAC ei täsmää" });
-      console.log("ePassi varmistettu.");
+   else if (body.STAMP) {
+      console.log("Epassi request body: ", body);
+      const epassiMac = calculateEpassiResponseMac(body);
+      console.log("Calculated ePassi MAC:", epassiMac);
+      console.log("Received ePassi MAC:", body.MAC);
+      console.log("Match?", epassiMac === body.MAC);
+      // Log error
+      if (epassiMac !== req.body.MAC) {
+         console.error("The MAC is invalid.");
+         return res.status(401).end();
+      }
+      // Log success
+      console.log("ePassi was successfully validated.");
    }
-
+   /*
    // Check validity of Smartum
    else if (query["nonce"]) {
       if (query.kid !== process.env.SMARTUM_KID)

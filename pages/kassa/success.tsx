@@ -8,6 +8,8 @@ import { PrismicLink, SliceLike, SliceZone, SliceZoneLike } from "@prismicio/rea
 import { components } from "slices";
 import { ParsedUrlQuery } from "querystring";
 import Layout from "components/layouts/productPageLayout";
+import { IncomingMessage } from "http";
+import getRawBody from "raw-body";
 
 const WEBSITE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "";
 
@@ -82,11 +84,31 @@ type ServerSidePropsT = {
    query: ParsedUrlQuery;
    previewData: any;
    resolvedUrl: string;
+   req: IncomingMessage & { cookies: { [key: string]: string } };
 };
 
-export async function getServerSideProps({ query, previewData, resolvedUrl }: ServerSidePropsT) {
+export async function getServerSideProps({
+   query,
+   previewData,
+   resolvedUrl,
+   req,
+}: ServerSidePropsT) {
    const client = createClient({ previewData });
    const document = await client.getSingle("checkout_success_page");
+
+   // Error return object
+   const { errorTitle, errorInstructions, errorButtonLink, errorButtonLabel, slices1 } =
+      document.data;
+   const error = {
+      props: {
+         orderData: null,
+         title: errorTitle,
+         instructions: errorInstructions,
+         buttonLink: errorButtonLink,
+         buttonLabel: errorButtonLabel,
+         slices: slices1,
+      },
+   };
 
    //////////////////////////////////////////////////////////
    // HANDLE DIFFERENT PAYMENT PROVIDERS
@@ -95,69 +117,77 @@ export async function getServerSideProps({ query, previewData, resolvedUrl }: Se
    // TODO: UPDATE ORDER FOR PROVIDERS WHERE CALLBACK IS NOT POSSIBLE
 
    // Development only to test the successfulOrder endpoint
-   if (process.env.NODE_ENV === "development") {
+   if (process.env.NODE_ENV === "development" && !query["ePassi-order"]) {
       const successfulOrder = await fetch(
          `${WEBSITE_URL}/api/checkout/successfulOrder?${resolvedUrl.split("?")[1]}`
       );
       console.log("Successful order response status", successfulOrder.status);
    }
 
-   // Get reference from: Paytrail || Eazybreak
-   const reference = query["checkout-reference"] || query["payment_id"];
+   // Get reference from: Paytrail || Eazybreak || ePassi
+   const reference = query["checkout-reference"] || query["payment_id"] || query["ePassi-order"];
 
-   if (typeof reference === "string") {
-      // Get the order data
-      const where: Prisma.OrderWhereUniqueInput = { reference };
-
-      const order = await getOrder(where);
-
-      if (order === false || order === null) {
-         // Get error messages from Prismic document
-         const { errorTitle, errorInstructions, errorButtonLink, errorButtonLabel, slices1 } =
-            document.data;
-         return {
-            props: {
-               orderData: null,
-               title: errorTitle,
-               instructions: errorInstructions,
-               buttonLink: errorButtonLink,
-               buttonLabel: errorButtonLabel,
-               slices: slices1,
-            },
-         };
-      }
-
-      // Get success messages from Prismic document
-      const { successTitle, successInstructions, successButtonLink, successButtonLabel, slices } =
-         document.data;
-      return {
-         props: {
-            orderData: {
-               id: order.id,
-               reference: order.reference,
-               name: order.customer.name,
-               email: order.customer.email,
-            },
-            title: successTitle,
-            instructions: successInstructions,
-            buttonLink: successButtonLink,
-            buttonLabel: successButtonLabel,
-            slices,
-         },
-      };
+   // Handle error
+   if (typeof reference !== "string") {
+      return error;
    }
 
-   // Get error messages from Prismic document
-   const { errorTitle, errorInstructions, errorButtonLink, errorButtonLabel, slices1 } =
+   // Get the order data
+   const where: Prisma.OrderWhereUniqueInput = { reference };
+   const order = await getOrder(where);
+
+   // Handle error
+   if (order === false || order === null) {
+      return error;
+   }
+
+   /////////////////////////////////////
+   // Call successfulOrder for ePassi //
+   /////////////////////////////////////
+   if (req.method === "POST" && query["ePassi-order"]) {
+      // Get the post data as a string
+      const bodyBuffer = await getRawBody(req);
+      const bodyString = bodyBuffer.toString("utf-8");
+      console.log("ePassiBodyString:", bodyString);
+
+      // Transform the body string into object
+      const bodyValues = bodyString.split("&");
+      const body: { [key: string]: any } = {};
+      let values;
+      for (let attribute of bodyValues) {
+         values = attribute.split("=");
+         body[values[0]] = values[1];
+      }
+      console.log("ePassiBody:", body);
+
+      // Post the ePassi data to successfulOrder
+      const successfulOrderRes = await fetch(`${WEBSITE_URL}/api/checkout/successfulOrder`, {
+         method: "POST",
+         headers: {
+            "Content-Type": "application/json",
+         },
+         body: JSON.stringify(body),
+      });
+      console.log("Epassi successful order status:", successfulOrderRes.status);
+   }
+
+   // Get success messages from Prismic document
+   const { successTitle, successInstructions, successButtonLink, successButtonLabel, slices } =
       document.data;
+
    return {
       props: {
-         orderData: null,
-         title: errorTitle,
-         instructions: errorInstructions,
-         buttonLink: errorButtonLink,
-         buttonLabel: errorButtonLabel,
-         slices: slices1,
+         orderData: {
+            id: order.id,
+            reference: order.reference,
+            name: order.customer.name,
+            email: order.customer.email,
+         },
+         title: successTitle,
+         instructions: successInstructions,
+         buttonLink: successButtonLink,
+         buttonLabel: successButtonLabel,
+         slices,
       },
    };
 }

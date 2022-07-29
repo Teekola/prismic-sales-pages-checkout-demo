@@ -1,6 +1,3 @@
-import { ProductT } from "contexts/CheckoutContext/types";
-import { FilledCheckoutFormDataT } from "../../types";
-
 const WEBSITE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "";
 
 const EAZYBREAK_ACCOUNT = process.env.NEXT_PUBLIC_EAZYBREAK_ACCOUNT || "onlinedemo01";
