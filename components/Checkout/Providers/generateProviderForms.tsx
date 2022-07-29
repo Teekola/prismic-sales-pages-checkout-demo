@@ -4,6 +4,7 @@ import PaytrailForm from "./Paytrail/PaytrailForm";
 import { motion } from "framer-motion";
 import EazybreakForm from "./Eazybreak/EazybreakForm";
 import EpassiForm from "./Epassi/EpassiForm";
+import SmartumForm from "./Smartum/SmartumForm";
 
 const formVariants = {
    initial: { rotate: -15 },
@@ -22,7 +23,7 @@ const addPaytrailProvidersToGroups = (paytrail: OkPaytrailResponseT) => {
    return groupedProviders;
 };
 
-const generateProviderForms = ({ paytrail, eazybreak, epassi }: ProviderData) => {
+const generateProviderForms = ({ paytrail, eazybreak, epassi, smartum }: ProviderData) => {
    if (paytrail.status !== "ok") {
       return <div>Virhe. Paytrail. generateProviderForms.</div>;
    }
@@ -53,6 +54,7 @@ const generateProviderForms = ({ paytrail, eazybreak, epassi }: ProviderData) =>
          <motion.div className="provider-group-container">
             <EpassiForm {...epassi} variants={formVariants} />
             <EazybreakForm {...eazybreak} variants={formVariants} />
+            <SmartumForm {...smartum} variants={formVariants} />
          </motion.div>
       </motion.div>
    );

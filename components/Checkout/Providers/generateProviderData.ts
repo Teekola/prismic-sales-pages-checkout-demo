@@ -13,6 +13,7 @@ import { ProductT } from "contexts/CheckoutContext/types";
 import { Prisma } from "@prisma/client";
 import { generateEazybreakData } from "./Eazybreak/data/generateEazybreakData";
 import { generateEpassiData } from "./Epassi/data/generateEpassiData";
+import { generateSmartumData } from "./Smartum/data/generateSmartumData";
 
 const vatPercentage: VatPercentage = 24;
 const ABSOLUTE_URL =
@@ -109,54 +110,19 @@ const generateProviderData = async (
       cancelRedirectUrl
    );
 
-   /*
    ///////////////////////////////////////
    // SMARTUM
    ///////////////////////////////////////
 
-   // Get the product names to a string
-   let product_name = "";
-   checkoutProducts.forEach((product) => {
-      product_name += product.name + " ";
-   });
-   product_name = product_name.trimEnd();
+   const smartum = await generateSmartumData(
+      reference,
+      checkoutProducts,
+      totalPrice,
+      successRedirectUrl,
+      cancelRedirectUrl
+   );
 
-   // Body to get the url
-   const smartumFetchBody = {
-      venue: process.env.NEXT_PUBLIC_SMARTUM_VENUE_ID,
-      amount: sum,
-      benefit: "exercise",
-      product_name,
-      success_url: `${ABSOLUTE_URL}/kiitos/${items[0].productCode}-${paytrail.amount}`,
-      cancel_url: cancel_url,
-      product_image_url: checkoutProducts[0].image_url,
-      timeout: 600,
-      nonce: reference,
-   };
-
-   // Get the url
-   const fetchSmartumUrl = await fetch(process.env.NEXT_PUBLIC_SMARTUM_URL, {
-      method: "POST",
-      headers: {
-         "content-type": "application/json",
-      },
-      body: JSON.stringify(smartumFetchBody),
-   });
-   const smartumUrlObject = await fetchSmartumUrl.json();
-   const smartumUrl = smartumUrlObject.data.url;
-
-   // Parameters
-   const smartumParameters = [];
-
-   // Smartum object
-   const smartum = {
-      url: smartumUrl,
-      name: "Smartum",
-      id: "smartum",
-      svg: "https://badges.smartum.fi/button/color.svg",
-      parameters: smartumParameters,
-   };
-
+   /*
    ///////////////////////////////////////
    // EDENRED
    ///////////////////////////////////////
@@ -192,8 +158,8 @@ const generateProviderData = async (
       paytrail,
       eazybreak,
       epassi,
-      /*
       smartum,
+      /*
       edenred,
       emailInvoice,
 		*/

@@ -10,6 +10,7 @@ import { ParsedUrlQuery } from "querystring";
 import Layout from "components/layouts/productPageLayout";
 import { IncomingMessage } from "http";
 import getRawBody from "raw-body";
+import calculateSmartumResponseJwt from "components/Checkout/Providers/Smartum/data/calculateSmartumResponseJwt";
 
 const WEBSITE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "";
 
@@ -117,15 +118,49 @@ export async function getServerSideProps({
    // TODO: UPDATE ORDER FOR PROVIDERS WHERE CALLBACK IS NOT POSSIBLE
 
    // Development only to test the successfulOrder endpoint
-   if (process.env.NODE_ENV === "development" && !query["ePassi-order"]) {
+   if (process.env.NODE_ENV === "development" && !query["ePassi-order"] && !query["jwt"]) {
       const successfulOrder = await fetch(
          `${WEBSITE_URL}/api/checkout/successfulOrder?${resolvedUrl.split("?")[1]}`
       );
       console.log("Successful order response status", successfulOrder.status);
    }
 
+   //////////////////////////////////////
+   // Handle Smartum //
+   //////////////////////////////////////
+   let smartumReference = null;
+   if (query["jwt"]) {
+      // Get and verify Smartum data
+      const { header, payload } = calculateSmartumResponseJwt(query["jwt"] as string);
+      const header1 = header as { [key: string]: any };
+      const payload1 = payload as { [key: string]: any };
+
+      // Set nonce as the smartumReferenec
+      smartumReference = payload1.nonce;
+
+      // Create queryparameter string
+      let smartumQueryParams = "";
+      Object.keys(header1).forEach((headerKey) => {
+         smartumQueryParams += headerKey + "=" + header1[headerKey] + "&";
+      });
+      Object.keys(payload1).forEach((payloadKey) => {
+         smartumQueryParams += payloadKey + "=" + payload1[payloadKey] + "&";
+      });
+      smartumQueryParams = smartumQueryParams.substring(0, smartumQueryParams.length - 1);
+
+      // Call successfulOrder for Smartum
+      const successfulOrderRes = await fetch(
+         `${WEBSITE_URL}/api/checkout/successfulOrder?${smartumQueryParams}`
+      );
+      console.log("Smartum successful order status:", successfulOrderRes.status);
+   }
+
    // Get reference from: Paytrail || Eazybreak || ePassi
-   const reference = query["checkout-reference"] || query["payment_id"] || query["ePassi-order"];
+   const reference =
+      query["checkout-reference"] ||
+      query["payment_id"] ||
+      query["ePassi-order"] ||
+      smartumReference;
 
    // Handle error
    if (typeof reference !== "string") {

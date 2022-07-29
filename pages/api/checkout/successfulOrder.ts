@@ -4,7 +4,8 @@ import calculateHmac from "components/Checkout/Providers/Paytrail/data/calculate
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getOrder, updateOrder } from "prisma/order";
 
-const PAYTRAIL_SECRET = "SAIPPUAKAUPPIAS";
+const PAYTRAIL_SECRET = process.env.PAYTRAIL_SECRET || "SAIPPUAKAUPPIAS";
+const SMARTUM_KID = process.env.SMARTUM_KID || "UBJZYFXrOKHq_3VZWIs_XQHDY8ZOS2UrocBvyXm8ejI";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
    const query = req.query;
@@ -41,10 +42,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
    }
 
    //////////////////////////////////////////////////////////
-   // CHECK VALIDITY
+   // VALIDATE PAYMENT FOR EACH PROVIDER
    //////////////////////////////////////////////////////////
 
-   // Check validity of Paytrail
+   // Check validity of Paytrail (Includes Edenred)
    if (query["checkout-reference"]) {
       // Retrieve the signature to be verified and remove it from the payload headers
       const testSignature = query["signature"];
@@ -104,14 +105,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       // Log success
       console.log("ePassi was successfully validated.");
    }
-   /*
+
    // Check validity of Smartum
    else if (query["nonce"]) {
-      if (query.kid !== process.env.SMARTUM_KID)
-         return res.status(401).json({ error: "jwt:n kid ei täsmää" });
-      console.log("Smartum varmistettu.");
+      if (query.kid !== SMARTUM_KID) {
+         console.error("The jwt's kid was invalid");
+         return res.status(401).end();
+      }
+      console.log("Smartum was successfully validated.");
    }
-	*/
 
    //////////////////////////////////////////////////////////
    // ACTIVATE COURSES
