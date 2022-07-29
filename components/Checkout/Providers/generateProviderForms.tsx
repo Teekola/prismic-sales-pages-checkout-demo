@@ -59,7 +59,7 @@ const generateProviderForms = ({ paytrail, eazybreak, epassi, smartum }: Provide
       </motion.div>
    );
 
-   // TODO: ADD CUSTOM PROVIDERS: LIIKUNTASETELIT JA SÄHKÖPOSTILASKU
+   // TODO: ADD CUSTOM PROVIDERS: Edenred JA SÄHKÖPOSTILASKU
    return (
       <>
          {voucherForms}

@@ -180,12 +180,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
    await updateOrder({ status: "valmis" }, { reference });
 
    //////////////////////////////////////////////////////////
-   // TODO: ADD TO HYROS
+   // TODO: ADD TO HYROS (production only)
    //////////////////////////////////////////////////////////
+   if (process.env.NODE_ENV === "production") {
+      // Add to Hyros
+   }
 
    //////////////////////////////////////////////////////////
-   // TODO: ADD TO ACTIVE CAMPAIGN
+   // TODO: ADD TO ACTIVE CAMPAIGN (production only)
    //////////////////////////////////////////////////////////
+   if (process.env.NODE_ENV === "production") {
+      // Add to AC
+   }
 
    return res.status(200).end();
 }

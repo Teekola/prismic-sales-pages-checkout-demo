@@ -114,8 +114,7 @@ export async function getServerSideProps({
    //////////////////////////////////////////////////////////
    // HANDLE DIFFERENT PAYMENT PROVIDERS
    //////////////////////////////////////////////////////////
-   // TODO: ADD OTHER PROVIDERS
-   // TODO: UPDATE ORDER FOR PROVIDERS WHERE CALLBACK IS NOT POSSIBLE
+   // TODO: ADD SÄHKÖPOSTILASKU
 
    // Development only to test the successfulOrder endpoint
    if (process.env.NODE_ENV === "development" && !query["ePassi-order"] && !query["jwt"]) {
@@ -125,9 +124,9 @@ export async function getServerSideProps({
       console.log("Successful order response status", successfulOrder.status);
    }
 
-   //////////////////////////////////////
-   // Handle Smartum //
-   //////////////////////////////////////
+   /////////////////////////////////////////
+   // Smartum reference + successfulOrder //
+   /////////////////////////////////////////
    let smartumReference = null;
    if (query["jwt"]) {
       // Get and verify Smartum data
@@ -155,7 +154,7 @@ export async function getServerSideProps({
       console.log("Smartum successful order status:", successfulOrderRes.status);
    }
 
-   // Get reference from: Paytrail || Eazybreak || ePassi
+   // Get reference from: Paytrail (Edenred) || Eazybreak || ePassi || Smartum
    const reference =
       query["checkout-reference"] ||
       query["payment_id"] ||

@@ -164,7 +164,7 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
       setCheckoutOrderId,
    ]);
 
-   // TODO: ADD SEO TO PRISMIC
+   // TODO: ADD SEO & Social TO PRISMIC
    return (
       <>
          <Head>
