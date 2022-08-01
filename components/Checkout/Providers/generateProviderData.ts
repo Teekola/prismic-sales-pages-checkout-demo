@@ -3,7 +3,7 @@ import epassiSvg from "../../public/epassi.webp";
 import edenredPng from "../../public/edenred.png";
 import emailInvoicePng from "../../public/emailInvoice.png";
 */
-import { CheckoutOrderIdT, CheckoutReferenceT, DiscountT } from "contexts/CheckoutContext/types";
+import { CheckoutReferenceT, DiscountT } from "contexts/CheckoutContext/types";
 import { VatPercentage, FilledCheckoutFormDataT } from "./types";
 import { applyDiscountToProducts, calculateDiscountedTotalPrice } from "../Products/prices";
 import generatePaytrailProviderData from "./Paytrail/data";
@@ -131,13 +131,7 @@ const generateProviderData = async (
    ///////////////////////////////////////
    // EMAIL
    ///////////////////////////////////////
-   const emailInvoice = generateEmailInvoiceData(
-      reference,
-      discountedProducts,
-      checkoutFormData,
-      totalPrice,
-      successRedirectUrl
-   );
+   const emailInvoice = generateEmailInvoiceData();
 
    ///////////////////////////////////////
    // RETURN OBJECT

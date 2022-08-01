@@ -10,30 +10,10 @@ import {
    useCheckoutReference,
    useSetCheckoutStep,
 } from "contexts/CheckoutContext";
-import { ProductT } from "contexts/CheckoutContext/types";
-import { FilledCheckoutFormDataT, VatPercentage } from "../../types";
+import { FilledCheckoutFormDataT } from "../../../types";
 import { calculateDiscountedTotalPrice } from "components/Checkout/Products/prices";
-
+import { InvoiceFormFields, FennoaInvoiceRow } from "../../types";
 const WEBSITE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "";
-
-export type EmailFormFields = {
-   name: string;
-   email: string;
-   address: string;
-   postalcode: string;
-   country: string;
-   city: string;
-};
-
-export type FennoaInvoiceRow = {
-   product_no: string;
-   name: ProductT["name"];
-   description: ProductT["type"];
-   price: number;
-   quantity: number;
-   vatpercent: VatPercentage;
-   discount_percent: 0;
-};
 
 type UserFormProps = {
    dueDate: Date;
@@ -41,7 +21,7 @@ type UserFormProps = {
    isSending: boolean;
 };
 
-export default function UserForm({ dueDate, setIsSending, isSending }: UserFormProps) {
+export default function InvoiceForm({ dueDate, setIsSending, isSending }: UserFormProps) {
    // Form's internal state
    const [isLoaded, setIsLoaded] = useState<boolean>(false);
    const [hasTried, setHasTried] = useState<HasTried>({});
@@ -62,7 +42,7 @@ export default function UserForm({ dueDate, setIsSending, isSending }: UserFormP
       watch,
       setError,
       setFocus,
-   } = useForm<EmailFormFields>({
+   } = useForm<InvoiceFormFields>({
       defaultValues: {
          name: "",
          email: "",
@@ -73,7 +53,7 @@ export default function UserForm({ dueDate, setIsSending, isSending }: UserFormP
       },
    });
 
-   const handleKeyUp = (fieldName: Path<EmailFormFields>) => {
+   const handleKeyUp = (fieldName: Path<InvoiceFormFields>) => {
       // If the user has tried to fill correctly
       // run validation
       if (hasTried[fieldName]) {
@@ -81,7 +61,7 @@ export default function UserForm({ dueDate, setIsSending, isSending }: UserFormP
       }
    };
 
-   const handleBlur = (fieldName: Path<EmailFormFields>) => {
+   const handleBlur = (fieldName: Path<InvoiceFormFields>) => {
       // Update the field's hasTried value to be true
       if (!hasTried[fieldName]) {
          setHasTried({ ...hasTried, [fieldName]: true });
@@ -111,7 +91,7 @@ export default function UserForm({ dueDate, setIsSending, isSending }: UserFormP
       setValue("country", e.target.value);
    };
 
-   const handleFormSubmit = async (submittedData: EmailFormFields) => {
+   const handleFormSubmit = async (submittedData: InvoiceFormFields) => {
       setIsSending(true);
       //////////////////////////////////////
       // Get correct data for the invoice //

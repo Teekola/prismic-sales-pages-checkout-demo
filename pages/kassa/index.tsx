@@ -25,7 +25,7 @@ import generateProviderData from "components/Checkout/Providers/generateProvider
 import generateProviderForms from "components/Checkout/Providers/generateProviderForms";
 import { FilledCheckoutFormDataT } from "components/Checkout/Providers/types";
 import { DiscountT, Step } from "contexts/CheckoutContext/types";
-import FennoaEmailInvoice from "components/Checkout/Providers/FennoaEmailInvoice";
+import FennoaEmailInvoice from "components/Checkout/Providers/FennoaEmailInvoice/Page";
 
 interface CheckoutpageProps {
    title: string;

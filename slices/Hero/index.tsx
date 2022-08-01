@@ -40,9 +40,7 @@ const Hero = ({ slice }: SliceComponentProps<HeroSlice>) => {
             left: 0,
             behavior: "smooth",
          });
-      } else if (
-         slice.primary.secondaryButtonLink.toLowerCase() === "lisää ostoskoriin"
-      ) {
+      } else if (slice.primary.secondaryButtonLink.toLowerCase() === "lisää ostoskoriin") {
          console.log("LISÄÄ OSTOSKORIIN");
       }
    };
@@ -55,22 +53,15 @@ const Hero = ({ slice }: SliceComponentProps<HeroSlice>) => {
                <span>{slice.primary.subtitle}</span>
             </h1>
             <PrismicRichText field={slice.primary.description} />
-            {(slice.primary.primaryButtonText ||
-               slice.primary.secondaryButtonText) && (
+            {(slice.primary.primaryButtonText || slice.primary.secondaryButtonText) && (
                <div className="buttons-container">
                   {slice.primary.primaryButtonText && (
-                     <button
-                        className="primary-cta"
-                        onClick={handlePrimaryClick}
-                     >
+                     <button className="primary-cta" onClick={handlePrimaryClick}>
                         {slice.primary.primaryButtonText}
                      </button>
                   )}
                   {slice.primary.secondaryButtonText && (
-                     <button
-                        className="secondary-cta"
-                        onClick={handleSecondaryClick}
-                     >
+                     <button className="secondary-cta" onClick={handleSecondaryClick}>
                         {slice.primary.secondaryButtonText}
                      </button>
                   )}
@@ -85,6 +76,7 @@ const Hero = ({ slice }: SliceComponentProps<HeroSlice>) => {
                      src={slice.primary.image.url}
                      alt={slice.primary.image.alt}
                      layout="fill"
+                     priority
                   />
                </div>
             </div>
@@ -99,6 +91,7 @@ const Hero = ({ slice }: SliceComponentProps<HeroSlice>) => {
                      layout="fill"
                      objectFit="cover"
                      objectPosition="center"
+                     priority
                   />
                </div>
             </div>
