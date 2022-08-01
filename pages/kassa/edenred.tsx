@@ -21,11 +21,15 @@ export default function Edenred({ title, instructions }: EdenredProps) {
 
    const url = useMemo(() => {
       if (router.query.data) return JSON.parse(router.query.data as string).url;
-   }, [router.query]);
+      // Remove the dependency so that when user modifies the url, it does not affect the value
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
 
    const parameters = useMemo(() => {
       if (router.query.data) return JSON.parse(router.query.data as string).parameters;
-   }, [router.query]);
+      // Remove the dependency so that when user modifies the url, it does not affect the value
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
 
    // Browser Back Button Functionality
    useEffect(() => {
