@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import EazybreakForm from "./Eazybreak/EazybreakForm";
 import EpassiForm from "./Epassi/EpassiForm";
 import SmartumForm from "./Smartum/SmartumForm";
+import EdenredForm from "./Edenred/EdenredForm";
 
 const formVariants = {
    initial: { rotate: -15 },
@@ -23,7 +24,7 @@ const addPaytrailProvidersToGroups = (paytrail: OkPaytrailResponseT) => {
    return groupedProviders;
 };
 
-const generateProviderForms = ({ paytrail, eazybreak, epassi, smartum }: ProviderData) => {
+const generateProviderForms = ({ paytrail, eazybreak, epassi, smartum, edenred }: ProviderData) => {
    if (paytrail.status !== "ok") {
       return <div>Virhe. Paytrail. generateProviderForms.</div>;
    }
@@ -48,6 +49,9 @@ const generateProviderForms = ({ paytrail, eazybreak, epassi, smartum }: Provide
       </motion.div>
    ));
 
+   // Get mastercard data for Edenred
+   const mastercard = paytrail.providers.find((provider) => provider.name === "Mastercard");
+
    const voucherForms = (
       <motion.div key="vouchers" className="group-container">
          <h3 className="group-heading">Liikuntasetelit</h3>
@@ -55,11 +59,14 @@ const generateProviderForms = ({ paytrail, eazybreak, epassi, smartum }: Provide
             <EpassiForm {...epassi} variants={formVariants} />
             <EazybreakForm {...eazybreak} variants={formVariants} />
             <SmartumForm {...smartum} variants={formVariants} />
+            {mastercard && (
+               <EdenredForm {...edenred} mastercard={mastercard} variants={formVariants} />
+            )}
          </motion.div>
       </motion.div>
    );
 
-   // TODO: ADD CUSTOM PROVIDERS: Edenred JA SÄHKÖPOSTILASKU
+   // TODO: ADD CUSTOM PROVIDER SÄHKÖPOSTILASKU
    return (
       <>
          {voucherForms}

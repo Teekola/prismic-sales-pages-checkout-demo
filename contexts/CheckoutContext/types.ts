@@ -1,5 +1,5 @@
 import { Order, Product } from "@prisma/client";
-export type Step = "form" | "providers";
+export type Step = "form" | "providers" | "edenred";
 export type DiscountT = {
    discountAmount: number;
    discountType: "€" | "%";

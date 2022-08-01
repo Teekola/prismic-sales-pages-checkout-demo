@@ -14,6 +14,7 @@ import { Prisma } from "@prisma/client";
 import { generateEazybreakData } from "./Eazybreak/data/generateEazybreakData";
 import { generateEpassiData } from "./Epassi/data/generateEpassiData";
 import { generateSmartumData } from "./Smartum/data/generateSmartumData";
+import { generateEdenredData } from "./Edenred/data/generateEdenredData";
 
 const vatPercentage: VatPercentage = 24;
 const ABSOLUTE_URL =
@@ -122,19 +123,15 @@ const generateProviderData = async (
       cancelRedirectUrl
    );
 
-   /*
    ///////////////////////////////////////
    // EDENRED
    ///////////////////////////////////////
-   const edenred = {
-      name: "Edenred",
-      id: "edenred",
-      svg: edenredPng.src,
-   };
+   const edenred = generateEdenredData();
 
    ///////////////////////////////////////
    // EMAIL
    ///////////////////////////////////////
+   /*
    const emailInvoice = {
       name: "Sähköpostilasku + 0 €",
       id: "emailinvoice",
@@ -159,8 +156,8 @@ const generateProviderData = async (
       eazybreak,
       epassi,
       smartum,
-      /*
       edenred,
+      /*
       emailInvoice,
 		*/
    };

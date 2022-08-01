@@ -1,0 +1,26 @@
+{
+  "id": "edenred_checkout_page",
+  "label": "Edenred Checkout Page",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Main": {
+      "title": {
+        "type": "Text",
+        "config": {
+          "label": "Title",
+          "placeholder": ""
+        }
+      },
+      "instructions": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Instructions",
+          "placeholder": "",
+          "allowTargetBlank": true,
+          "multi": "paragraph,heading3,heading4,heading5,heading6,strong,em,hyperlink,list-item,o-list-item,image"
+        }
+      }
+    }
+  }
+}

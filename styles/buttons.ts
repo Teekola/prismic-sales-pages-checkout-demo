@@ -29,6 +29,15 @@ const buttons = css`
       transition: filter 0.1s;
    }
 
+   .primary-cta:disabled {
+      background-color: var(--c-gray);
+   }
+
+   .primary-cta:disabled:hover {
+      filter: none;
+      cursor: default;
+   }
+
    .secondary-cta {
       font-weight: bold;
       color: var(--c-dark);

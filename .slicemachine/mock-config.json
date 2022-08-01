@@ -17,6 +17,14 @@
           "blocks": 1
         }
       }
+    },
+    "edenred_checkout_page": {
+      "instructions": {
+        "config": {
+          "patternType": "PARAGRAPH",
+          "blocks": 1
+        }
+      }
     }
   },
   "slices": {
