@@ -15,6 +15,7 @@ import { generateEazybreakData } from "./Eazybreak/data/generateEazybreakData";
 import { generateEpassiData } from "./Epassi/data/generateEpassiData";
 import { generateSmartumData } from "./Smartum/data/generateSmartumData";
 import { generateEdenredData } from "./Edenred/data/generateEdenredData";
+import { generateEmailInvoiceData } from "./FennoaEmailInvoice/data/generateEmailInvoiceData";
 
 const vatPercentage: VatPercentage = 24;
 const ABSOLUTE_URL =
@@ -49,7 +50,6 @@ const generateProviderData = async (
    ///////////////////////////////////////
    // DATA FOR ORDER CREATE
    ///////////////////////////////////////
-
    const data: Prisma.OrderUpdateArgs["data"] | Prisma.OrderCreateArgs["data"] = {
       reference,
       products: {
@@ -131,22 +131,14 @@ const generateProviderData = async (
    ///////////////////////////////////////
    // EMAIL
    ///////////////////////////////////////
-   /*
-   const emailInvoice = {
-      name: "Sähköpostilasku + 0 €",
-      id: "emailinvoice",
-      svg: emailInvoicePng.src,
-      data: {
-         customer: checkoutFormData,
-         products: checkoutProducts,
-         amount: paytrail.amount,
-         reference: paytrail.reference,
-      },
-      success_url: `${redirectUrls.success}?email-reference=${paytrail.reference}`,
-      parameters: [],
-   };
+   const emailInvoice = generateEmailInvoiceData(
+      reference,
+      discountedProducts,
+      checkoutFormData,
+      totalPrice,
+      successRedirectUrl
+   );
 
-	*/
    ///////////////////////////////////////
    // RETURN OBJECT
    ///////////////////////////////////////
@@ -157,9 +149,7 @@ const generateProviderData = async (
       epassi,
       smartum,
       edenred,
-      /*
       emailInvoice,
-		*/
    };
 
    return payloads;

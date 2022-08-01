@@ -114,7 +114,6 @@ export async function getServerSideProps({
    //////////////////////////////////////////////////////////
    // HANDLE DIFFERENT PAYMENT PROVIDERS
    //////////////////////////////////////////////////////////
-   // TODO: ADD SÄHKÖPOSTILASKU
 
    // Development only to test the successfulOrder endpoint
    if (process.env.NODE_ENV === "development" && !query["ePassi-order"] && !query["jwt"]) {
@@ -159,6 +158,7 @@ export async function getServerSideProps({
       query["checkout-reference"] ||
       query["payment_id"] ||
       query["ePassi-order"] ||
+      query["email-reference"] ||
       smartumReference;
 
    // Handle error

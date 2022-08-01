@@ -8,13 +8,13 @@ const FormField = <TFormValues extends Record<string, unknown>>({
    rhf,
    handlers,
 }: FormFieldProps<TFormValues>) => {
-   const { name, label, instruction, attributes } = fieldOptions;
+   const { name, label, instruction, attributes, maxWidth } = fieldOptions;
    const { register, registerOptions, errors } = rhf;
    const { handleBlur, handleKeyUp, handleChange } = handlers;
    const errorMessages = get(errors, name);
    const hasError = !!(errors && errorMessages);
    return (
-      <StyledFormField>
+      <StyledFormField style={maxWidth ? { maxWidth } : {}}>
          <label
             htmlFor={attributes.id}
             className={registerOptions.required ? "label required" : "label"}

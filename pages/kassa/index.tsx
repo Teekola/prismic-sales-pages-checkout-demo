@@ -24,7 +24,8 @@ import StyledCheckout from "components/Checkout/style";
 import generateProviderData from "components/Checkout/Providers/generateProviderData";
 import generateProviderForms from "components/Checkout/Providers/generateProviderForms";
 import { FilledCheckoutFormDataT } from "components/Checkout/Providers/types";
-import { DiscountT } from "contexts/CheckoutContext/types";
+import { DiscountT, Step } from "contexts/CheckoutContext/types";
+import FennoaEmailInvoice from "components/Checkout/Providers/FennoaEmailInvoice";
 
 interface CheckoutpageProps {
    title: string;
@@ -55,7 +56,7 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
    // Update CheckoutContext Data From Session Storage
    // When Returning Back to The Checkout Page.
    useEffect(() => {
-      const storageCheckoutStep = sessionStorage.getItem("checkoutStep");
+      const storageCheckoutStep = sessionStorage.getItem("checkoutStep") || "";
       const storageCheckoutProducts = JSON.parse(
          sessionStorage.getItem("checkoutProducts") || "[]"
       );
@@ -71,9 +72,8 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
       setCheckoutProducts(storageCheckoutProducts);
       setCheckoutFormData(storageCheckoutFormData);
       setCheckoutDiscount(storageCheckoutDiscount);
-
-      if (storageCheckoutStep === "providers") {
-         setCheckoutStep("providers");
+      if (["form", "providers", "emailInvoice", "edenred"].includes(storageCheckoutStep)) {
+         setCheckoutStep(storageCheckoutStep as Step);
       }
       setIsLoaded(true);
    }, [
@@ -181,7 +181,9 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
                   <CheckoutLayout>
                      {checkoutStep === "form" && <Form formProps={formProps} />}
                      {checkoutStep === "providers" && <Providers />}
+                     {checkoutStep === "emailInvoice" && <FennoaEmailInvoice />}
                      {checkoutProducts.length > 0 && <Products />}
+                     {/*checkoutStep === "edenred" && <Edenred />*/}
                   </CheckoutLayout>
                </AnimatePresence>
             )}

@@ -9,11 +9,12 @@ type FormFieldProps<TFormValues> = {
       attributes: {
          id: string;
          name: string;
-         type: "text" | "tel";
+         type: "text" | "tel" | "number";
          placeholder?: string;
-         autoComplete?: "email" | "tel";
+         autoComplete?: "email" | "tel" | "postal-code";
          inputMode?: "email" | "numeric";
       };
+      maxWidth?: number | string;
    };
    handlers: {
       handleKeyUp: (name: Path<TFormValues>) => void;

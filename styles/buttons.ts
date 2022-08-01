@@ -33,6 +33,10 @@ const buttons = css`
       background-color: var(--c-gray);
    }
 
+   .primary-cta[data-disabled="true"] {
+      background-color: var(--c-gray);
+   }
+
    .primary-cta:disabled:hover {
       filter: none;
       cursor: default;

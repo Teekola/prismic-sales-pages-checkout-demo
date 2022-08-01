@@ -6,6 +6,7 @@ import EazybreakForm from "./Eazybreak/EazybreakForm";
 import EpassiForm from "./Epassi/EpassiForm";
 import SmartumForm from "./Smartum/SmartumForm";
 import EdenredForm from "./Edenred/EdenredForm";
+import EmailInvoiceForm from "./FennoaEmailInvoice/EmailInvoiceForm";
 
 const formVariants = {
    initial: { rotate: -15 },
@@ -24,7 +25,14 @@ const addPaytrailProvidersToGroups = (paytrail: OkPaytrailResponseT) => {
    return groupedProviders;
 };
 
-const generateProviderForms = ({ paytrail, eazybreak, epassi, smartum, edenred }: ProviderData) => {
+const generateProviderForms = ({
+   paytrail,
+   eazybreak,
+   epassi,
+   smartum,
+   edenred,
+   emailInvoice,
+}: ProviderData) => {
    if (paytrail.status !== "ok") {
       return <div>Virhe. Paytrail. generateProviderForms.</div>;
    }
@@ -66,11 +74,21 @@ const generateProviderForms = ({ paytrail, eazybreak, epassi, smartum, edenred }
       </motion.div>
    );
 
+   const otherForms = (
+      <motion.div key="others" className="group-container">
+         <h3 className="group-heading">Muut maksutavat</h3>
+         <motion.div className="provider-group-container">
+            <EmailInvoiceForm {...emailInvoice} variants={formVariants} />
+         </motion.div>
+      </motion.div>
+   );
+
    // TODO: ADD CUSTOM PROVIDER SÄHKÖPOSTILASKU
    return (
       <>
          {voucherForms}
          {paytrailForms}
+         {otherForms}
       </>
    );
 };
