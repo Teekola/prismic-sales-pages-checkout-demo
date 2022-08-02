@@ -7,6 +7,7 @@ export const StyledContainer = styled.div`
    display: flex;
    flex-direction: column;
    gap: 2rem;
+   margin-bottom: 10rem;
 
    .group-container {
       display: flex;

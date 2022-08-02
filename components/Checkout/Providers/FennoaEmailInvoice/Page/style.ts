@@ -7,4 +7,5 @@ export const StyledContainer = styled(motion.div)`
    gap: 1rem;
    width: 100%;
    max-width: 600px;
+   margin-bottom: 10rem;
 `;
