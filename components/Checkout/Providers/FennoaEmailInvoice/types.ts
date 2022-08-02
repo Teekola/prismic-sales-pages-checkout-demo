@@ -33,3 +33,22 @@ export type FennoaInvoiceRow = {
    vatpercent: VatPercentage;
    discount_percent: 0;
 };
+
+export type FennoaInvoiceRowKey = keyof FennoaInvoiceRow;
+
+export type FennoaFormData = {
+   name: string;
+   address: string;
+   postalcode: string;
+   city: string;
+   country: string;
+   invoice_date: string;
+   due_date: string;
+   einvoice_address: string;
+   delivery_method: "email";
+   currency: "EUR";
+   order_identifier: string;
+   notes_before: string;
+   include_vat: 1;
+   row: FennoaInvoiceRow[];
+};
