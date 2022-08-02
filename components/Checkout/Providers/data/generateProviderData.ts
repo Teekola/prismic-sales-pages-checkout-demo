@@ -1,21 +1,16 @@
-/*
-import epassiSvg from "../../public/epassi.webp";
-import edenredPng from "../../public/edenred.png";
-import emailInvoicePng from "../../public/emailInvoice.png";
-*/
 import { CheckoutReferenceT, DiscountT } from "contexts/CheckoutContext/types";
-import { VatPercentage, FilledCheckoutFormDataT } from "./types";
-import { applyDiscountToProducts, calculateDiscountedTotalPrice } from "../Products/prices";
-import generatePaytrailProviderData from "./Paytrail/data";
-import { ProviderData } from "./types";
-import { generateCheckoutReference } from "../data/checkoutReference";
+import { VatPercentage, FilledCheckoutFormDataT } from "../types";
+import { applyDiscountToProducts, calculateDiscountedTotalPrice } from "../../Products/prices";
+import generatePaytrailProviderData from "../Paytrail/data";
+import { ProviderData } from "../types";
+import { generateCheckoutReference } from "../../data/checkoutReference";
 import { ProductT } from "contexts/CheckoutContext/types";
 import { Prisma } from "@prisma/client";
-import { generateEazybreakData } from "./Eazybreak/data/generateEazybreakData";
-import { generateEpassiData } from "./Epassi/data/generateEpassiData";
-import { generateSmartumData } from "./Smartum/data/generateSmartumData";
-import { generateEdenredData } from "./Edenred/data/generateEdenredData";
-import { generateEmailInvoiceData } from "./FennoaEmailInvoice/data/generateEmailInvoiceData";
+import { generateEazybreakData } from "../Eazybreak/data/generateEazybreakData";
+import { generateEpassiData } from "../Epassi/data/generateEpassiData";
+import { generateSmartumData } from "../Smartum/data/generateSmartumData";
+import { generateEdenredData } from "../Edenred/data/generateEdenredData";
+import { generateEmailInvoiceData } from "../FennoaEmailInvoice/data/generateEmailInvoiceData";
 
 const vatPercentage: VatPercentage = 24;
 const ABSOLUTE_URL =

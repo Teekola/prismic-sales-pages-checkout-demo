@@ -32,33 +32,35 @@ export default function Providers() {
          <Head>
             <title>Eroonjumeista.fi Kassa Maksutavan Valinta</title>
          </Head>
-         <StyledContainer>
-            <h1>Valitse maksutapa</h1>
-            <p className="terms">
-               Valitsemalla maksutavan hyväksyt{" "}
-               <a
-                  href="https://www.paytrail.com/kuluttaja/maksupalveluehdot"
-                  target="_blank"
-                  rel="noopener noreferrer"
-               >
-                  maksupalveluehdot
-               </a>
-               .
-            </p>
-            {checkoutProviderForms === null && (
-               <>
-                  <p>Ladataan maksutapoja...</p>
-                  <Loader />
-               </>
-            )}
-            {checkoutProviderForms}
+         <div style={{ display: "flex", flexDirection: "column", gap: "1rem", width: "100%" }}>
             <BackButton
                label="Takaisin"
                onClick={() => {
                   setCheckoutStep("form");
                }}
             />
-         </StyledContainer>
+            <StyledContainer>
+               <h1>Valitse maksutapa</h1>
+               <p className="terms">
+                  Valitsemalla maksutavan hyväksyt{" "}
+                  <a
+                     href="https://www.paytrail.com/kuluttaja/maksupalveluehdot"
+                     target="_blank"
+                     rel="noopener noreferrer"
+                  >
+                     maksupalveluehdot
+                  </a>
+                  .
+               </p>
+               {checkoutProviderForms === null && (
+                  <>
+                     <p>Ladataan maksutapoja...</p>
+                     <Loader />
+                  </>
+               )}
+               {checkoutProviderForms}
+            </StyledContainer>
+         </div>
       </>
    );
 }

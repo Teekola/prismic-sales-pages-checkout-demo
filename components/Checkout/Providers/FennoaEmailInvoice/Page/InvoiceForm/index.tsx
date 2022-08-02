@@ -325,7 +325,9 @@ export default function InvoiceForm({ dueDate, setIsSending, isSending }: UserFo
          </div>
 
          <div className="form-block">
-            <label htmlFor="country">Kotimaa</label>
+            <label htmlFor="country" className="required">
+               Kotimaa
+            </label>
             <select
                value={watch("country")}
                {...register("country", { required: "Kotimaa vaaditaan." })}

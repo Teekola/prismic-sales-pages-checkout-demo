@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSetCheckoutStep } from "contexts/CheckoutContext";
-import UserForm from "components/Checkout/Providers/FennoaEmailInvoice/Page/InvoiceForm";
+import InvoiceForm from "components/Checkout/Providers/FennoaEmailInvoice/Page/InvoiceForm";
 import BackButton from "components/ui/BackButton";
 import Loader from "components/ui/Loader";
 import { StyledContainer } from "./style";
@@ -53,6 +53,8 @@ export default function FennoaEmailInvoice() {
       >
          {!isSending && (
             <>
+               <BackButton onClick={handleBackButtonClick} label="Takaisin" />
+
                <h1>Täytä puuttuvat laskun tiedot</h1>
                <p>
                   Täytä allaolevat kentät ja paina lähetä lasku -painiketta. Lasku lähetetään
@@ -65,8 +67,7 @@ export default function FennoaEmailInvoice() {
                </p>
             </>
          )}
-         <UserForm dueDate={dueDate} isSending={isSending} setIsSending={setIsSending} />
-         {!isSending && <BackButton onClick={handleBackButtonClick} label="Takaisin" />}
+         <InvoiceForm dueDate={dueDate} isSending={isSending} setIsSending={setIsSending} />
 
          {isSending && (
             <>

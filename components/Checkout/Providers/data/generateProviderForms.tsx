@@ -1,12 +1,12 @@
-import { PaytrailResponseT } from "./Paytrail/types";
-import { ProviderData } from "./types";
-import PaytrailForm from "./Paytrail/PaytrailForm";
+import { PaytrailResponseT } from "../Paytrail/types";
+import { ProviderData } from "../types";
+import PaytrailForm from "../Paytrail/PaytrailForm";
 import { motion } from "framer-motion";
-import EazybreakForm from "./Eazybreak/EazybreakForm";
-import EpassiForm from "./Epassi/EpassiForm";
-import SmartumForm from "./Smartum/SmartumForm";
-import EdenredForm from "./Edenred/EdenredForm";
-import EmailInvoiceForm from "./FennoaEmailInvoice/EmailInvoiceForm";
+import EazybreakForm from "../Eazybreak/EazybreakForm";
+import EpassiForm from "../Epassi/EpassiForm";
+import SmartumForm from "../Smartum/SmartumForm";
+import EdenredForm from "../Edenred/EdenredForm";
+import EmailInvoiceForm from "../FennoaEmailInvoice/EmailInvoiceForm";
 
 const formVariants = {
    initial: { rotate: -15 },

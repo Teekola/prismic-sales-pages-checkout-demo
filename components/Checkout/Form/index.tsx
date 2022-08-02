@@ -13,6 +13,7 @@ import {
 import { useRouter } from "next/router";
 import { CheckoutFormDataT } from "contexts/CheckoutContext/types";
 import Head from "next/head";
+import BackButton from "components/ui/BackButton";
 
 export default function Form({ formProps }: FormProps) {
    const [hasTried, setHasTried] = useState<HasTried>({});
@@ -184,120 +185,135 @@ export default function Form({ formProps }: FormProps) {
             <title>Eroonjumeista.fi Kassa Laskutustiedot</title>
          </Head>
 
-         <StyledForm onSubmit={handleSubmit((data) => handleFormSubmit(data))}>
-            <h1>Laskutustiedot</h1>
-            <div className="input-group">
+         <div style={{ display: "flex", flexDirection: "column", gap: "1rem", width: "100%" }}>
+            <BackButton
+               label="Takaisin"
+               onClick={() => {
+                  history.back();
+               }}
+            />
+            <StyledForm onSubmit={handleSubmit((data) => handleFormSubmit(data))}>
+               <h1>Laskutustiedot</h1>
+               <div className="input-group">
+                  <FormField
+                     fieldOptions={{
+                        name: "firstName",
+                        label: "Etunimi",
+                        attributes: { id: "firstName", name: "firstName", type: "text" },
+                     }}
+                     handlers={{ handleKeyUp, handleBlur }}
+                     rhf={{
+                        register,
+                        registerOptions: {
+                           required: "Etunimi vaaditaan.",
+                        },
+                        errors,
+                     }}
+                  />
+                  <FormField
+                     fieldOptions={{
+                        name: "lastName",
+                        label: "Sukunimi",
+                        attributes: { id: "lastName", name: "lastName", type: "text" },
+                     }}
+                     handlers={{ handleKeyUp, handleBlur }}
+                     rhf={{
+                        register,
+                        registerOptions: { required: "Sukunimi vaaditaan." },
+                        errors,
+                     }}
+                  />
+               </div>
                <FormField
                   fieldOptions={{
-                     name: "firstName",
-                     label: "Etunimi",
-                     attributes: { id: "firstName", name: "firstName", type: "text" },
+                     name: "email",
+                     label: "Sähköpostiosoite",
+                     instruction: formProps.emailInstruction,
+                     attributes: {
+                        id: "email",
+                        name: "email",
+                        type: "text",
+                        autoComplete: "email",
+                        inputMode: "email",
+                     },
                   }}
                   handlers={{ handleKeyUp, handleBlur }}
                   rhf={{
                      register,
                      registerOptions: {
-                        required: "Etunimi vaaditaan.",
+                        required: "Sähköpostiosoite vaaditaan.",
+                        pattern: {
+                           value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+                           message:
+                              "Tarkista, että kirjoitit sähköpostisi oikein. Tällä sähköpostiosoitteella pääset kirjautumaan kursseillesi.",
+                        },
                      },
                      errors,
                   }}
                />
                <FormField
                   fieldOptions={{
-                     name: "lastName",
-                     label: "Sukunimi",
-                     attributes: { id: "lastName", name: "lastName", type: "text" },
+                     name: "phone",
+                     label: "Puhelinnumero",
+                     instruction: formProps.phoneInstruction,
+                     attributes: {
+                        id: "phone",
+                        name: "phone",
+                        type: "tel",
+                        inputMode: "numeric",
+                        autoComplete: "tel",
+                     },
+                  }}
+                  handlers={{ handleKeyUp, handleBlur, handleChange: handlePhoneChange }}
+                  rhf={{
+                     register,
+                     registerOptions: {
+                        required: "Puhelinnumero vaaditaan.",
+                        minLength: {
+                           value: 6,
+                           message: "Virheellinen puhelinnumero.",
+                        },
+                        maxLength: {
+                           value: 17,
+                           message: "Virheellinen puhelinnumero.",
+                        },
+                     },
+                     errors,
+                  }}
+               />
+               <FormField
+                  fieldOptions={{
+                     name: "city",
+                     label: "Paikkakunta",
+                     attributes: { id: "city", name: "city", type: "text" },
                   }}
                   handlers={{ handleKeyUp, handleBlur }}
-                  rhf={{ register, registerOptions: { required: "Sukunimi vaaditaan." }, errors }}
+                  rhf={{
+                     register,
+                     registerOptions: { required: "Paikkakunta vaaditaan." },
+                     errors,
+                  }}
                />
-            </div>
-            <FormField
-               fieldOptions={{
-                  name: "email",
-                  label: "Sähköpostiosoite",
-                  instruction: formProps.emailInstruction,
-                  attributes: {
-                     id: "email",
-                     name: "email",
-                     type: "text",
-                     autoComplete: "email",
-                     inputMode: "email",
-                  },
-               }}
-               handlers={{ handleKeyUp, handleBlur }}
-               rhf={{
-                  register,
-                  registerOptions: {
-                     required: "Sähköpostiosoite vaaditaan.",
-                     pattern: {
-                        value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
-                        message:
-                           "Tarkista, että kirjoitit sähköpostisi oikein. Tällä sähköpostiosoitteella pääset kirjautumaan kursseillesi.",
-                     },
-                  },
-                  errors,
-               }}
-            />
-            <FormField
-               fieldOptions={{
-                  name: "phone",
-                  label: "Puhelinnumero",
-                  instruction: formProps.phoneInstruction,
-                  attributes: {
-                     id: "phone",
-                     name: "phone",
-                     type: "tel",
-                     inputMode: "numeric",
-                     autoComplete: "tel",
-                  },
-               }}
-               handlers={{ handleKeyUp, handleBlur, handleChange: handlePhoneChange }}
-               rhf={{
-                  register,
-                  registerOptions: {
-                     required: "Puhelinnumero vaaditaan.",
-                     minLength: {
-                        value: 6,
-                        message: "Virheellinen puhelinnumero.",
-                     },
-                     maxLength: {
-                        value: 17,
-                        message: "Virheellinen puhelinnumero.",
-                     },
-                  },
-                  errors,
-               }}
-            />
-            <FormField
-               fieldOptions={{
-                  name: "city",
-                  label: "Paikkakunta",
-                  attributes: { id: "city", name: "city", type: "text" },
-               }}
-               handlers={{ handleKeyUp, handleBlur }}
-               rhf={{ register, registerOptions: { required: "Paikkakunta vaaditaan." }, errors }}
-            />
-            <button
-               className="primary-cta submit"
-               type="submit"
-               data-disabled={
-                  Object.keys(errors).length != 0 ||
-                  Object.keys(dirtyFields).length < 5 ||
-                  checkoutProducts.length < 1
-               }
-               disabled={checkoutProducts.length < 1}
-            >
-               Jatka maksutavan valintaan
-            </button>
-            {checkoutProducts.length < 1 && (
-               <p className="error-message">
-                  Kassalla ei ole tuotteita. Lisää tuotteita ostoskoriin jatkaaksesi.
-               </p>
-            )}
-
-            <Script src="https://unpkg.com/detect-autofill/dist/detect-autofill.js" />
-         </StyledForm>
+               <button
+                  className="primary-cta submit"
+                  type="submit"
+                  data-disabled={
+                     Object.keys(errors).length != 0 ||
+                     Object.keys(dirtyFields).length < 5 ||
+                     checkoutProducts.length < 1
+                  }
+                  disabled={checkoutProducts.length < 1}
+               >
+                  Jatka maksutavan valintaan
+               </button>
+               {checkoutProducts.length < 1 && (
+                  <p className="error-message">
+                     Kassalla ei ole tuotteita. Lisää tuotteita ostoskoriin jatkaaksesi.
+                  </p>
+               )}
+            </StyledForm>
+         </div>
+         <Script src="https://unpkg.com/detect-autofill/dist/detect-autofill.js" />
       </>
    );
 }

@@ -21,8 +21,8 @@ import {
 import CheckoutLayout from "components/Checkout/checkoutLayout";
 import { AnimatePresence } from "framer-motion";
 import StyledCheckout from "components/Checkout/style";
-import generateProviderData from "components/Checkout/Providers/generateProviderData";
-import generateProviderForms from "components/Checkout/Providers/generateProviderForms";
+import generateProviderData from "components/Checkout/Providers/data/generateProviderData";
+import generateProviderForms from "components/Checkout/Providers/data/generateProviderForms";
 import { FilledCheckoutFormDataT } from "components/Checkout/Providers/types";
 import { DiscountT, Step } from "contexts/CheckoutContext/types";
 import FennoaEmailInvoice from "components/Checkout/Providers/FennoaEmailInvoice/Page";

@@ -29,6 +29,12 @@ export const StyledUserForm = styled.form`
       outline: 2px solid var(--input-focus-color);
    }
 
+   .required::after {
+      content: "*";
+      margin-left: 0.5rem;
+      color: var(--error-color);
+   }
+
    .error {
       outline: 1px solid var(--error-color) !important;
    }
