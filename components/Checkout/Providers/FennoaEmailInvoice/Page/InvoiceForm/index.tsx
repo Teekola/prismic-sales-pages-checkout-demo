@@ -209,7 +209,7 @@ export default function InvoiceForm({ dueDate, setIsSending, isSending }: UserFo
    }, [checkoutFormData, isLoaded, setCheckoutStep, setValue, setFocus]);
 
    // Get country options
-   // TODO: typings
+   // TODO: Replace with better option
    // TODO: Component for Dropdown menu
    useEffect(() => {
       const getCountries = async () => {
