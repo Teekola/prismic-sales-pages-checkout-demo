@@ -26,6 +26,9 @@ import generateProviderForms from "components/Checkout/Providers/data/generatePr
 import { FilledCheckoutFormDataT } from "components/Checkout/Providers/types";
 import { DiscountT, Step } from "contexts/CheckoutContext/types";
 import FennoaEmailInvoice from "components/Checkout/Providers/FennoaEmailInvoice/Page";
+import Edenred from "components/Checkout/Providers/Edenred/Page";
+import { KeyTextField, RichTextField } from "@prismicio/types";
+import { Provider } from "components/Checkout/Providers/Paytrail/types";
 
 interface CheckoutpageProps {
    title: string;
@@ -33,13 +36,18 @@ interface CheckoutpageProps {
       emailInstruction: string;
       phoneInstruction: string;
    };
+   edenredPage: {
+      title: KeyTextField;
+      instructions: RichTextField;
+   };
 }
 
 const WEBSITE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "";
 const DATABASE_ACCESS_TOKEN = process.env.NEXT_PUBLIC_DATABASE_ACCESS_TOKEN || "";
 
-export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
+export default function Checkoutpage({ title, formProps, edenredPage }: CheckoutpageProps) {
    const [isLoaded, setIsLoaded] = useState<boolean>(false);
+   const [mastercard, setMastercard] = useState<Provider>();
    const checkoutStep = useCheckoutStep();
    const checkoutProducts = useCheckoutProducts();
    const checkoutFormData = useCheckoutFormData();
@@ -107,6 +115,12 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
             setCheckoutProviderForms(<p>Paytrail Error!</p>);
             return;
          }
+
+         // Get mastercard data for Edenred
+         const mastercard = providerData.paytrail.providers.find(
+            (provider) => provider.name === "Mastercard"
+         );
+         setMastercard(mastercard);
 
          // Create and Set Provider Forms
          const providerForms = generateProviderForms(providerData);
@@ -182,8 +196,14 @@ export default function Checkoutpage({ title, formProps }: CheckoutpageProps) {
                      {checkoutStep === "form" && <Form formProps={formProps} />}
                      {checkoutStep === "providers" && <Providers />}
                      {checkoutStep === "emailInvoice" && <FennoaEmailInvoice />}
+                     {checkoutStep === "edenred" && (
+                        <Edenred
+                           mastercard={mastercard}
+                           title={edenredPage.title}
+                           instructions={edenredPage.instructions}
+                        />
+                     )}
                      {checkoutProducts.length > 0 && <Products />}
-                     {/*checkoutStep === "edenred" && <Edenred />*/}
                   </CheckoutLayout>
                </AnimatePresence>
             )}
@@ -196,6 +216,7 @@ export async function getStaticProps({ previewData }: any) {
    const client = createClient({ previewData });
 
    const document = await client.getSingle("checkout-page");
+   const edenredPage = await client.getSingle("edenred_checkout_page");
 
    return {
       props: {
@@ -203,6 +224,10 @@ export async function getStaticProps({ previewData }: any) {
          formProps: {
             emailInstruction: document.data.emailInstruction,
             phoneInstruction: document.data.phoneInstruction,
+         },
+         edenredPage: {
+            title: edenredPage.data.title,
+            instructions: edenredPage.data.instructions,
          },
       },
    };

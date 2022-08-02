@@ -2,19 +2,22 @@ import Image from "next/image";
 import { StyledProviderForm } from "../../styles";
 import { useState, FormEvent } from "react";
 import Loader from "components/ui/Loader";
-import { useCheckoutOrderId, useCheckoutReference } from "contexts/CheckoutContext";
+import {
+   useCheckoutOrderId,
+   useCheckoutReference,
+   useSetCheckoutStep,
+} from "contexts/CheckoutContext";
 import { Order } from "@prisma/client";
-import { useRouter } from "next/router";
 import { EdenredFormProps } from "../types";
 
 const WEBSITE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "";
 const DATABASE_ACCESS_TOKEN = process.env.NEXT_PUBLIC_DATABASE_ACCESS_TOKEN || "";
 
-export default function EdenredForm({ name, svg, mastercard, variants }: EdenredFormProps) {
+export default function EdenredForm({ name, svg, variants }: EdenredFormProps) {
    const [selected, setSelected] = useState<boolean>(false);
    const checkoutOrderId = useCheckoutOrderId();
    const checkoutReference = useCheckoutReference();
-   const router = useRouter();
+   const setCheckoutStep = useSetCheckoutStep();
 
    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -43,11 +46,7 @@ export default function EdenredForm({ name, svg, mastercard, variants }: Edenred
          body: JSON.stringify(body),
       });
 
-      // Redirect
-      router.push({
-         pathname: "/kassa/edenred",
-         query: { data: JSON.stringify(mastercard) },
-      });
+      setCheckoutStep("edenred");
    };
    return (
       <StyledProviderForm variants={variants} key={name} onSubmit={(e) => handleSubmit(e)}>

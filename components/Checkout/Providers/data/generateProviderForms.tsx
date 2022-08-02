@@ -57,9 +57,6 @@ const generateProviderForms = ({
       </motion.div>
    ));
 
-   // Get mastercard data for Edenred
-   const mastercard = paytrail.providers.find((provider) => provider.name === "Mastercard");
-
    const voucherForms = (
       <motion.div key="vouchers" className="group-container">
          <h3 className="group-heading">Liikuntasetelit</h3>
@@ -67,9 +64,7 @@ const generateProviderForms = ({
             <EpassiForm {...epassi} variants={formVariants} />
             <EazybreakForm {...eazybreak} variants={formVariants} />
             <SmartumForm {...smartum} variants={formVariants} />
-            {mastercard && (
-               <EdenredForm {...edenred} mastercard={mastercard} variants={formVariants} />
-            )}
+            <EdenredForm {...edenred} variants={formVariants} />
          </motion.div>
       </motion.div>
    );
