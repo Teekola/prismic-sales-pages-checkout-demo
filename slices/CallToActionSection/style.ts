@@ -7,7 +7,6 @@ const StyledContainer = styled.section`
    flex-direction: column;
    justify-content: center;
    gap: 2rem;
-   color: var(--c-white);
 
    // Full Width Background
    ::before {

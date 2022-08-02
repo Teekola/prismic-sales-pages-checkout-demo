@@ -12,7 +12,7 @@ import {
 } from "contexts/CheckoutContext";
 import { FilledCheckoutFormDataT } from "../../../types";
 import { calculateDiscountedTotalPrice } from "components/Checkout/Products/prices";
-import { InvoiceFormFields, FennoaInvoiceRow } from "../../types";
+import { InvoiceFormFields, FennoaInvoiceRow, FennoaFormData } from "../../types";
 const WEBSITE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "";
 
 type UserFormProps = {
@@ -121,7 +121,7 @@ export default function InvoiceForm({ dueDate, setIsSending, isSending }: UserFo
       });
 
       // Create the JSON
-      const formDataJSON = {
+      const formDataJSON: FennoaFormData = {
          name,
          address,
          postalcode,
