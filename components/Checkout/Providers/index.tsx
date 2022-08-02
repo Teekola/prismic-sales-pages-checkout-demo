@@ -16,8 +16,6 @@ export default function Providers() {
       };
       window.addEventListener("popstate", onPopstate);
 
-      console.log(history.state);
-
       if (history.state === "form") {
          history.pushState("providers", "", "/kassa");
       } else {
