@@ -38,12 +38,14 @@ export const StyledProviderForm = styled(motion.form)`
       align-items: center;
       transform: scale(1);
       transition: transform 100ms ease-out;
+      box-shadow: var(--shadow-provider);
    }
 
    .provider-button:hover {
       cursor: pointer;
       transform: scale(1.05);
       transition: transform 100ms ease-out;
+      box-shadow: var(--shadow-provider-hover);
    }
 
    .provider-button:active {

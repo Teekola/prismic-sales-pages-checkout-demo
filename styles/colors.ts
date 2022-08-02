@@ -8,7 +8,7 @@ const colors = css`
       --c-primary: #8e44ad;
       --c-primary-dark: #632881;
       --c-accent-red: #e74c3c;
-      --c-accent-green: #2ecc71;
+      --c-accent-green: #28ac5f;
       --c-accent-blue: #0072ef;
 
       // Light Theme
@@ -36,6 +36,7 @@ const colors = css`
       --c-card-3: #17172e;
       --c-formfield-border: #4e4e67;
       --c-formfield: #323246;
+      --c-accent-green: #2ecc71;
    }
 
    body {

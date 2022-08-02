@@ -10,7 +10,7 @@ const StyledCard = styled.div`
    gap: 0.75rem;
    height: fit-content;
    background: var(--c-card);
-   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+   box-shadow: var(--shadow-default);
 
    .h3 {
       font-size: 1.25rem;

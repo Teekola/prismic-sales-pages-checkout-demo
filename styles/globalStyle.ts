@@ -4,6 +4,7 @@ import defaultResets from "./defaultResets";
 import layout from "./layout";
 import buttons from "./buttons";
 import text from "./text";
+import shadows from "./shadows";
 
 const GlobalStyle = createGlobalStyle`
 	${colors}
@@ -11,6 +12,7 @@ const GlobalStyle = createGlobalStyle`
 	${layout}
 	${text}
 	${buttons}
+	${shadows}
 `;
 
 export default GlobalStyle;

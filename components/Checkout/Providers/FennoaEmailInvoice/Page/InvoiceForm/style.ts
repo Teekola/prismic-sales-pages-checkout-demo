@@ -22,7 +22,7 @@ export const StyledUserForm = styled.form`
       border-radius: 0.5rem;
       outline: 1px solid var(--c-formfield-border);
       background-color: var(--c-formfield);
-      box-shadow: var(--input-shadow);
+      box-shadow: var(--shadow-input);
    }
 
    .dropdown:focus {

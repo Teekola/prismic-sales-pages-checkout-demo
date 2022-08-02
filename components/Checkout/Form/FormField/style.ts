@@ -13,6 +13,7 @@ const StyledFormField = styled.div`
       border-radius: 0.5rem;
       background-color: var(--c-formfield);
       outline: 1px solid var(--c-formfield-border);
+      box-shadow: var(--shadow-input);
    }
 
    .text-input:focus {
