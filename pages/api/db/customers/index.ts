@@ -5,13 +5,11 @@ import { deleteCustomers, getCustomers } from "prisma/customer";
 const DATABASE_ACCESS_TOKEN = process.env.DATABASE_ACCESS_TOKEN;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
-   /*
-   TODO
    // Authorize
    if (req.headers.authorization !== DATABASE_ACCESS_TOKEN) {
       return res.status(401).end();
    }
-   */
+
    if (req.method === "GET") {
       // Return all Customers
       const customers = await getCustomers();
@@ -35,7 +33,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       // Handle error
       if (customers === false) {
          console.error("An error occurred when trying to delete customers.");
-         return res.status(400).end();
+         return res.status(500).end();
       }
 
       // Log success
