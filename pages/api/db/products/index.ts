@@ -69,7 +69,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
       // Log success
       console.log("Product '" + product.id + "' added to prismic.");
-      return res.status(201).end();
+      return res.status(201).json({ id: product.id });
    }
 
    if (req.method === "DELETE") {
