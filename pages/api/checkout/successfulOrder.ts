@@ -3,6 +3,7 @@ import calculateEpassiResponseMac from "components/Checkout/Providers/Epassi/dat
 import calculateHmac from "components/Checkout/Providers/Paytrail/data/calculateHmac";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getOrder, updateOrder } from "prisma/order";
+import createHyrosOrder from "tracking/Hyros/createHyrosOrder";
 
 const PAYTRAIL_SECRET = process.env.PAYTRAIL_SECRET || "SAIPPUAKAUPPIAS";
 const SMARTUM_KID = process.env.SMARTUM_KID || "UBJZYFXrOKHq_3VZWIs_XQHDY8ZOS2UrocBvyXm8ejI";
@@ -180,10 +181,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
    await updateOrder({ status: "valmis" }, { reference });
 
    //////////////////////////////////////////////////////////
-   // TODO: ADD TO HYROS (production only)
+   // ADD TO HYROS (production only)
    //////////////////////////////////////////////////////////
    if (process.env.NODE_ENV === "production") {
-      // Add to Hyros
+      await createHyrosOrder(order);
    }
 
    //////////////////////////////////////////////////////////

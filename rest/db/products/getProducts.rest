@@ -1,2 +1,2 @@
-GET http://localhost:3000/api/db/seed/products
+GET http://localhost:3000/api/db/products
 Authorization: {{DATABASE_ACCESS_TOKEN}}

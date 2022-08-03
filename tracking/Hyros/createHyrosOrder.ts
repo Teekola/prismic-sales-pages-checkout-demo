@@ -1,12 +1,23 @@
-import { Customer, Order } from "@prisma/client";
-import { ProductT } from "contexts/CheckoutContext/types";
+import { Customer, Order, OrderProduct, Product } from "@prisma/client";
 
 const HYROS_API_KEY = process.env.HYROS_API_KEY || "";
 
 export default async function createHyrosOrder(
-   order: Order & { customer: Customer; products: ProductT[] }
+   order: Order & { customer: Customer; products: (OrderProduct & { product: Product })[] }
 ) {
    const { customer, products } = order;
+   console.log(order);
+
+   const items = products.map((orderProduct) => {
+      const { quantity, price, product } = orderProduct;
+      const { name, id } = product;
+      return {
+         name,
+         price,
+         externalId: id,
+         quantity,
+      };
+   });
    const createHyrosOrderBody = {
       email: customer.email,
       firstName: customer.name.split(" ")[0],
@@ -18,7 +29,7 @@ export default async function createHyrosOrder(
       date: order.updatedAt.toISOString().slice(0, -5),
       priceFormat: "INTEGER",
       currency: "EUR",
-      items: products,
+      items,
    };
 
    // Create new order to hyros

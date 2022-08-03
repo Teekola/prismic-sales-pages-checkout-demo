@@ -23,10 +23,12 @@ model Product {
   OrderProduct  OrderProduct[]
 }
 
-// When creating the quantity is added at the end of the matching productId separated by colon :
+// When creating the quantity and the price are added separated by colon : after the productId
+// separated by colon :.
 model OrderProduct {
   id        String   @id @map("_id")
   quantity  Int      @default(1)
+  price     Int      @default(1)
   product   Product  @relation(fields: [productId], references: [id])
   productId String   @db.ObjectId
   orders    Order[]  @relation(fields: [orderIds], references: [id])

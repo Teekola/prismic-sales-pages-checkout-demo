@@ -51,10 +51,11 @@ const generateProviderData = async (
          connectOrCreate: checkoutProducts.map((checkoutProduct) => {
             return {
                where: {
-                  id: `${checkoutProduct.id}:${checkoutProduct.quantity}`,
+                  id: `${checkoutProduct.id}:${checkoutProduct.quantity}:${checkoutProduct.discountPrice}`,
                },
                create: {
-                  id: `${checkoutProduct.id}:${checkoutProduct.quantity}`,
+                  id: `${checkoutProduct.id}:${checkoutProduct.quantity}:${checkoutProduct.discountPrice}`,
+                  price: checkoutProduct.discountPrice,
                   product: {
                      connect: {
                         id: checkoutProduct.id,
