@@ -33,22 +33,21 @@ export const deleteAllOrderProducts = async () => {
    }
 };
 
-/* TODO: REPLACE THIS TO DELETE ORDER FROM ORDERPRODUCTS
-export const deleteAllOrdersFromProducts = async () => {
+export const deleteAllOrdersFromOrderProducts = async () => {
    try {
-      const products = await prisma.product.updateMany({
+      const orderProducts = await prisma.orderProduct.updateMany({
          data: {
             orderIds: [],
          },
       });
-      return products;
+      return orderProducts;
    } catch (error) {
-      console.error("Delete orders from products error", error);
+      console.error("Delete orders from orderProducts error", error);
       return false;
    }
 };
 
-export const deleteOrderFromProducts = async (reference: string) => {
+export const deleteOrderFromOrderProducts = async (reference: string) => {
    try {
       // Get the id of the order
       const order = await prisma.order.findUnique({
@@ -60,8 +59,8 @@ export const deleteOrderFromProducts = async (reference: string) => {
 
       const orderId = order.id;
 
-      // Get productIds and orderIds of products that have the orderId
-      const productsToUpdate = await prisma.product.findMany({
+      // Get ids and orderIds of orderProducts that have the orderId
+      const orderProductsToUpdate = await prisma.orderProduct.findMany({
          select: {
             id: true,
             orderIds: true,
@@ -73,21 +72,20 @@ export const deleteOrderFromProducts = async (reference: string) => {
          },
       });
 
-      // Remove the orderId from each product
-      for (let product of productsToUpdate) {
-         await prisma.product.update({
+      // Remove the orderId from each orderProduct
+      for (let orderProduct of orderProductsToUpdate) {
+         await prisma.orderProduct.update({
             where: {
-               id: product.id,
+               id: orderProduct.id,
             },
             data: {
-               orderIds: product.orderIds.filter((id) => id !== orderId),
+               orderIds: orderProduct.orderIds.filter((id) => id !== orderId),
             },
          });
       }
       return true;
    } catch (error) {
-      console.error("Delete order from products error", error);
+      console.error("Delete order from orderProducts error", error);
       return false;
    }
 };
-*/
