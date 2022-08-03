@@ -154,8 +154,8 @@ export default function Checkoutpage({
                },
                body: JSON.stringify(providerData.data),
             });
-            const order = await orderRes.json();
-            setCheckoutOrderId(order.id);
+            const created = await orderRes.json();
+            setCheckoutOrderId(created.id);
          }
          // Update Order
          else {

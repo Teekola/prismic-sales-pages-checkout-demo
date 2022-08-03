@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getOrders, deleteAllOrders, createOrder } from "prisma/order";
+import { getOrders, deleteAllOrders, createOrder, getOrder } from "prisma/order";
 import { deleteAllOrdersFromOrderProducts } from "prisma/orderProduct";
 
 const DATABASE_ACCESS_TOKEN = process.env.DATABASE_ACCESS_TOKEN;
@@ -12,6 +12,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
    }
    // Get body from request
    const body = req.body;
+
+   if (req.method === "GET" && req.query.reference) {
+      // Get order based on order reference given as a query string
+      const order = await getOrder({ reference: req.query.reference as string });
+
+      // Handle error
+      if (order === false) {
+         console.error("An error occurred when trying to get order.");
+         return res.status(500).end();
+      }
+
+      // Return order on success
+      return res.status(200).json(order);
+   }
 
    if (req.method === "GET") {
       // Get all orders (default limit 100)
@@ -39,7 +53,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
       // Return created order
       console.log("Order ", order.id, " was created.");
-      return res.status(200).json(order);
+      return res.status(200).json({ id: order.id });
    }
 
    if (req.method === "DELETE") {
