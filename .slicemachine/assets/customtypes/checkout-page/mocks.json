@@ -1,10 +1,33 @@
 {
-  "id": "bb6d7bd7-5802-4f7f-b0f4-47695b8f9702",
-  "uid": "omnis-omnis-nihil",
+  "id": "c01c4dee-b48f-4d52-96a7-1fe51a7a77e0",
+  "uid": "dolor-minus-magnam",
   "type": "checkout-page",
   "data": {
-    "title": "monetize one-to-one synergies",
-    "emailInstruction": "repurpose revolutionary action-items",
-    "phoneInstruction": "optimize sexy networks"
+    "title": "benchmark wireless portals",
+    "emailInstruction": "evolve sticky mindshare",
+    "phoneInstruction": "enable cross-media channels",
+    "invoicePageTitle": "incentivize turn-key initiatives",
+    "invoicePageInstructions": [
+      {
+        "type": "paragraph",
+        "text": "Labore laborum officia aute nulla sunt exercitation veniam quis minim eiusmod aliqua consectetur ut id. Labore aliqua ut veniam ea fugiat consectetur deserunt in.",
+        "spans": []
+      }
+    ],
+    "invoiceSendingMessage": [
+      {
+        "type": "paragraph",
+        "text": "Tempor velit aliquip cupidatat. Irure laboris incididunt esse cillum. Exercitation laborum aliquip minim mollit culpa incididunt.",
+        "spans": []
+      }
+    ],
+    "edenredPageTitle": "target ubiquitous platforms",
+    "edenredPageInstructions": [
+      {
+        "type": "paragraph",
+        "text": "Ex consectetur non ullamco exercitation voluptate.",
+        "spans": []
+      }
+    ]
   }
 }

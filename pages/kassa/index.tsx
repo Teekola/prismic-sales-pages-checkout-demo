@@ -40,12 +40,22 @@ interface CheckoutpageProps {
       title: KeyTextField;
       instructions: RichTextField;
    };
+   invoicePage: {
+      title: KeyTextField;
+      instructions: RichTextField;
+      sendingMessage: RichTextField;
+   };
 }
 
 const WEBSITE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "";
 const DATABASE_ACCESS_TOKEN = process.env.NEXT_PUBLIC_DATABASE_ACCESS_TOKEN || "";
 
-export default function Checkoutpage({ title, formProps, edenredPage }: CheckoutpageProps) {
+export default function Checkoutpage({
+   title,
+   formProps,
+   edenredPage,
+   invoicePage,
+}: CheckoutpageProps) {
    const [isLoaded, setIsLoaded] = useState<boolean>(false);
    const [mastercard, setMastercard] = useState<Provider>();
    const checkoutStep = useCheckoutStep();
@@ -178,7 +188,6 @@ export default function Checkoutpage({ title, formProps, edenredPage }: Checkout
       setCheckoutOrderId,
    ]);
 
-   // TODO: ADD SEO & Social TO PRISMIC
    return (
       <>
          <Head>
@@ -195,7 +204,13 @@ export default function Checkoutpage({ title, formProps, edenredPage }: Checkout
                   <CheckoutLayout>
                      {checkoutStep === "form" && <Form formProps={formProps} />}
                      {checkoutStep === "providers" && <Providers />}
-                     {checkoutStep === "emailInvoice" && <FennoaEmailInvoice />}
+                     {checkoutStep === "emailInvoice" && (
+                        <FennoaEmailInvoice
+                           title={invoicePage.title}
+                           instructions={invoicePage.instructions}
+                           sendingMessage={invoicePage.sendingMessage}
+                        />
+                     )}
                      {checkoutStep === "edenred" && (
                         <Edenred
                            mastercard={mastercard}
@@ -216,7 +231,6 @@ export async function getStaticProps({ previewData }: any) {
    const client = createClient({ previewData });
 
    const document = await client.getSingle("checkout-page");
-   const edenredPage = await client.getSingle("edenred_checkout_page");
 
    return {
       props: {
@@ -226,8 +240,13 @@ export async function getStaticProps({ previewData }: any) {
             phoneInstruction: document.data.phoneInstruction,
          },
          edenredPage: {
-            title: edenredPage.data.title,
-            instructions: edenredPage.data.instructions,
+            title: document.data.edenredPageTitle,
+            instructions: document.data.edenredPageInstructions,
+         },
+         invoicePage: {
+            title: document.data.invoicePageTitle,
+            instructions: document.data.invoicePageInstructions,
+            sendingMessage: document.data.invoiceSendingMessage,
          },
       },
    };

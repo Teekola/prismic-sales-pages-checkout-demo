@@ -3,7 +3,26 @@
     "etusivu": {},
     "home-page": {},
     "product-page": {},
-    "checkout-page": {},
+    "checkout-page": {
+      "invoicePageInstructions": {
+        "config": {
+          "patternType": "PARAGRAPH",
+          "blocks": 1
+        }
+      },
+      "invoiceSendingMessage": {
+        "config": {
+          "patternType": "PARAGRAPH",
+          "blocks": 1
+        }
+      },
+      "edenredPageInstructions": {
+        "config": {
+          "patternType": "PARAGRAPH",
+          "blocks": 1
+        }
+      }
+    },
     "checkout_success_page": {
       "successInstructions": {
         "config": {

@@ -4,14 +4,31 @@ import InvoiceForm from "components/Checkout/Providers/FennoaEmailInvoice/Page/I
 import BackButton from "components/ui/BackButton";
 import Loader from "components/ui/Loader";
 import { StyledContainer } from "./style";
+import { KeyTextField, RichTextField } from "@prismicio/types";
+import * as prismicH from "@prismicio/helpers";
+import { PrismicRichText } from "@prismicio/react";
 
-export default function FennoaEmailInvoice() {
+type FennoaEmailInvoiceProps = {
+   title: KeyTextField;
+   instructions: RichTextField;
+   sendingMessage: RichTextField;
+};
+
+export default function FennoaEmailInvoice({
+   title,
+   instructions,
+   sendingMessage,
+}: FennoaEmailInvoiceProps) {
    const [isSending, setIsSending] = useState<boolean>(false);
    const setCheckoutStep = useSetCheckoutStep();
 
    // Set invoice duedate
    const currentDate = new Date();
    const dueDate = new Date(currentDate.setDate(currentDate.getDate() + 14));
+   const dueDateString = `${dueDate.getDate()}.${dueDate.getMonth() + 1}.${dueDate.getFullYear()}`;
+   const injectedInstructions = prismicH
+      .asHTML(instructions)
+      .replace(/{{dueDate}}/g, dueDateString);
 
    // Browser Back Button
    useEffect(() => {
@@ -55,25 +72,15 @@ export default function FennoaEmailInvoice() {
             <>
                <BackButton onClick={handleBackButtonClick} label="Takaisin" />
 
-               <h1>Täytä puuttuvat laskun tiedot</h1>
-               <p>
-                  Täytä allaolevat kentät ja paina lähetä lasku -painiketta. Lasku lähetetään
-                  automaattisesti antamaasi sähköpostiosoitteeseen. Maksuaikaa on 14 päivää.{" "}
-                  <strong>
-                     Eräpäivä on{" "}
-                     {dueDate &&
-                        `${dueDate.getDate()}.${dueDate.getMonth() + 1}.${dueDate.getFullYear()}`}
-                  </strong>
-               </p>
+               <h1>{title}</h1>
+               <div dangerouslySetInnerHTML={{ __html: injectedInstructions }}></div>
             </>
          )}
          <InvoiceForm dueDate={dueDate} isSending={isSending} setIsSending={setIsSending} />
 
          {isSending && (
             <>
-               <p>
-                  Lähetetään laskua. <strong>Ethän sulje välilehteä.</strong>
-               </p>
+               <PrismicRichText field={sendingMessage} />
                <Loader />
             </>
          )}

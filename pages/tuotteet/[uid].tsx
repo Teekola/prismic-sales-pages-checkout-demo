@@ -41,7 +41,6 @@ export async function getStaticPaths() {
 export const getStaticProps: GetStaticProps = async ({ params, previewData }: any) => {
    const client = createClient({ previewData });
    const productPage = await client.getByUID("product-page", params.uid);
-   console.log(productPage);
 
    // Get product from the integrationfield and add missing
    // quantity and discountPrice

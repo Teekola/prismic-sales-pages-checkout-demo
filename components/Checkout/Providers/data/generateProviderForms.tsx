@@ -78,7 +78,6 @@ const generateProviderForms = ({
       </motion.div>
    );
 
-   // TODO: ADD CUSTOM PROVIDER SÄHKÖPOSTILASKU
    return (
       <>
          {voucherForms}

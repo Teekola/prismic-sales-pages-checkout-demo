@@ -1,0 +1,3 @@
+DELETE https://customtypes.prismic.io/customtypes/edenred_checkout_page
+repository: eroonjumeista
+Authorization: Bearer {{PRISMIC_CUSTOMTYPES_API_KEY}}

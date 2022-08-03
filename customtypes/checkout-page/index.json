@@ -28,6 +28,51 @@
           "placeholder": ""
         }
       }
+    },
+    "EmailInvoicePage": {
+      "invoicePageTitle": {
+        "type": "Text",
+        "config": {
+          "label": "Invoice Page Title",
+          "placeholder": ""
+        }
+      },
+      "invoicePageInstructions": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Invoice Page Instructions",
+          "placeholder": "{{dueDate}} can be used",
+          "allowTargetBlank": true,
+          "multi": "paragraph,strong,em,hyperlink,image,list-item,o-list-item"
+        }
+      },
+      "invoiceSendingMessage": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Invoice Sending Message",
+          "placeholder": "Shown when invoice is sending",
+          "allowTargetBlank": true,
+          "multi": "paragraph,strong,em,hyperlink,image,list-item,o-list-item"
+        }
+      }
+    },
+    "EdenredPage": {
+      "edenredPageTitle": {
+        "type": "Text",
+        "config": {
+          "label": "Edenred Page Title",
+          "placeholder": ""
+        }
+      },
+      "edenredPageInstructions": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Edenred Page Instructions",
+          "placeholder": "",
+          "allowTargetBlank": true,
+          "multi": "paragraph,strong,em,hyperlink,image,list-item,o-list-item"
+        }
+      }
     }
   }
 }
