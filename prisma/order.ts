@@ -9,7 +9,11 @@ export const getOrder = async (where: Prisma.OrderWhereUniqueInput) => {
          where,
          include: {
             customer: true,
-            products: true,
+            products: {
+               include: {
+                  product: true,
+               },
+            },
          },
       });
       return order;

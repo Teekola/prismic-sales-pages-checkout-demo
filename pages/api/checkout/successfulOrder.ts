@@ -150,7 +150,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
    // Get activation urls from the order's products
    const activationUrls = order.products
-      .map((product) => product.activationUrl)
+      .map((orderProduct) => orderProduct.product.activationUrl)
       .filter((url): url is string => url !== (null || ""));
 
    if (activationUrls.length > 0) {
