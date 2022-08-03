@@ -48,8 +48,20 @@ const generateProviderData = async (
    const data: Prisma.OrderUpdateArgs["data"] | Prisma.OrderCreateArgs["data"] = {
       reference,
       products: {
-         connect: checkoutProducts.map((checkoutProduct) => {
-            return { id: checkoutProduct.id };
+         connectOrCreate: checkoutProducts.map((checkoutProduct) => {
+            return {
+               where: {
+                  id: `${checkoutProduct.id}:${checkoutProduct.quantity}`,
+               },
+               create: {
+                  id: `${checkoutProduct.id}:${checkoutProduct.quantity}`,
+                  product: {
+                     connect: {
+                        id: checkoutProduct.id,
+                     },
+                  },
+               },
+            };
          }),
       },
       provider: "Odottaa valintaa",
