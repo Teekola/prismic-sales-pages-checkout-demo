@@ -2,7 +2,7 @@ import { createClient, linkResolver } from "../../prismicio";
 import { SliceLike, SliceZone, SliceZoneLike } from "@prismicio/react";
 import { components } from "../../slices";
 import * as prismicH from "@prismicio/helpers";
-import { Slice } from "@prismicio/types";
+import { Slice, KeyTextField } from "@prismicio/types";
 
 import { GetStaticProps } from "next";
 import Head from "next/head";
@@ -11,14 +11,16 @@ import { ProductT } from "contexts/CheckoutContext/types";
 
 interface ProductPageProps {
    slices: SliceZoneLike<SliceLike<string>> | undefined;
+   metaTitle: KeyTextField;
+   metaDescription: KeyTextField;
 }
 
-export default function ProductPage({ slices }: ProductPageProps) {
+export default function ProductPage({ slices, metaTitle, metaDescription }: ProductPageProps) {
    return (
       <>
          <Head>
-            <title>Eroonjumeista.fi</title>
-            <meta name="description" content="Eroonjumeista.fi" />
+            <title>{metaTitle || "Eroonjumeista.fi"}</title>
+            <meta name="description" content={metaDescription || "Eroonjumeista.fi"} />
          </Head>
          <Layout>
             <SliceZone slices={slices} components={components} />
@@ -39,6 +41,7 @@ export async function getStaticPaths() {
 export const getStaticProps: GetStaticProps = async ({ params, previewData }: any) => {
    const client = createClient({ previewData });
    const productPage = await client.getByUID("product-page", params.uid);
+   console.log(productPage);
 
    // Get product from the integrationfield and add missing
    // quantity and discountPrice
@@ -61,6 +64,8 @@ export const getStaticProps: GetStaticProps = async ({ params, previewData }: an
    return {
       props: {
          slices,
+         metaTitle: productPage.data.metaTitle,
+         metaDescription: productPage.data.metaDescription,
       },
    };
 };
