@@ -1,31 +1,31 @@
 {
-  "id": "c01c4dee-b48f-4d52-96a7-1fe51a7a77e0",
-  "uid": "dolor-minus-magnam",
+  "id": "1e4db4b6-7610-4858-ad51-444ec6506511",
+  "uid": "qui-voluptatibus-occaecati",
   "type": "checkout-page",
   "data": {
-    "title": "benchmark wireless portals",
-    "emailInstruction": "evolve sticky mindshare",
-    "phoneInstruction": "enable cross-media channels",
-    "invoicePageTitle": "incentivize turn-key initiatives",
+    "title": "cultivate scalable paradigms",
+    "emailInstruction": "synergize revolutionary web-readiness",
+    "phoneInstruction": "orchestrate web-enabled synergies",
+    "invoicePageTitle": "reintermediate front-end content",
     "invoicePageInstructions": [
       {
         "type": "paragraph",
-        "text": "Labore laborum officia aute nulla sunt exercitation veniam quis minim eiusmod aliqua consectetur ut id. Labore aliqua ut veniam ea fugiat consectetur deserunt in.",
+        "text": "Non dolor consectetur et non qui esse.",
         "spans": []
       }
     ],
     "invoiceSendingMessage": [
       {
         "type": "paragraph",
-        "text": "Tempor velit aliquip cupidatat. Irure laboris incididunt esse cillum. Exercitation laborum aliquip minim mollit culpa incididunt.",
+        "text": "Cupidatat mollit incididunt dolor nisi reprehenderit est enim dolor.",
         "spans": []
       }
     ],
-    "edenredPageTitle": "target ubiquitous platforms",
+    "edenredPageTitle": "brand extensible supply-chains",
     "edenredPageInstructions": [
       {
         "type": "paragraph",
-        "text": "Ex consectetur non ullamco exercitation voluptate.",
+        "text": "Sint consectetur sunt eu excepteur laborum sint consequat ipsum adipisicing id laborum. Est duis esse nostrud irure sit. Ullamco commodo cillum exercitation consequat deserunt do ut laborum cillum deserunt exercitation tempor dolore.",
         "spans": []
       }
     ]
