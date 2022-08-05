@@ -88,7 +88,7 @@ const CheckoutContext = createContext<CheckoutContextT>(null);
 
 // Create and export the context provider with the created context
 // as the provider value
-export const GlobalContextProvider = ({ children }: PropsWithChildren) => (
+export const CheckoutContextProvider = ({ children }: PropsWithChildren) => (
    <CheckoutContext.Provider value={useCheckoutContext()}>{children}</CheckoutContext.Provider>
 );
 

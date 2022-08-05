@@ -7,7 +7,7 @@ import { PrismicPreview } from "@prismicio/next";
 import { linkResolver, repositoryName } from "../prismicio";
 import { H1, H2, P, Italic, UL, OL } from "components/textComponents";
 import { PropsWithChildren } from "react";
-import { GlobalContextProvider } from "contexts/CheckoutContext";
+import { CheckoutContextProvider } from "contexts/CheckoutContext";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
    return (
@@ -30,9 +30,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
          <PrismicPreview repositoryName={repositoryName}>
             <GlobalStyle />
             <ThemeProvider defaultTheme="system" enableColorScheme>
-               <GlobalContextProvider>
+               <CheckoutContextProvider>
                   <Component {...pageProps} />
-               </GlobalContextProvider>
+               </CheckoutContextProvider>
             </ThemeProvider>
          </PrismicPreview>
       </PrismicProvider>
