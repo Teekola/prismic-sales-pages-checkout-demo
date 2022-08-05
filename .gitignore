@@ -45,4 +45,4 @@ yarn-error.log*
 cypress.json
 
 # vscode
-.vscode
+.vscode/settings.json
