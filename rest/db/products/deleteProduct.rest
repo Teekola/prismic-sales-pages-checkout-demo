@@ -1,0 +1,2 @@
+DELETE http://localhost:3000/api/db/products/62ed5f95bcfdf8c174eb9079
+Authorization: {{DATABASE_ACCESS_TOKEN}}
