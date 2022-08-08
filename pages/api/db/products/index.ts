@@ -12,6 +12,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       return res.status(401).end();
    }
 
+   res.setHeader("Access-Control-Allow-Origin", "*");
+
    // Get body
    const body = req.body;
 
