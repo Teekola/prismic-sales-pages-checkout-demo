@@ -23,7 +23,6 @@ export default function ProductPage({ slices, metaTitle, metaDescription }: Prod
             <meta name="description" content={metaDescription || "Eroonjumeista.fi"} />
          </Head>
          <Layout>
-            <div className="ddio_countdown_wrap"></div>
             <SliceZone slices={slices} components={components} />
          </Layout>
       </>
